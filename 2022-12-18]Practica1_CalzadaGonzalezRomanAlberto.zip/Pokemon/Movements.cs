@@ -14,16 +14,18 @@ namespace Pokemon
         int power;
         int accuracy;
         int priority;
+        int ppmax;
 
-        public Movements(string category, string name, int iD, int pp, int power,int accuracy , int priority)
+        public Movements(string category, string name, int iD, int ppmax, int power,int accuracy , int priority)
         {
             this.category = category;
             this.name = name;
             ID = iD;
-            this.pp = pp;
+            this.ppmax = ppmax;
             this.power = power;
             this.accuracy = accuracy;
             this.priority = priority;
+            this.pp = ppmax;
         }
 
         
@@ -65,7 +67,11 @@ namespace Pokemon
 
         public int GetPpMax()
         {
-            return pp;
+            return ppmax;
+        }
+        public void PpRemoveAttack(int value)
+        {
+            this.pp = this.pp - value;
         }
 
         public void SetPp(int value)

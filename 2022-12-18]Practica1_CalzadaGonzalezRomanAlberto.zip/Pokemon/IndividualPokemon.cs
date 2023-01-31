@@ -27,6 +27,7 @@ namespace Pokemon
             this.eo = " ";
             this.movements = Assign(movements);
         }
+        
         //Métodos Getters y Setters de cada atributo.
         public string GetNickName()
         {
@@ -179,18 +180,28 @@ namespace Pokemon
             return rivalpokemon;
         }
 
-        public void Healpokemon(IndividualPokemon[] packpokemon) //Función para la opción del Centro Pokémon, para restablecer su vida actual a la vida máxima correspondiente.
-        {
-            // restaurar vida
-            for (int i = 0; i < packpokemon.Length; ++i)
-            {
-                if (packpokemon[i] != null)
-                {
-                    packpokemon[i].SetCurrentHP(packpokemon[i].GetHpmax());
-                }
-
-            }
-        }
+        //public void Healpokemon(IndividualPokemon[] packpokemon) //Función para la opción del Centro Pokémon, para restablecer su vida actual a la vida máxima correspondiente.
+        //{
+        //    // restaurar vida
+        //    for (int i = 0; i < packpokemon.Length; ++i)
+        //    {
+        //        if (packpokemon[i] != null)
+        //        {
+        //            packpokemon[i].SetCurrentHP(packpokemon[i].GetHpmax());
+                    
+        //        }
+        //    }
+        //    for (int i = 0; i < packpokemon.Length; ++i)
+        //    {
+        //        if (packpokemon[i] != null)
+        //        {
+        //            for (int j = 0; j < packpokemon[i].GetMovements().Length; ++j)
+        //            {
+        //                packpokemon[i].GetMovements()[j].SetPp(packpokemon[i].GetMovements()[j].GetPpMax());
+        //            }
+        //        }                  
+        //    }
+        //}
         //public double DmgFight(IndividualPokemon mypokemon, IndividualPokemon rivalpokemon) //Función que devuelve el cálculo del daño del combate.
         //{
         //    double dmgnumerator = (mypokemon.GetAttack() / rivalpokemon.GetDefense());
@@ -246,61 +257,27 @@ namespace Pokemon
         //        return 1;
         //    }
         //}
-
-        public Movements[] Assign(Movements[] allMoves) //Función para asegurarnos que los ataques son diferentes.
+      
+        public Movements[] Assign(Movements[] allMoves) //Función para asignar ataques.
         {
             Movements[] randomMovements = new Movements[4];
             Random rnd = new Random();
             for (int i = 0; i < randomMovements.Length; ++i)
             {
-               
-                randomMovements[i] = allMoves[rnd.Next(0, allMoves.Length)];
-                
+                int randIndex = rnd.Next(0, allMoves.Length);    //Si el ataque es el mismo le asignamos otro para no tener dos ataques iguales.
+                randomMovements[i] = allMoves[randIndex];
+                for (int j = 0; j < i; j++)
+                {
+                    if (randomMovements[j] == randomMovements[i])
+                    {
+                        i--;
+                        break;
+                    }
+                }
             }
             return randomMovements;
         }
-        //public double DmgFight(IndividualPokemon mypokemon, IndividualPokemon rivalpokemon, Movements movement) //Función que devuelve el cálculo del daño del combate.
-        //{
-        //    Random r = new Random();
-        //    double random = r.Next(85, 101);
-        //    double rand = random / 100;          
-        //    if (movement.GetCategory() == "Physical")
-        //    {
-        //        double dmg = (2 * movement.GetPower() * (mypokemon.GetAttack() / rivalpokemon.GetDefense()) / 50 + 2) * rand * CriticDmg();
-        //        rivalpokemon.hp = (rivalpokemon.hp - (int)dmg); //Quitamos la vida al pokémon rival según el daño causado.
-        //        return (int)dmg;
-        //    } else if (movement.GetCategory() == "Special")
-        //    {
-        //        double dmg = (2 * movement.GetPower() * (mypokemon.GetSpecialAttack() / rivalpokemon.GetSpecialDefense()) / 50 + 2) * rand * CriticDmg();
-        //        rivalpokemon.hp = (rivalpokemon.hp - (int)dmg); //Quitamos la vida al pokémon rival según el daño causado.
-        //        return (int)dmg;
-        //    }
-        //    else
-        //    {
-        //        return 0;
-        //    }
 
-        //}
 
-        //public bool checkSameMovements(Movements movement, Movements[] randomMovements)
-        //{
-        //    int counter = 0;
-        //    for (int i = 0; i < randomMovements.Length; ++i)
-        //    {
-        //        if (randomMovements[i] == movement)
-        //        {
-        //            ++counter;
-        //        }
-        //    }
-
-        //    if (counter == 0)
-        //    {
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        return true;
-        //    }
-        //}
     }
 }

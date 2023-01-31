@@ -157,7 +157,7 @@ namespace Pokemon
                         answer = io.OptionCorrect(1, 2, answer);
                         if (answer == 1)
                         {
-                            myPokemon.Healpokemon(packPokemon);
+                             Healpokemon(packPokemon);
                             io.SlowWrite("Esta bien, espera un momento..");
                             io.SlowWrite("...... .... .... ..... ........ ...");
                             io.SlowWrite("Tus Pokémon han sido curados, esperamos volver a verte pronto.");
@@ -239,6 +239,10 @@ namespace Pokemon
                         {
                             if (packPokemon[0].GetSpeed() > rivalPokemon[randomenemy].GetSpeed())
                             {
+                                if(CheckUseMovement(packPokemon[0].GetMovements()[movementOption - 1]))
+                                {
+                                    Fight();
+                                }
                                 DmgFight(packPokemon[0], rivalPokemon[randomenemy], packPokemon[0].GetMovements()[movementOption - 1]);
                                 io.SlowWrite("Has atacado a " + rivalPokemon[randomenemy].GetName() +" usando "+ packPokemon[0].GetMovements()[movementOption-1].GetName() + ", y ahora tiene " + rivalPokemon[randomenemy].GetCurrentHP() + " puntos de vida.");
                                 if (rivalPokemon[randomenemy].GetCurrentHP() > 0)
@@ -249,6 +253,10 @@ namespace Pokemon
                             }
                             else
                             {
+                                if (CheckUseMovement(packPokemon[0].GetMovements()[movementOption - 1]))
+                                {
+                                    Fight();
+                                }
                                 DmgFight(rivalPokemon[randomenemy], packPokemon[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
                                 io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + packPokemon[0].GetName() + " usando " + rivalPokemon[enemymovementOption].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
                                 if (packPokemon[0].GetCurrentHP() > 0)
@@ -262,6 +270,10 @@ namespace Pokemon
                         {
                             if (packPokemon[0].GetSpeed() > rivalPokemon[randomenemy].GetSpeed())
                             {
+                                if (CheckUseMovement(packPokemon[0].GetMovements()[movementOption - 1]))
+                                {
+                                    Fight();
+                                }
                                 DmgFight(packPokemon[0], rivalPokemon[randomenemy], packPokemon[0].GetMovements()[movementOption - 1]);
                                 io.SlowWrite("Has atacado a " + rivalPokemon[randomenemy].GetName() + " usando " + packPokemon[0].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + rivalPokemon[randomenemy].GetCurrentHP() + " puntos de vida.");
                                 if (rivalPokemon[randomenemy].GetCurrentHP() > 0)
@@ -272,6 +284,10 @@ namespace Pokemon
                             }
                             else
                             {
+                                if (CheckUseMovement(packPokemon[0].GetMovements()[movementOption - 1]))
+                                {
+                                    Fight();
+                                }
                                 DmgFight(rivalPokemon[enemymovementOption], packPokemon[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
                                 io.SlowWrite(rivalPokemon[enemymovementOption].GetName() + " ha atacado a " + packPokemon[0].GetName() + " usando " + rivalPokemon[enemymovementOption].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
                                 if (packPokemon[0].GetCurrentHP() > 0)
@@ -280,7 +296,8 @@ namespace Pokemon
                                     io.SlowWrite("Has atacado a " + rivalPokemon[enemymovementOption].GetName() + " usando " + packPokemon[0].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + rivalPokemon[enemymovementOption].GetCurrentHP() + " puntos de vida.");
                                 }
                             }
-                        }                      
+                        }
+                        packPokemon[0].GetMovements()[movementOption - 1].PpRemoveAttack(1); //Le quitamos un pp al ataque usado.
                         if (packPokemon[0].GetCurrentHP() <= 0)
                         {
                             io.SlowWrite("Oh.... Tu Pokémon ha sido debilitado... Has perdido el combate.");
@@ -449,6 +466,19 @@ namespace Pokemon
                     + " PS");
             }
         }
+
+        public bool CheckUseMovement(Movements move) //Para no poder usar un movimiento si sus pp estan a 0.
+        {
+            if (move.GetPp() == 0)
+            {
+                io.SlowWrite("No tienes los PP suficientes para usar este movimiento");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public void ShowMorePokemonInfo() // Mostrar información más detallada de los Pokémon.
         {
             io.SlowWrite("Elige un Pokémon para saber más:");
@@ -576,7 +606,28 @@ namespace Pokemon
             return true;
         }
 
+        public void Healpokemon(IndividualPokemon[] packpokemon) //Función para la opción del Centro Pokémon, para restablecer su vida actual a la vida máxima correspondiente.
+        {
+            // restaurar vida
+            for (int i = 0; i < packpokemon.Length; ++i)
+            {
+                if (packpokemon[i] != null)
+                {
+                    packpokemon[i].SetCurrentHP(packpokemon[i].GetHpmax());
 
+                }
+            }
+            for (int i = 0; i < packpokemon.Length; ++i)
+            {
+                if (packpokemon[i] != null)
+                {
+                    for (int j = 0; j < packpokemon[i].GetMovements().Length; ++j)
+                    {
+                        packpokemon[i].GetMovements()[j].SetPp(packpokemon[i].GetMovements()[j].GetPpMax());
+                    }
+                }
+            }
+        }
         public void ChangePosition(int change, int randomenemy) //Función para cambiar de Pokémon en el combate.
         {
             if (packPokemon[1] != null)

@@ -8,8 +8,6 @@ namespace Pokemon
     {
         int amountToHeal;
         IndividualPokemon pokemon;
-       
-
         public Potion() : base() { }
         public Potion(string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints, int amountToHeal)
         : base(name, buyPricePokedollars, buyPricePokemillas, buyPriceBattlePoints, sellPricePokedollars, sellPricePokemillas, sellPriceBattlePoints)
@@ -48,7 +46,7 @@ namespace Pokemon
                 pokemon.AddCurrentHP(pokemon.GetHpmax());
             }
         }
-       
+
 
         public override void UseItemInCombat(IndividualPokemon pokemon)
         {
@@ -56,27 +54,27 @@ namespace Pokemon
         }
         public Potion AsignPotion()
         {
-            Potion P1 = new Potion("Pocion", 100, 100, 100, 100, 100, 100, 20);
-            P1.AddQuantity(1);
-            return P1;
+            Potion Pocion = new Potion("Pocion", 100, 100, 100, 100, 100, 100, 20);
+            Pocion.AddQuantity(1);
+            return Pocion;
         }
         public Potion AsignSuperPotion()
         {
-            Potion P1 = new Potion("SuperPocion", 100, 100, 100, 100, 100, 100, 60);
-            P1.AddQuantity(1);
-            return P1;
+            Potion SuperPocion = new Potion("SuperPocion", 100, 100, 100, 100, 100, 100, 60);
+            SuperPocion.AddQuantity(1);
+            return SuperPocion;
         }
         public Potion AsignHyperPotion()
         {
-            Potion P1 = new Potion("HiperPocion", 100, 100, 100, 100, 100, 100, 200);
-            P1.AddQuantity(1);
-            return P1;
+            Potion HiperPocion = new Potion("HiperPocion", 100, 100, 100, 100, 100, 100, 200);
+            HiperPocion.AddQuantity(1);
+            return HiperPocion;
         }
         public Potion AsignMaxPotion()
         {
-            Potion P1 = new Potion("MaxPocion", 100, 100, 100, 100, 100, 100, pokemon.GetHpmax());
-            P1.AddQuantity(1);
-            return P1;
+            Potion MaxPocion = new Potion("MaxPocion", 100, 100, 100, 100, 100, 100, pokemon.GetHpmax());
+            MaxPocion.AddQuantity(1);
+            return MaxPocion;
         }
 
     }

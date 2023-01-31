@@ -9,10 +9,8 @@ namespace Pokemon
         {
             IO io = new IO();
             Game g = new Game();
-            g.Run();
-          
+            g.Run();        
         }
-
     }
 }
 

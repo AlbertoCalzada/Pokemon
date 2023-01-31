@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alber\\OneDrive\\Escritorio\\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\\Pokemon\\Pokemon.csproj",
+      "projectUniqueName": "C:\\Users\\alber\\OneDrive\\Escritorio\\Testing-main (1)\\Testing-main\\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\\Pokemon\\Pokemon.csproj",
       "projectName": "Pokemon",
-      "projectPath": "C:\\Users\\alber\\OneDrive\\Escritorio\\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\\Pokemon\\Pokemon.csproj",
+      "projectPath": "C:\\Users\\alber\\OneDrive\\Escritorio\\Testing-main (1)\\Testing-main\\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\\Pokemon\\Pokemon.csproj",
       "packagesPath": "C:\\Users\\alber\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alber\\OneDrive\\Escritorio\\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\\Pokemon\\obj\\",
+      "outputPath": "C:\\Users\\alber\\OneDrive\\Escritorio\\Testing-main (1)\\Testing-main\\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\\Pokemon\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\alber\\AppData\\Roaming\\NuGet\\NuGet.Config",

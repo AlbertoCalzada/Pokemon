@@ -12,17 +12,18 @@ namespace Pokemon
         {
             this.ratioCapture = ratioCapture;
         }
-        public override bool UseItem()
+        public override void UseItem(IndividualPokemon pokemon)
         {
-            return false;
+
         }
-        public override bool ThrowItem()
+        public override void ThrowItem(Item item)
         {
-            return true;
+
         }
-        public override bool UseItemInCombat()
+
+        public override void UseItemInCombat(IndividualPokemon pokemon)
         {
-            return true;
+
         }
 
         public int GetRatioCapture()
