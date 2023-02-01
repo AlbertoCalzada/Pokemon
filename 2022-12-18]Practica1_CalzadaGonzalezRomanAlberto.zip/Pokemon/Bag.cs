@@ -6,8 +6,6 @@ namespace Pokemon
 {
     class Bag
     {
-        Potion potion = new Potion();
-        Elixirs elixir = new Elixirs();
         Item[][] item;
         IO io = new IO();
         public Bag()
@@ -32,7 +30,23 @@ namespace Pokemon
             {
                 item[i] = new Item[999];
             }
-            item[0][0] = potion.AsignHyperPotion();
+            Potion potion = new Potion();
+            item[0][0] = potion.AssignHyperPotion();
+            Elixirs elixir = new Elixirs();
+            item[0][1] = elixir.AssignEther();
+            PokeballItem pokeball = new PokeballItem();
+            item[1][0] = pokeball.AssignPokeball();
+            item[1][1]=pokeball.AssignSuperball();
+            Pokedoll pokedoll = new Pokedoll();
+            item[2][0] = pokedoll.AssignPokedoll();
+            MT mt= new MT();
+            item[3][0] = mt.AssignMTMegaPuño();
+            item[3][1] = mt.AssignMTGolpeCuerpo();
+            Treasures treasures = new Treasures();
+            item[4][0] = treasures.AssignBigMushroom();
+            item[4][1] = treasures.AssignPerl();
+            EvolutionStone evolutionStone = new EvolutionStone();
+            item[5][0] = evolutionStone.AssignWaterStone();
             return item;
         }
         public void AddItem(Item item, int add) //Función para añadir una cantidad determinada de un objeto.

@@ -61,49 +61,30 @@ namespace Pokemon
             }
         }
        
-        public Elixirs AsignEther()
+        public Elixirs AssignEther()
         {
             Elixirs Ether = new Elixirs("Ether", 100, 100, 100, 100, 100, 100);
             Ether.AddQuantity(1);
             return Ether;
         }
-        public Elixirs AsignMaxEther()
+        public Elixirs AssignMaxEther()
         {
             Elixirs MaxEther = new Elixirs("MaxEther", 100, 100, 100, 100, 100, 100);
             MaxEther.AddQuantity(1);
             return MaxEther;
         }
-        public Elixirs AsignElixir()
+        public Elixirs AssignElixir()
         {
             Elixirs Elixir = new Elixirs("Elixir", 100, 100, 100, 100, 100, 100);
             Elixir.AddQuantity(1);
             return Elixir;
         }
-        public Elixirs AsignMaxElixir()
+        public Elixirs AssignMaxElixir()
         {
             Elixirs MaxElixir = new Elixirs("MaxElixir", 100, 100, 100, 100, 100, 100);
             MaxElixir.AddQuantity(1);
             return MaxElixir;
         }
-        //public int AmountUtilityItem(Elixirs elixir)
-        //{
-        //    if (elixir.name == "Ether")
-        //    {
-               
-        //    }
-        //    if (elixir.name == "MaxEther")
-        //    {
-
-        //    }
-        //    if (elixir.name == "Elixir")
-        //    {
-
-        //    }
-        //    if (elixir.name == "MaxElixir")
-        //    {
-
-        //    }
-
-        //}
+       
     }
 }

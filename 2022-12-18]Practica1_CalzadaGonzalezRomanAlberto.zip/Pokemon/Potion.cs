@@ -53,25 +53,25 @@ namespace Pokemon
 
 
        
-        public Potion AsignPotion()
+        public Potion AssignPotion()
         {
             Potion Pocion = new Potion("Pocion", 100, 100, 100, 100, 100, 100);
             Pocion.AddQuantity(1);
             return Pocion;
         }
-        public Potion AsignSuperPotion()
+        public Potion AssignSuperPotion()
         {
             Potion SuperPocion = new Potion("SuperPocion", 100, 100, 100, 100, 100, 100);
             SuperPocion.AddQuantity(1);
             return SuperPocion;
         }
-        public Potion AsignHyperPotion()
+        public Potion AssignHyperPotion()
         {
             Potion HiperPocion = new Potion("HiperPocion", 100, 100, 100, 100, 100, 100);
             HiperPocion.AddQuantity(1);
             return HiperPocion;
         }
-        public Potion AsignMaxPotion()
+        public Potion AssignMaxPotion()
         {
             Potion MaxPocion = new Potion("MaxPocion", 100, 100, 100, 100, 100, 100);
             MaxPocion.AddQuantity(1);

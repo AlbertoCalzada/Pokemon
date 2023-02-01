@@ -11,6 +11,7 @@ namespace Pokemon
         {
 
         }
+        public BattleItem() : base() { }
         public override bool UseItemOutCombat()
         {
             return true;
@@ -47,7 +48,8 @@ namespace Pokemon
         
         
         }
-        public Pokedoll AsignUltraball()
+        public Pokedoll() : base() { }
+        public Pokedoll AssignPokedoll()
         {
             Pokedoll P1 = new Pokedoll("Pokedoll", 100, 100, 100, 100, 100, 100);
             P1.AddQuantity(1);
@@ -55,6 +57,7 @@ namespace Pokemon
         }
         public override void Utility(IndividualPokemon pokemon)
         {
+            pokemon.SetHasEscaped(true);
             
         }
     }

@@ -11,6 +11,7 @@ namespace Pokemon
         {
 
         }
+        public EvolutionStone() : base() { }
         public override bool UseItemOutCombat()
         {
             return true;
@@ -22,7 +23,7 @@ namespace Pokemon
 
         public override bool UseItemInCombat()
         {
-            return true;
+            return false;
         }
 
         public override void Utility(IndividualPokemon pokemon)
@@ -38,7 +39,7 @@ namespace Pokemon
         {
             return true;
         }
-        public EvolutionStone AsignStarPiece()
+        public EvolutionStone AssignWaterStone()
         {
             EvolutionStone WaterStone = new EvolutionStone("WaterStone", 6000, 0, 0, 0, 0, 0);
             WaterStone.AddQuantity(1);

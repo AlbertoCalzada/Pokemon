@@ -8,11 +8,12 @@ namespace Pokemon
     {
         IndividualPokemon pokemon;
         int amountToHeal;
-        public Revives(string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints, int amountToHeal)
+        public Revives(string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints)
         : base(name, buyPricePokedollars, buyPricePokemillas, buyPriceBattlePoints, sellPricePokedollars, sellPricePokemillas, sellPriceBattlePoints)
         {
-            this.amountToHeal = amountToHeal;
         }
+        public Revives() : base() { }
+
         public override void Utility(IndividualPokemon pokemon)
         {
             if (name == "Revivir")
@@ -32,15 +33,15 @@ namespace Pokemon
         }
        
         
-        public Revives AsignRevive()
+        public Revives AssignRevive()
         {
-            Revives P1 = new Revives("Revivir", 100, 100, 100, 100, 100, 100,pokemon.GetHpmax()/2);
+            Revives P1 = new Revives("Revivir", 100, 100, 100, 100, 100, 100);
             P1.AddQuantity(1);
             return P1;
         }
-        public Revives AsignMaxRevive()
+        public Revives AssignMaxRevive()
         {
-            Revives P1 = new Revives("MaxRevivir", 100, 100, 100, 100, 100, 100,pokemon.GetHpmax());
+            Revives P1 = new Revives("MaxRevivir", 100, 100, 100, 100, 100, 100);
             P1.AddQuantity(1);
             return P1;
         }

@@ -11,9 +11,10 @@ namespace Pokemon
         {
 
         }
+        public Treasures() : base() { }
         public override bool UseItemOutCombat()
         {
-            return true;
+            return false;
         }
         public override bool ThrowItem()
         {
@@ -22,7 +23,7 @@ namespace Pokemon
 
         public override bool UseItemInCombat()
         {
-            return true;
+            return false;
         }
 
         public override void Utility(IndividualPokemon pokemon)
@@ -38,49 +39,49 @@ namespace Pokemon
         {
             return true;
         }
-        public Treasures AsignPerl()
+        public Treasures AssignPerl()
         {
             Treasures Perl = new Treasures("Perl", 1000, 0, 0, 0, 0, 0);
             Perl.AddQuantity(1);
             return Perl;
         }
-        public Treasures AsignStardust()
+        public Treasures AssignStardust()
         {
             Treasures Stardust = new Treasures("Stardust", 1500, 0, 0, 0, 0, 0);
             Stardust.AddQuantity(1);
             return Stardust;
         }
-        public Treasures AsignBigMushroom()
+        public Treasures AssignBigMushroom()
         {
             Treasures BigMushroom = new Treasures("Big Mushroom", 2500, 0, 0, 0, 0, 0);
             BigMushroom.AddQuantity(1);
             return BigMushroom;
         }
-        public Treasures AsignBigPearl()
+        public Treasures AssignBigPearl()
         {
             Treasures BigPearl = new Treasures("Big Pearl", 4000, 0, 0, 0, 0, 0);
             BigPearl.AddQuantity(1);
             return BigPearl;
         }
-        public Treasures AsignNugget()
+        public Treasures AssignNugget()
         {
             Treasures Nugget = new Treasures("Nugget", 5000, 0, 0, 0, 0, 0);
             Nugget.AddQuantity(1);
             return Nugget;
         }
-        public Treasures AsignStarPiece()
+        public Treasures AssignStarPiece()
         {
             Treasures StarPiece = new Treasures("Star Piece", 6000, 0, 0, 0, 0, 0);
             StarPiece.AddQuantity(1);
             return StarPiece;
         }
-        public Treasures AsignCometShard()
+        public Treasures AssignCometShard()
         {
             Treasures CometShard = new Treasures("Comet Shard", 12500, 0, 0, 0, 0, 0);
             CometShard.AddQuantity(1);
             return CometShard;
         }
-        public Treasures AsignBigNugget()
+        public Treasures AssignBigNugget()
         {
             Treasures BigNugget = new Treasures("Big Nugget", 20000, 0, 0, 0, 0, 0);
             BigNugget.AddQuantity(1);

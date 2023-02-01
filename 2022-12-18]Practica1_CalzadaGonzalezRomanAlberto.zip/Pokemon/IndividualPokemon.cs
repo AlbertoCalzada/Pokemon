@@ -16,6 +16,7 @@ namespace Pokemon
         Movements[] movements;
         string eo;
         string name;
+        bool hasEscaped;
 
         public IndividualPokemon(SpeciesPokemon species, Movements[] movements) //Constructor que recibe los atributos y adquiere con los valores de la clase SpeciesPokemon.
         {
@@ -25,7 +26,8 @@ namespace Pokemon
             this.gender = species.Genderprobability();
             this.nickName=species.GetName();
             this.eo = " ";
-            this.movements = Assign(movements);
+            this.movements = Assign(movements);    
+            this.hasEscaped = false;
         }
         
         //Métodos Getters y Setters de cada atributo.
@@ -37,7 +39,15 @@ namespace Pokemon
         {
             this.nickName = nickName;
         }
+        public bool GetHasEscaped()
+        {
+            return hasEscaped;
+        }
 
+        public void SetHasEscaped(bool value)
+        {
+            this.hasEscaped = value;
+        }
         public int GetSpeed()
         {
             return species.GetSpeedBase();

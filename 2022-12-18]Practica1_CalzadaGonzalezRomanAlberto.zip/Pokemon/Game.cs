@@ -400,7 +400,7 @@ namespace Pokemon
                     break;
             }
         }
-        public void ShowPocketBagInfo(int numPocket) //Función para mostrar los bolsillos
+        public void ShowPocketBagInfo(int numPocket) //Función para mostrar los bolsillos en la mochila fuera del combate.
         {
             for (int i = 0; i < trainer.GetBag().GetItems()[numPocket].Length; ++i)
             {
@@ -408,26 +408,54 @@ namespace Pokemon
                 {
                     io.Space();
                     io.ColorYellow(trainer.GetBag().GetItems()[numPocket][i].GetName() + " x " + trainer.GetBag().GetItems()[numPocket][i].GetQuantity());
+                                      
                 }
                 else if(trainer.GetBag().GetItems()[numPocket][0] == null)
                 {
                     io.Space();
                     io.SlowWrite("No tienes ningún objeto en este bolsillo.");
                     break;
-                }
+                }              
             }
-            for(int i = 0; i < packPokemon.Length; ++i)
-            {
-                if(packPokemon[i] != null)
-                {
-                    io.SlowWrite("Vas a curar a tu Pokemon");
-                    UseItem(packPokemon[i]);
-                    io.SlowWrite("Curado");
-                }
-            }
-            io.Space();
+            MenuBagUses(numPocket);
+            
         } 
+        public void MenuBagUses(int numPocket)
+        {
+            for (int i = 0; i < trainer.GetBag().GetItems()[numPocket].Length; ++i)
+            {
+                if (trainer.GetBag().GetItems()[numPocket][i] != null)
+                {
+                    if (trainer.GetBag().GetItems()[numPocket][i].ThrowItem() == true && trainer.GetBag().GetItems()[numPocket][i].UseItemOutCombat() == true)
+                    {
+                        io.Space();
+                        io.SlowWrite("¿Qué quieres hacer con los objetos?");
+                        io.ColorYellow("\t 1. Usar.");
+                        io.ColorRed("\t 2. Organizar.");
+                        io.ColorGreen("\t 3. Tirar.");
+                        io.ColorBlue("\t 4. Salir.");
+                        int pocketOption = 0;
+                        pocketOption = io.OptionCorrect(1, 4, pocketOption);
+                        switch (pocketOption)
+                        {
+                            case 1:                               
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                break;
 
+                        }
+                        io.Space();
+                        break;
+                    }
+                }
+            }
+        }
+
+        
         public void ShowBoxPokemon() //Mostrar las cajas Pokémon.
         {
             bool boxEmpty = true;
@@ -782,10 +810,10 @@ namespace Pokemon
         {
             Elixirs elixir = new Elixirs(); //TODO ESTO ES DE PRUEBA
             Bag[] bag2 = new Bag[999]; 
-            bag.AddItem(elixir.AsignEther(), 1);
-            bag.AddItem(elixir.AsignMaxEther(), 1);
-            bag.AddItem(elixir.AsignElixir(), 1);
-            bag.AddItem(elixir.AsignMaxElixir(), 1);
+            bag.AddItem(elixir.AssignEther(), 1);
+            bag.AddItem(elixir.AssignMaxEther(), 1);
+            bag.AddItem(elixir.AssignElixir(), 1);
+            bag.AddItem(elixir.AssignMaxElixir(), 1);
             bag.Equals(bag2);
             return bag2;
         }
