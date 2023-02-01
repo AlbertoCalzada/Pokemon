@@ -47,7 +47,15 @@ namespace Pokemon
         
         
         }
-       
-
+        public Pokedoll AsignUltraball()
+        {
+            Pokedoll P1 = new Pokedoll("Pokedoll", 100, 100, 100, 100, 100, 100);
+            P1.AddQuantity(1);
+            return P1;
+        }
+        public override void Utility(IndividualPokemon pokemon)
+        {
+            
+        }
     }
 }

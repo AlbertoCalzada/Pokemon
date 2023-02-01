@@ -599,6 +599,7 @@ namespace Pokemon
 
         public bool Capture(IndividualPokemon rivalpokemon, int randomenemy) //Función para poder capturar al Pokémon.
         {
+            
             double ratiocapture = (3 * rivalpokemon.GetHpmax() - 2 * rivalpokemon.GetCurrentHP()) * 4096 * rivalpokemon.GetCaptureRatio();
             ratiocapture = ratiocapture / 3 * rivalpokemon.GetHpmax();
             double agitated = 65536 / Math.Pow((255 / ratiocapture), 0.1875);

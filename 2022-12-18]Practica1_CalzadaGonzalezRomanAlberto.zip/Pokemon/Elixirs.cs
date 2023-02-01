@@ -16,38 +16,47 @@ namespace Pokemon
         }
         public override void Utility(IndividualPokemon pokemon)
         {
-            io.SlowWrite("¿De qué movimiento quieres recuperar sus PP?");
-            int ppMovement=io.AskNumber();
+            
             if (name == "Ether")
             {
-                pokemon.GetMovements()[ppMovement].AddPp(10);
-                if (pokemon.GetMovements()[ppMovement].GetPp()>=pokemon.GetMovements()[ppMovement].GetPpMax())
+                io.SlowWrite("¿De qué movimiento quieres recuperar sus PP?");
+                int ppMovement = io.AskNumber();
+                pokemon.GetMovements()[ppMovement-1].AddPp(10);
+                if (pokemon.GetMovements()[ppMovement - 1].GetPp()>=pokemon.GetMovements()[ppMovement - 1].GetPpMax())
                 {
-                    pokemon.GetMovements()[ppMovement].SetPp(pokemon.GetMovements()[ppMovement].GetPpMax());
+                    pokemon.GetMovements()[ppMovement - 1].SetPp(pokemon.GetMovements()[ppMovement - 1].GetPpMax());
                 }
             }
             if (name == "MaxEther")
             {
-                pokemon.GetMovements()[ppMovement].AddPp(10);
-                if (pokemon.GetMovements()[ppMovement].GetPp() >= pokemon.GetMovements()[ppMovement].GetPpMax())
+                io.SlowWrite("¿De qué movimiento quieres recuperar sus PP?");
+                int ppMovement = io.AskNumber();
+                pokemon.GetMovements()[ppMovement - 1].AddPp(pokemon.GetMovements()[ppMovement - 1].GetPpMax());
+                if (pokemon.GetMovements()[ppMovement - 1].GetPp() >= pokemon.GetMovements()[ppMovement - 1].GetPpMax())
                 {
-                    pokemon.GetMovements()[ppMovement].SetPp(pokemon.GetMovements()[ppMovement].GetPpMax());
+                    pokemon.GetMovements()[ppMovement - 1].SetPp(pokemon.GetMovements()[ppMovement - 1].GetPpMax());
                 }
             }
             if (name == "Elixir")
             {
-                pokemon.GetMovements()[ppMovement].AddPp(10);
-                if (pokemon.GetMovements()[ppMovement].GetPp() >= pokemon.GetMovements()[ppMovement].GetPpMax())
+                for (int i = 0; i < pokemon.GetMovements().Length; ++i)
                 {
-                    pokemon.GetMovements()[ppMovement].SetPp(pokemon.GetMovements()[ppMovement].GetPpMax());
+                    pokemon.GetMovements()[i].AddPp(10);
+                    if (pokemon.GetMovements()[i].GetPp() >= pokemon.GetMovements()[i].GetPpMax())
+                    {
+                        pokemon.GetMovements()[i].SetPp(pokemon.GetMovements()[i].GetPpMax());
+                    }
                 }
             }
             if (name == "MaxElixir")
             {
-                pokemon.GetMovements()[ppMovement].AddPp(10);
-                if (pokemon.GetMovements()[ppMovement].GetPp() >= pokemon.GetMovements()[ppMovement].GetPpMax())
+                for (int i = 0; i < pokemon.GetMovements().Length; ++i)
                 {
-                    pokemon.GetMovements()[ppMovement].SetPp(pokemon.GetMovements()[ppMovement].GetPpMax());
+                    pokemon.GetMovements()[i].AddPp(pokemon.GetMovements()[i].GetPpMax());
+                    if (pokemon.GetMovements()[i].GetPp() >= pokemon.GetMovements()[i].GetPpMax())
+                    {
+                        pokemon.GetMovements()[i].SetPp(pokemon.GetMovements()[i].GetPpMax());
+                    }
                 }
             }
         }

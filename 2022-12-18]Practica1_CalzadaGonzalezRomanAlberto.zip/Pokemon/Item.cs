@@ -14,7 +14,7 @@ namespace Pokemon
         protected int sellPricePokemillas;
         protected int sellPriceBattlePoints;
         protected int quantity;
-
+        
         public Item() { }
         public Item(string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints)
         {

@@ -19,14 +19,14 @@ namespace Pokemon
             {
                 if (pokemon.GetCurrentHP() == 0)
                 {
-                    pokemon.SetHpmax(pokemon.GetHpmax()/2);
+                    pokemon.SetCurrentHP(pokemon.GetHpmax()/2);
                 }                                                 
             }
             if (name == "MaxRevivir")
             {
                 if (pokemon.GetCurrentHP() == 0)
                 {
-                    pokemon.SetHpmax(pokemon.GetHpmax());
+                    pokemon.SetCurrentHP(pokemon.GetHpmax());
                 }
             }          
         }

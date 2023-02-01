@@ -38,5 +38,11 @@ namespace Pokemon
         {
             return true;
         }
+        public EvolutionStone AsignStarPiece()
+        {
+            EvolutionStone WaterStone = new EvolutionStone("WaterStone", 6000, 0, 0, 0, 0, 0);
+            WaterStone.AddQuantity(1);
+            return WaterStone;
+        }
     }
 }

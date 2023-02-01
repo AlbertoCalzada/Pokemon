@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mañana\\Desktop\\Pokemon-main\\Pokemon-main\\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\\Pokemon\\Pokemon.csproj": {}
+    "C:\\Users\\Mañana\\Desktop\\Pokemon-main (1)\\Pokemon-main\\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\\Pokemon\\Pokemon.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mañana\\Desktop\\Pokemon-main\\Pokemon-main\\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\\Pokemon\\Pokemon.csproj": {
+    "C:\\Users\\Mañana\\Desktop\\Pokemon-main (1)\\Pokemon-main\\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\\Pokemon\\Pokemon.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mañana\\Desktop\\Pokemon-main\\Pokemon-main\\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\\Pokemon\\Pokemon.csproj",
+        "projectUniqueName": "C:\\Users\\Mañana\\Desktop\\Pokemon-main (1)\\Pokemon-main\\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\\Pokemon\\Pokemon.csproj",
         "projectName": "Pokemon",
-        "projectPath": "C:\\Users\\Mañana\\Desktop\\Pokemon-main\\Pokemon-main\\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\\Pokemon\\Pokemon.csproj",
+        "projectPath": "C:\\Users\\Mañana\\Desktop\\Pokemon-main (1)\\Pokemon-main\\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\\Pokemon\\Pokemon.csproj",
         "packagesPath": "C:\\Users\\Mañana\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mañana\\Desktop\\Pokemon-main\\Pokemon-main\\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\\Pokemon\\obj\\",
+        "outputPath": "C:\\Users\\Mañana\\Desktop\\Pokemon-main (1)\\Pokemon-main\\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\\Pokemon\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
