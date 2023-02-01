@@ -73,6 +73,10 @@ namespace Pokemon
         {
             this.pp = this.pp - value;
         }
+        public void AddPp(int value)
+        {
+            this.pp = this.pp + value;
+        }
 
         public void SetPp(int value)
         {

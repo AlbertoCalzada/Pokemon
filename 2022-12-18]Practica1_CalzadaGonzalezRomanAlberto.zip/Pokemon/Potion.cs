@@ -9,10 +9,10 @@ namespace Pokemon
         int amountToHeal;
         IndividualPokemon pokemon;
         public Potion() : base() { }
-        public Potion(string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints, int amountToHeal)
+        public Potion(string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints)
         : base(name, buyPricePokedollars, buyPricePokemillas, buyPriceBattlePoints, sellPricePokedollars, sellPricePokemillas, sellPriceBattlePoints)
         {
-            this.amountToHeal = amountToHeal;
+            
         }
 
         public override void Utility(IndividualPokemon pokemon)
@@ -22,7 +22,7 @@ namespace Pokemon
                 pokemon.AddCurrentHP(20);
                 if (pokemon.GetCurrentHP() > pokemon.GetHpmax())
                 {
-                    pokemon.SetHpmax(pokemon.GetHpmax());
+                    pokemon.SetCurrentHP(pokemon.GetHpmax());
                 }
             }
             if (name == "SuperPocion")
@@ -30,7 +30,7 @@ namespace Pokemon
                 pokemon.AddCurrentHP(60);
                 if (pokemon.GetCurrentHP() > pokemon.GetHpmax())
                 {
-                    pokemon.SetHpmax(pokemon.GetHpmax());
+                    pokemon.SetCurrentHP(pokemon.GetHpmax());
                 }
             }
             if (name == "HiperPocion")
@@ -38,12 +38,16 @@ namespace Pokemon
                 pokemon.AddCurrentHP(200);
                 if (pokemon.GetCurrentHP() > pokemon.GetHpmax())
                 {
-                    pokemon.SetHpmax(pokemon.GetHpmax());
+                    pokemon.SetCurrentHP(pokemon.GetHpmax());
                 }
             }
             if (name == "MaxPocion")
             {
                 pokemon.AddCurrentHP(pokemon.GetHpmax());
+                if (pokemon.GetCurrentHP() > pokemon.GetHpmax())
+                {
+                    pokemon.SetCurrentHP(pokemon.GetHpmax());
+                }
             }
         }
 
@@ -51,25 +55,25 @@ namespace Pokemon
        
         public Potion AsignPotion()
         {
-            Potion Pocion = new Potion("Pocion", 100, 100, 100, 100, 100, 100, 20);
+            Potion Pocion = new Potion("Pocion", 100, 100, 100, 100, 100, 100);
             Pocion.AddQuantity(1);
             return Pocion;
         }
         public Potion AsignSuperPotion()
         {
-            Potion SuperPocion = new Potion("SuperPocion", 100, 100, 100, 100, 100, 100, 60);
+            Potion SuperPocion = new Potion("SuperPocion", 100, 100, 100, 100, 100, 100);
             SuperPocion.AddQuantity(1);
             return SuperPocion;
         }
         public Potion AsignHyperPotion()
         {
-            Potion HiperPocion = new Potion("HiperPocion", 100, 100, 100, 100, 100, 100, 200);
+            Potion HiperPocion = new Potion("HiperPocion", 100, 100, 100, 100, 100, 100);
             HiperPocion.AddQuantity(1);
             return HiperPocion;
         }
         public Potion AsignMaxPotion()
         {
-            Potion MaxPocion = new Potion("MaxPocion", 100, 100, 100, 100, 100, 100, pokemon.GetHpmax());
+            Potion MaxPocion = new Potion("MaxPocion", 100, 100, 100, 100, 100, 100);
             MaxPocion.AddQuantity(1);
             return MaxPocion;
         }

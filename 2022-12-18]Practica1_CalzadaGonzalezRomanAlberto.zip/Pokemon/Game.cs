@@ -174,7 +174,7 @@ namespace Pokemon
                         ShowBoxPokemon();
                         break;
                     case 6:
-                        ShowBagInfo();
+                        ShowBagInfo();                      
                         break;
                     case 7:
                         io.SlowWrite("¿Estás seguro de que quieres salir del juego? Se perderán todos los datos hasta ahora. ");
@@ -375,7 +375,7 @@ namespace Pokemon
             switch (pocketOption)
             {
                 case 1:
-                    ShowPocketBagInfo(0);
+                    ShowPocketBagInfo(0);                  
                     break;
                 case 2:
                     ShowPocketBagInfo(1);
@@ -414,6 +414,15 @@ namespace Pokemon
                     io.Space();
                     io.SlowWrite("No tienes ningún objeto en este bolsillo.");
                     break;
+                }
+            }
+            for(int i = 0; i < packPokemon.Length; ++i)
+            {
+                if(packPokemon[i] != null)
+                {
+                    io.SlowWrite("Vas a curar a tu Pokemon");
+                    UseItem(packPokemon[i]);
+                    io.SlowWrite("Curado");
                 }
             }
             io.Space();
@@ -778,6 +787,14 @@ namespace Pokemon
             bag.AddItem(elixir.AsignMaxElixir(), 1);
             bag.Equals(bag2);
             return bag2;
+        }
+
+        public void UseItem(IndividualPokemon pokemon)
+        {
+            Potion pocion = new Potion("MaxPocion", 100, 100, 100, 100, 100, 100);
+            pocion.Utility(pokemon);
+            Elixirs Ether = new Elixirs("Ether", 100, 100, 100, 100, 100, 100);
+            Ether.Utility(pokemon);
         }
     }
 }

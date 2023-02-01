@@ -7,51 +7,72 @@ namespace Pokemon
     class Elixirs : Medicine
     {
         int ppRestore;
+        IO io= new IO();
         public Elixirs() : base() { }
-        public Elixirs(string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints, int ppRestore)
+        public Elixirs(string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints)
         : base(name, buyPricePokedollars, buyPricePokemillas, buyPriceBattlePoints, sellPricePokedollars, sellPricePokemillas, sellPriceBattlePoints)
         {
-            this.ppRestore = ppRestore;
+            
         }
         public override void Utility(IndividualPokemon pokemon)
         {
-            if (name == "Revivir")
+            io.SlowWrite("¿De qué movimiento quieres recuperar sus PP?");
+            int ppMovement=io.AskNumber();
+            if (name == "Ether")
             {
-                if (pokemon.GetCurrentHP() == 0)
+                pokemon.GetMovements()[ppMovement].AddPp(10);
+                if (pokemon.GetMovements()[ppMovement].GetPp()>=pokemon.GetMovements()[ppMovement].GetPpMax())
                 {
-                    pokemon.SetHpmax(pokemon.GetHpmax() / 2);
+                    pokemon.GetMovements()[ppMovement].SetPp(pokemon.GetMovements()[ppMovement].GetPpMax());
                 }
             }
-            if (name == "MaxRevivir")
+            if (name == "MaxEther")
             {
-                if (pokemon.GetCurrentHP() == 0)
+                pokemon.GetMovements()[ppMovement].AddPp(10);
+                if (pokemon.GetMovements()[ppMovement].GetPp() >= pokemon.GetMovements()[ppMovement].GetPpMax())
                 {
-                    pokemon.SetHpmax(pokemon.GetHpmax());
+                    pokemon.GetMovements()[ppMovement].SetPp(pokemon.GetMovements()[ppMovement].GetPpMax());
+                }
+            }
+            if (name == "Elixir")
+            {
+                pokemon.GetMovements()[ppMovement].AddPp(10);
+                if (pokemon.GetMovements()[ppMovement].GetPp() >= pokemon.GetMovements()[ppMovement].GetPpMax())
+                {
+                    pokemon.GetMovements()[ppMovement].SetPp(pokemon.GetMovements()[ppMovement].GetPpMax());
+                }
+            }
+            if (name == "MaxElixir")
+            {
+                pokemon.GetMovements()[ppMovement].AddPp(10);
+                if (pokemon.GetMovements()[ppMovement].GetPp() >= pokemon.GetMovements()[ppMovement].GetPpMax())
+                {
+                    pokemon.GetMovements()[ppMovement].SetPp(pokemon.GetMovements()[ppMovement].GetPpMax());
                 }
             }
         }
        
         public Elixirs AsignEther()
         {
-            Elixirs Ether = new Elixirs("Ether", 100, 100, 100, 100, 100, 100,10);
+            Elixirs Ether = new Elixirs("Ether", 100, 100, 100, 100, 100, 100);
             Ether.AddQuantity(1);
             return Ether;
         }
         public Elixirs AsignMaxEther()
         {
-            Elixirs MaxEther = new Elixirs("MaxEther", 100, 100, 100, 100, 100, 100,10 );
+            Elixirs MaxEther = new Elixirs("MaxEther", 100, 100, 100, 100, 100, 100);
             MaxEther.AddQuantity(1);
             return MaxEther;
         }
         public Elixirs AsignElixir()
         {
-            Elixirs Elixir = new Elixirs("Elixir", 100, 100, 100, 100, 100, 100, 10);
+            Elixirs Elixir = new Elixirs("Elixir", 100, 100, 100, 100, 100, 100);
             Elixir.AddQuantity(1);
             return Elixir;
         }
         public Elixirs AsignMaxElixir()
         {
-            Elixirs MaxElixir = new Elixirs("MaxElixir", 100, 100, 100, 100, 100, 100, 10);
+            Elixirs MaxElixir = new Elixirs("MaxElixir", 100, 100, 100, 100, 100, 100);
             MaxElixir.AddQuantity(1);
             return MaxElixir;
         }

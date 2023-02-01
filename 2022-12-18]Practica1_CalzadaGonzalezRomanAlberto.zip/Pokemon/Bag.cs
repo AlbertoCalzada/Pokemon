@@ -12,20 +12,13 @@ namespace Pokemon
         IO io = new IO();
         public Bag()
         {
-            item= new Item[20][];
-            item[0] = new Medicine[999];
-            item[1] = new PokeballItem[999];
-            item[2] = new BattleItem[999];
-            item[3] = new MT[999];
-            item[4] = new Treasures[999];
-            item[5] = new EvolutionStone[999];
-            item[6] = new Item[999];
-            for (int i = 0; i < item.Length; ++i)
-            {
-                item[i] = new Item[999];
-            }                             
+            item = GiveDefaultItems();
         }
         public Bag(Item items)
+        {
+            item = GiveDefaultItems();
+        }
+        public Item[][] GiveDefaultItems()
         {
             item = new Item[20][];
             item[0] = new Medicine[999];
@@ -39,13 +32,9 @@ namespace Pokemon
             {
                 item[i] = new Item[999];
             }
+            item[0][0] = potion.AsignHyperPotion();
+            return item;
         }
-        //public Item AddItem(Item item,int add) //Función para añadir una cantidad determinada de un objeto.
-        //{          
-        //    add = io.AskNumber();
-        //    item.AddQuantity(add);
-        //    return item;
-        //}
         public void AddItem(Item item, int add) //Función para añadir una cantidad determinada de un objeto.
         {
             add = io.AskNumber();
