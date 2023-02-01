@@ -52,6 +52,15 @@ namespace Pokemon
         {
             UseItem(pokemon);
         }
+        public override void Buy()
+        {
+            // Acciones para comprar el item
+        }
+
+        public override void Sell()
+        {
+            // Acciones para vender el item
+        }
         public Potion AsignPotion()
         {
             Potion Pocion = new Potion("Pocion", 100, 100, 100, 100, 100, 100, 20);

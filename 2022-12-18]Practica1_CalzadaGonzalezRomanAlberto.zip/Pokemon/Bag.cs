@@ -8,10 +8,11 @@ namespace Pokemon
     {
         Potion potion = new Potion();
         Elixirs elixir = new Elixirs();
-        Item[][] item = new Item[20][];
+        Item[][] item;
         IO io = new IO();
         public Bag()
         {
+            item= new Item[20][];
             item[0] = new Medicine[999];
             item[1] = new PokeballItem[999];
             item[2] = new BattleItem[999];
@@ -20,20 +21,36 @@ namespace Pokemon
             item[5] = new EvolutionStone[999];
             item[6] = new Item[999];
             for (int i = 0; i < item.Length; ++i)
-            {             
-                item[i]= new Item[999];
-            }
+            {
+                item[i] = new Item[999];
+            }                             
+        }
+        public Bag(Item items)
+        {
+            item = new Item[20][];
+            item[0] = new Medicine[999];
+            item[1] = new PokeballItem[999];
+            item[2] = new BattleItem[999];
+            item[3] = new MT[999];
+            item[4] = new Treasures[999];
+            item[5] = new EvolutionStone[999];
+            item[6] = new Item[999];
             for (int i = 0; i < item.Length; ++i)
             {
-                item[0][0] = potion.AsignPotion();
-                item[0][1] = elixir.AsignElixir();
-                item[0][2] = potion.AsignSuperPotion();
-            }           
+                item[i] = new Item[999];
+            }
         }
-        public void AddItem(Item item,int add) //Función para añadir una cantidad determinada de un objeto.
-        {          
+        //public Item AddItem(Item item,int add) //Función para añadir una cantidad determinada de un objeto.
+        //{          
+        //    add = io.AskNumber();
+        //    item.AddQuantity(add);
+        //    return item;
+        //}
+        public void AddItem(Item item, int add) //Función para añadir una cantidad determinada de un objeto.
+        {
             add = io.AskNumber();
-            item.AddQuantity(add);          
+            item.AddQuantity(add);
+
         }
         public void RemoveItem(Item item, int add) //Función para eliminar una cantidad determinada de un objeto.
         {

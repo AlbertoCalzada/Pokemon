@@ -26,9 +26,9 @@ namespace Pokemon
             myPokemon = new IndividualPokemon(pokemon, movements);
             bag = new Bag();
             trainer = new Trainer(bag);   
-            startPokemon = myPokemon.StartPokemon(movements);
+            startPokemon = StartPokemon(movements);
             packPokemon = trainer.PackPokemon();
-            rivalPokemon = myPokemon.RivalPokemon(movements);
+            rivalPokemon = RivalPokemon(movements);
             boxPokemon = trainer.BoxPokemon();
             SlowStart();
         }
@@ -39,10 +39,10 @@ namespace Pokemon
             myPokemon = new IndividualPokemon(pokemon, movements);
             bag = new Bag();
             trainer = new Trainer(bag);
-            startPokemon = myPokemon.StartPokemon(movements);
+            startPokemon = StartPokemon(movements);
             packPokemon = trainer.PackPokemon();
-            rivalPokemon = myPokemon.RivalPokemon(movements);
-            boxPokemon = trainer.BoxPokemon();
+            rivalPokemon = RivalPokemon(movements);
+            boxPokemon = trainer.BoxPokemon();        
             FastStart();
         }
         public void Run() //Función con el Menú principal del juego.
@@ -558,7 +558,7 @@ namespace Pokemon
             {
                 if (packPokemon[i] == null)
                 {
-                    packPokemon[i] = rivalPokemon[randomenemy];
+                    packPokemon[i] = rivalPokemon[randomenemy];              
                     PutNickName(i);
                     packPokemon[i].SetEo(trainer.GetName()+trainer.GetGender()+trainer.GetID()+trainer.GetSecretNumber());
                     break;
@@ -730,6 +730,25 @@ namespace Pokemon
                 return 1;
             }
         }
+        public IndividualPokemon[] StartPokemon(Movements[] allMoves)   // Función que contiene un array de los 3 Pokémon iniciales
+        {
+            IndividualPokemon[] startpokemon = new IndividualPokemon[3];
+            startpokemon[0] = new IndividualPokemon(new SpeciesPokemon("Bulbasaur"), allMoves);
+            startpokemon[1] = new IndividualPokemon(new SpeciesPokemon("Charmander"), allMoves);
+            startpokemon[2] = new IndividualPokemon(new SpeciesPokemon("Squirtle"), allMoves);
+            return startpokemon;
+        }
+        public IndividualPokemon[] RivalPokemon(Movements[] allMoves) // Función que contiene un array de los posibles rivales del jugador
+        {
+            IndividualPokemon[] rivalpokemon = new IndividualPokemon[6];
+            rivalpokemon[0] = new IndividualPokemon(new SpeciesPokemon("Rattata"), allMoves);
+            rivalpokemon[1] = new IndividualPokemon(new SpeciesPokemon("Spearow"), allMoves);
+            rivalpokemon[2] = new IndividualPokemon(new SpeciesPokemon("Ekans"), allMoves);
+            rivalpokemon[3] = new IndividualPokemon(new SpeciesPokemon("Vulpix"), allMoves);
+            rivalpokemon[4] = new IndividualPokemon(new SpeciesPokemon("Paras"), allMoves);
+            rivalpokemon[5] = new IndividualPokemon(new SpeciesPokemon("Diglett"), allMoves);
+            return rivalpokemon;
+        }
         public Movements[] LoadMovementsList() //Función para crear los movimientos.
         {
             Movements[] movements = new Movements[7];
@@ -741,6 +760,18 @@ namespace Pokemon
             movements[5] = new Movements("Special", "Ascuas", 6, 25, 40, 100, 0);
             movements[6] = new Movements("Special", "Lanzallamas", 7, 15, 90, 100, 0);
             return movements;
+        }
+
+        public Bag[] LoadItemList() //Cargar objetos por defectos en la mochila.
+        {
+            Elixirs elixir = new Elixirs(); //TODO ESTO ES DE PRUEBA
+            Bag[] bag2 = new Bag[999]; 
+            bag.AddItem(elixir.AsignEther(), 1);
+            bag.AddItem(elixir.AsignMaxEther(), 1);
+            bag.AddItem(elixir.AsignElixir(), 1);
+            bag.AddItem(elixir.AsignMaxElixir(), 1);
+            bag.Equals(bag2);
+            return bag2;
         }
     }
 }

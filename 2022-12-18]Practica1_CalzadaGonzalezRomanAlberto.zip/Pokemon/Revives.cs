@@ -35,6 +35,15 @@ namespace Pokemon
         {
             UseItem(pokemon);
         }
+        public override void Buy()
+        {
+            // Acciones para comprar el item
+        }
+
+        public override void Sell()
+        {
+            // Acciones para vender el item
+        }
         public Revives AsignRevive()
         {
             Revives P1 = new Revives("Revivir", 100, 100, 100, 100, 100, 100,pokemon.GetHpmax()/2);

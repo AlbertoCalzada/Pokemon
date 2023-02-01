@@ -76,7 +76,7 @@ namespace Pokemon
         public void SetCaptureDateTime(DateTime? currentDate)
         {
             currentDate = DateTime.Now;
-            captureDateTime = currentDate;
+            this.captureDateTime = currentDate;
         }
 
         public int GetCaptureRatio()
@@ -158,106 +158,7 @@ namespace Pokemon
         {
             movements = value;
         }
-        public  IndividualPokemon[] StartPokemon(Movements[] allMoves)   // Función que contiene un array de los 3 Pokémon iniciales
-        {
-            IndividualPokemon[] startpokemon = new IndividualPokemon[3];
-            startpokemon[0] = new IndividualPokemon(new SpeciesPokemon("Bulbasaur"), allMoves);
-            startpokemon[1] = new IndividualPokemon(new SpeciesPokemon("Charmander"), allMoves);
-            startpokemon[2] = new IndividualPokemon(new SpeciesPokemon("Squirtle"), allMoves);
-            return startpokemon;
-        }
-
-
-        public  IndividualPokemon[] RivalPokemon(Movements[] allMoves) // Función que contiene un array de los posibles rivales del jugador
-        {
-            IndividualPokemon[] rivalpokemon = new IndividualPokemon[6];
-            rivalpokemon[0] = new IndividualPokemon(new SpeciesPokemon("Rattata"), allMoves);
-            rivalpokemon[1] = new IndividualPokemon(new SpeciesPokemon("Spearow"), allMoves);
-            rivalpokemon[2] = new IndividualPokemon(new SpeciesPokemon("Ekans"), allMoves);
-            rivalpokemon[3] = new IndividualPokemon(new SpeciesPokemon("Vulpix"), allMoves);
-            rivalpokemon[4] = new IndividualPokemon(new SpeciesPokemon("Paras"), allMoves);
-            rivalpokemon[5] = new IndividualPokemon(new SpeciesPokemon("Diglett"), allMoves);
-            return rivalpokemon;
-        }
-
-        //public void Healpokemon(IndividualPokemon[] packpokemon) //Función para la opción del Centro Pokémon, para restablecer su vida actual a la vida máxima correspondiente.
-        //{
-        //    // restaurar vida
-        //    for (int i = 0; i < packpokemon.Length; ++i)
-        //    {
-        //        if (packpokemon[i] != null)
-        //        {
-        //            packpokemon[i].SetCurrentHP(packpokemon[i].GetHpmax());
-                    
-        //        }
-        //    }
-        //    for (int i = 0; i < packpokemon.Length; ++i)
-        //    {
-        //        if (packpokemon[i] != null)
-        //        {
-        //            for (int j = 0; j < packpokemon[i].GetMovements().Length; ++j)
-        //            {
-        //                packpokemon[i].GetMovements()[j].SetPp(packpokemon[i].GetMovements()[j].GetPpMax());
-        //            }
-        //        }                  
-        //    }
-        //}
-        //public double DmgFight(IndividualPokemon mypokemon, IndividualPokemon rivalpokemon) //Función que devuelve el cálculo del daño del combate.
-        //{
-        //    double dmgnumerator = (mypokemon.GetAttack() / rivalpokemon.GetDefense());
-        //    Random r = new Random();
-        //    double random = r.Next(85, 101);
-        //    double rand = random / 100;
-
-        //    double dmg = (dmgnumerator * 2) + 2 * rand * CriticDmg();
-
-        //    rivalpokemon.hp = (rivalpokemon.hp - (int)dmg); //Quitamos la vida al pokémon rival según el daño causado.
-        //    return (int)dmg;
-        //}
-        //public double CriticDmg() //Función que nos devuelve si el ataque ha sido crítico o no.
-        //{
-        //    Random r = new Random();
-        //    double crit = r.Next(1, 25);
-        //    if (crit == 1)
-        //    {
-        //        return 1.5;
-        //    }
-        //    else
-        //    {
-        //        return 1;
-        //    }
-        //}
-        //public int Escape(IndividualPokemon mypokemon, IndividualPokemon rivalpokemon) //Función para la opción escapar dentro del combate pokémon.
-        //{
-        //    if (mypokemon.GetSpeed() >= rivalpokemon.GetSpeed())
-        //    {
-        //        return 1;
-        //    }
-        //    else
-        //    {
-        //        bool exit = false;
-        //        int attempts = 1;
-        //        Random r = new Random();
-        //        int probabilityescape = r.Next(0, 256);
-        //        while (exit == false)
-        //        {
-        //            double oddsescape = (((mypokemon.GetSpeed() * 128) / rivalpokemon.GetSpeed()) + 30 * attempts) % 256;
-        //            ++attempts;
-        //            if (probabilityescape < oddsescape)
-        //            {
-        //                exit = true;
-
-        //            }
-        //            else
-        //            {
-        //                mypokemon.DmgFight(rivalpokemon, mypokemon, rivalpokemon.GetMovements()[0]);
-        //                return 0;
-        //            }
-        //        }
-        //        return 1;
-        //    }
-        //}
-      
+                              
         public Movements[] Assign(Movements[] allMoves) //Función para asignar ataques.
         {
             Movements[] randomMovements = new Movements[4];

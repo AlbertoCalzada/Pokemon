@@ -6,8 +6,8 @@ namespace Pokemon
 {
     class PokeballItem: Item
     {
-        int ratioCapture;
-        public PokeballItem(string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints, int ratioCapture)
+        double ratioCapture;
+        public PokeballItem(string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints, double ratioCapture)
              : base(name, buyPricePokedollars, buyPricePokemillas, buyPriceBattlePoints, sellPricePokedollars, sellPricePokemillas, sellPriceBattlePoints)
         {
             this.ratioCapture = ratioCapture;
@@ -25,8 +25,17 @@ namespace Pokemon
         {
 
         }
+        public override void Buy()
+        {
+            // Acciones para comprar el item
+        }
 
-        public int GetRatioCapture()
+        public override void Sell()
+        {
+            // Acciones para vender el item
+        }
+
+        public double GetRatioCapture()
         {
             return ratioCapture;
         }

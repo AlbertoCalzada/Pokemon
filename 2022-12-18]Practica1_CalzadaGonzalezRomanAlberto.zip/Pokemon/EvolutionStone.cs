@@ -24,5 +24,14 @@ namespace Pokemon
         {
 
         }
+        public override void Buy()
+        {
+            // Acciones para comprar el item
+        }
+
+        public override void Sell()
+        {
+            // Acciones para vender el item
+        }
     }
 }

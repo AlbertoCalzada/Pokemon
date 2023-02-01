@@ -79,6 +79,9 @@ namespace Pokemon
         public abstract void ThrowItem(Item item);
 
         public abstract void UseItemInCombat(IndividualPokemon pokemon);
-           
+
+        public abstract void Buy();
+
+        public abstract void Sell();
     }
 }
