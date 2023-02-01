@@ -558,7 +558,10 @@ namespace Pokemon
             {
                 if (packPokemon[i] == null)
                 {
-                    packPokemon[i] = rivalPokemon[randomenemy];              
+                    packPokemon[i] = rivalPokemon[randomenemy];
+                    packPokemon[i] = new IndividualPokemon(new SpeciesPokemon(rivalPokemon[randomenemy].GetName()), movements);
+                    DateTime? currentDate = DateTime.Now;
+                    packPokemon[i].SetCaptureDateTime(currentDate);
                     PutNickName(i);
                     packPokemon[i].SetEo(trainer.GetName()+trainer.GetGender()+trainer.GetID()+trainer.GetSecretNumber());
                     break;
@@ -572,6 +575,9 @@ namespace Pokemon
                         if (boxPokemon[j] == null)
                         {
                             boxPokemon[j] = rivalPokemon[randomenemy];
+                            boxPokemon[j] = new IndividualPokemon(new SpeciesPokemon(rivalPokemon[randomenemy].GetName()), movements);
+                            DateTime? currentDate = DateTime.Now;
+                            packPokemon[i].SetCaptureDateTime(currentDate);
                             boxPokemon[j].SetEo(trainer.GetName() + trainer.GetGender() + trainer.GetID() + trainer.GetSecretNumber());
                             break;
                         }
@@ -601,8 +607,8 @@ namespace Pokemon
                 }
             }
             io.SlowWrite("Has capturado al Pokémon con éxito.");
-            DateTime? currentDate = DateTime.Now;
-            rivalPokemon[randomenemy].SetCaptureDateTime(currentDate);
+            //DateTime? currentDate = DateTime.Now;
+            //rivalPokemon[randomenemy].SetCaptureDateTime(currentDate);
             return true;
         }
 

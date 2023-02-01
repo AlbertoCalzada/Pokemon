@@ -11,27 +11,32 @@ namespace Pokemon
         {
 
         }
-        public override void UseItem(IndividualPokemon pokemon)
+        public override bool UseItemOutCombat()
+        {
+            return true;
+        }
+        public override bool ThrowItem()
+        {
+            return true;
+        }
+
+        public override bool UseItemInCombat()
+        {
+            return true;
+        }
+
+        public override void Utility(IndividualPokemon pokemon)
         {
 
         }
-        public override void ThrowItem(Item item)
+        public override bool Buy()
         {
-            
+            return true;
         }
 
-        public override void UseItemInCombat(IndividualPokemon pokemon)
+        public override bool Sell()
         {
-
-        }
-        public override void Buy()
-        {
-            // Acciones para comprar el item
-        }
-
-        public override void Sell()
-        {
-            // Acciones para vender el item
+            return true;
         }
     }
     class Pokedoll : BattleItem
@@ -42,15 +47,7 @@ namespace Pokemon
         
         
         }
-        public override void Buy()
-        {
-            // Acciones para comprar el item
-        }
-
-        public override void Sell()
-        {
-            // Acciones para vender el item
-        }
+       
 
     }
 }

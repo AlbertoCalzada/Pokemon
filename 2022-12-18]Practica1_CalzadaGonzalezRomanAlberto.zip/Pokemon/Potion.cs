@@ -15,7 +15,7 @@ namespace Pokemon
             this.amountToHeal = amountToHeal;
         }
 
-        public override void UseItem(IndividualPokemon pokemon)
+        public override void Utility(IndividualPokemon pokemon)
         {
             if (name == "Pocion")
             {
@@ -48,19 +48,7 @@ namespace Pokemon
         }
 
 
-        public override void UseItemInCombat(IndividualPokemon pokemon)
-        {
-            UseItem(pokemon);
-        }
-        public override void Buy()
-        {
-            // Acciones para comprar el item
-        }
-
-        public override void Sell()
-        {
-            // Acciones para vender el item
-        }
+       
         public Potion AsignPotion()
         {
             Potion Pocion = new Potion("Pocion", 100, 100, 100, 100, 100, 100, 20);
