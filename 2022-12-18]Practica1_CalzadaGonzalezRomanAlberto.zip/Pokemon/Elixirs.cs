@@ -13,7 +13,7 @@ namespace Pokemon
         {
             this.ppRestore = ppRestore;
         }
-        public override void UseItem(IndividualPokemon pokemon)
+        public override void Utility(IndividualPokemon pokemon)
         {
             if (name == "Revivir")
             {
@@ -30,15 +30,7 @@ namespace Pokemon
                 }
             }
         }
-        public override void Buy()
-        {
-            // Acciones para comprar el item
-        }
-
-        public override void Sell()
-        {
-            // Acciones para vender el item
-        }
+       
         public Elixirs AsignEther()
         {
             Elixirs Ether = new Elixirs("Ether", 100, 100, 100, 100, 100, 100,10);

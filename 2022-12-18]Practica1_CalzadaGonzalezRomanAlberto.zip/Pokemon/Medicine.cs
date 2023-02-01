@@ -14,21 +14,34 @@ namespace Pokemon
             
         }
 
-        public override void UseItem(IndividualPokemon pokemon)
+        public override bool UseItemOutCombat()
         {
-            
+            return true;
         }
-        public override void ThrowItem(Item item)
+        public override bool ThrowItem()
         {
-            
-        }
-
-        public override void UseItemInCombat(IndividualPokemon pokemon)
-        {
-           
+            return true;
         }
 
-       
+        public override bool UseItemInCombat()
+        {
+            return true;
+        }
+
+        public override void Utility(IndividualPokemon pokemon)
+        {
+
+        }
+        public override bool Buy()
+        {
+            return true;
+        }
+
+        public override bool Sell()
+        {
+            return true;
+        }
+
 
     }
 }

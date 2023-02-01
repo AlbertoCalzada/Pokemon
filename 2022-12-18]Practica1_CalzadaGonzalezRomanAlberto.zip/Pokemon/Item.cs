@@ -75,13 +75,15 @@ namespace Pokemon
         {
             return sellPriceBattlePoints;
         }
-        public abstract void UseItem(IndividualPokemon pokemon);
-        public abstract void ThrowItem(Item item);
+        public abstract bool UseItemOutCombat();
+        public abstract bool ThrowItem();
+                         
+        public abstract bool UseItemInCombat();
+                        
+        public abstract bool Buy();
+                       
+        public abstract bool Sell();
 
-        public abstract void UseItemInCombat(IndividualPokemon pokemon);
-
-        public abstract void Buy();
-
-        public abstract void Sell();
+        public abstract void Utility(IndividualPokemon pokemon);
     }
 }
