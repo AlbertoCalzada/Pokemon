@@ -27,7 +27,7 @@ namespace Pokemon
             this.gender = "Chico";
             this.id = GenerateID();
             this.secretNumber = GenerateSecretNumber();
-            this.pokeDollars = 0;
+            this.pokeDollars = 5000;
             this.battlePoints= 0;
             this.pokeMiles= 0;
             startDate = DateTime.Now;
@@ -39,7 +39,7 @@ namespace Pokemon
             this.gender = "Chico";
             this.id = GenerateID();
             this.secretNumber = GenerateSecretNumber();
-            this.pokeDollars = 0;
+            this.pokeDollars = 5000;
             this.battlePoints = 0;
             this.pokeMiles = 0;
             startDate = DateTime.Now;

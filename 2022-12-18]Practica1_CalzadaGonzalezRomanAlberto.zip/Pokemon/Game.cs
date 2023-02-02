@@ -19,6 +19,7 @@ namespace Pokemon
         IndividualPokemon[] boxPokemon;
         Movements[] movements;
         Bag bag;
+        Item[] listItem;
         public Game(IO io) //Constructor que inicia el juego de forma lenta.
         {       
             pokemon = new SpeciesPokemon();
@@ -30,6 +31,7 @@ namespace Pokemon
             packPokemon = trainer.PackPokemon();
             rivalPokemon = RivalPokemon(movements);
             boxPokemon = trainer.BoxPokemon();
+            listItem= GiveItemShop();
             SlowStart();
         }
         public Game() //Constructor que inicia el juego de forma rápida.
@@ -42,7 +44,8 @@ namespace Pokemon
             startPokemon = StartPokemon(movements);
             packPokemon = trainer.PackPokemon();
             rivalPokemon = RivalPokemon(movements);
-            boxPokemon = trainer.BoxPokemon();        
+            boxPokemon = trainer.BoxPokemon();
+            listItem = GiveItemShop();
             FastStart();
         }
         public void Run() //Función con el Menú principal del juego.
@@ -121,8 +124,9 @@ namespace Pokemon
                 io.ColorCyan("\t 4. Datos del jugador.");
                 io.ColorMagenta("\t 5. Cajas Pokémon.");
                 io.ColorYellow("\t 6. Mochila.");
-                io.ColorBlue("\t 7. Salir.");
-                menuoption = io.OptionCorrect(1, 7, menuoption);
+                io.ColorRed("\t 7. Tienda.");
+                io.ColorBlue("\t 8. Salir.");
+                menuoption = io.OptionCorrect(1, 8, menuoption);
                 switch (menuoption)
                 {
                     case 1:
@@ -174,9 +178,20 @@ namespace Pokemon
                         ShowBoxPokemon();
                         break;
                     case 6:
-                        ShowBagInfo();                      
+                        ShowBagInfo();
                         break;
                     case 7:
+                        io.SlowWrite("Estos son los objetos que puedes comprar: ");
+                        ShowShopItem();
+                        io.SlowWrite("¿Qué objeto quieres comprar?");
+                        int itemOption = 0;
+                        option = io.OptionCorrect(1, 22, itemOption);
+                        io.SlowWrite("¿Cuantas unidades quieres comprar?");
+                        int numberOption = 0;
+                        numberOption = io.OptionCorrect(1, 10, numberOption);
+                        BuyItem(itemOption, numberOption);
+                        break;
+                    case 8:
                         io.SlowWrite("¿Estás seguro de que quieres salir del juego? Se perderán todos los datos hasta ahora. ");
                         io.ColorGreen(" 1. Si.");
                         io.ColorRed(" 2. No.");
@@ -824,6 +839,66 @@ namespace Pokemon
             pocion.Utility(pokemon);
             Elixirs Ether = new Elixirs("Ether", 100, 100, 100, 100, 100, 100);
             Ether.Utility(pokemon);
+        }
+
+        public Item[] GiveItemShop() //Función para mostrar los items de la tienda.
+        {
+            Item[] listItem = new Item[500];          
+            Potion potion = new Potion();
+            listItem[0] = potion.AssignHyperPotion();
+            listItem[1]=potion.AssignPotion();
+            listItem[2]=potion.AssignSuperPotion();
+            listItem[3]=potion.AssignMaxPotion();
+            Elixirs elixir = new Elixirs();
+            listItem[4] = elixir.AssignEther();
+            listItem[5] = elixir.AssignMaxElixir();
+            listItem[6] = elixir.AssignMaxEther();
+            listItem[7] = elixir.AssignElixir();
+            PokeballItem pokeball = new PokeballItem();
+            listItem[8] = pokeball.AssignPokeball();
+            listItem[9] = pokeball.AssignSuperball();
+            listItem[10] = pokeball.AssignUltraball();
+            listItem[11] = pokeball.AssignMasterball();
+            Pokedoll pokedoll = new Pokedoll();
+            listItem[12] = pokedoll.AssignPokedoll();
+            Treasures treasures = new Treasures();
+            listItem[13] = treasures.AssignBigMushroom();
+            listItem[14] = treasures.AssignPerl();
+            listItem[15] = treasures.AssignBigNugget();
+            listItem[16] = treasures.AssignBigPearl();
+            listItem[17] = treasures.AssignCometShard();
+            listItem[18] = treasures.AssignNugget();
+            listItem[19] = treasures.AssignStardust();
+            listItem[20] = treasures.AssignStarPiece();
+            EvolutionStone evolutionStone = new EvolutionStone();
+            listItem[21] = evolutionStone.AssignWaterStone();
+            return listItem;
+        }
+        public void ShowShopItem()
+        {           
+            for(int i=0;i< listItem.Length; ++i)
+            {
+                if (listItem[i] != null)
+                {
+                    io.SlowWrite("\t"+(i+1)+". "+ listItem[i].GetName()+" x 1 " + "\n \t Coste: " + listItem[i].GetBuyPricePokedollars()+ " Pokedóllares.");
+                    io.Space();
+                }              
+            }        
+        }
+        public void BuyItem(int item, int numberItems) //Completar este codigo para meterlo en el bolsillo correspondiente segun el ITEM.
+        {
+            if (trainer.GetPokeDollars() >= (listItem[item].GetBuyPricePokedollars() * numberItems))
+            {
+                io.SlowWrite("Has comprado " + numberItems + " unidades de " + listItem[item].GetName());
+
+                bag.AddItem(listItem[item], numberItems);
+                trainer.GetBag().GetItems()[0][0].AddQuantity(numberItems);
+
+            }
+            else
+            {
+                io.SlowWrite("No tienes dinero suficiente.");
+            }
         }
     }
 }

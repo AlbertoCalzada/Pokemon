@@ -51,9 +51,7 @@ namespace Pokemon
         }
         public void AddItem(Item item, int add) //Función para añadir una cantidad determinada de un objeto.
         {
-            add = io.AskNumber();
             item.AddQuantity(add);
-
         }
         public void RemoveItem(Item item, int add) //Función para eliminar una cantidad determinada de un objeto.
         {
