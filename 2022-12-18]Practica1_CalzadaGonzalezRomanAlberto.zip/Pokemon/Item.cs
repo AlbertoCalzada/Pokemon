@@ -35,7 +35,7 @@ namespace Pokemon
         
         public void AddQuantity(int add)
         {
-            quantity = quantity+add;
+            quantity = quantity + add;
         }
         public void RemoveQuantity(int add)
         {

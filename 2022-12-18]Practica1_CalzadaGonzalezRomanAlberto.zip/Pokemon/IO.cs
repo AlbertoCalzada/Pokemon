@@ -27,6 +27,16 @@ namespace Pokemon
             Console.WriteLine();
         }
 
+        public void SlowWriteWithOutSpace(string sentence) //Función para escribir letra a letra en las opciones cambiadas al color mostrado posteriormente.
+        {
+            for (int i = 0; i < sentence.Length; ++i)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(sentence[i]);
+                Thread.Sleep(0);
+            }
+        }
+
         public string ReadLine() //Función para  un string como valor a introducir por el usuario.
         {
             return Console.ReadLine();

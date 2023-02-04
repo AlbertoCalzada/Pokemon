@@ -185,7 +185,7 @@ namespace Pokemon
                         ShowShopItem();
                         io.SlowWrite("¿Qué objeto quieres comprar?");
                         int itemOption = 0;
-                        option = io.OptionCorrect(1, 22, itemOption);
+                        itemOption = io.OptionCorrect(1, 22, itemOption);
                         io.SlowWrite("¿Cuantas unidades quieres comprar?");
                         int numberOption = 0;
                         numberOption = io.OptionCorrect(1, 10, numberOption);
@@ -875,31 +875,138 @@ namespace Pokemon
             return listItem;
         }
         public void ShowShopItem()
-        {           
-            for(int i=0;i< listItem.Length; ++i)
+        {
+            io.Space();
+            for (int i=0;i< listItem.Length; ++i)
             {
                 if (listItem[i] != null)
                 {
-                    io.SlowWrite("\t"+(i+1)+". "+ listItem[i].GetName()+" x 1 " + "\n \t Coste: " + listItem[i].GetBuyPricePokedollars()+ " Pokedóllares.");
-                    io.Space();
+                    string itemPriceString = ("\t" + (i + 1) + ". " + listItem[i].GetName() + " x 1 " + "Coste: " + listItem[i].GetBuyPricePokedollars() + " Pokedóllares.");
+                    if (itemPriceString.Length < 40)
+                    {
+                        io.SlowWriteWithOutSpace(itemPriceString + "   ");
+                    }
+                    else
+                    {
+                        io.SlowWriteWithOutSpace(itemPriceString);
+                    }
+
+                    if ((i + 1) % 2 == 0)
+                    {
+                        io.SlowWriteWithOutSpace("\n");
+                        io.Space();
+                    }
                 }              
             }        
         }
-        public void BuyItem(int item, int numberItems) //Completar este codigo para meterlo en el bolsillo correspondiente segun el ITEM.
+        //public void BuyItem(int item, int numberItems) //Completar este codigo para meterlo en el bolsillo correspondiente segun el ITEM.
+        //{
+        //    if (trainer.GetPokeDollars() >= (listItem[item - 1].GetBuyPricePokedollars() * numberItems))
+        //    {
+        //        io.SlowWrite("Has comprado " + numberItems + " unidades de " + listItem[item - 1].GetName());
+        //        bag.AddItem(listItem[item - 1], numberItems);
+        //    }
+        //    else
+        //    {
+        //        io.SlowWrite("No tienes dinero suficiente.");
+        //    }
+        //}
+        public void BuyItem(int item, int numberItems)
         {
-            if (trainer.GetPokeDollars() >= (listItem[item].GetBuyPricePokedollars() * numberItems))
+            if (trainer.GetPokeDollars() >= (listItem[item - 1].GetBuyPricePokedollars() * numberItems))
             {
-                io.SlowWrite("Has comprado " + numberItems + " unidades de " + listItem[item].GetName());
-
-                bag.AddItem(listItem[item], numberItems);
-                trainer.GetBag().GetItems()[0][0].AddQuantity(numberItems);
-
+                int itemIndex = item - 1;
+                Item currentItem = listItem[itemIndex];
+                int pocketIndex = GetPocketIndex(currentItem);
+                if (pocketIndex >= 0)
+                {
+                    Item[][] items = trainer.GetBag().GetItems();
+                    for (int j = 0; j < items[pocketIndex].Length; j++)
+                    {
+                        if (items[pocketIndex][j] != null && items[pocketIndex][j].GetName()==(currentItem.GetName()))
+                        {
+                            items[pocketIndex][j].AddQuantity(numberItems);
+                            io.SlowWrite("Has comprado " + numberItems + " unidades de " + items[pocketIndex][j].GetName());
+                            break;
+                        }
+                        else if (items[pocketIndex][j] == null)
+                        {
+                            items[pocketIndex][j] = currentItem;
+                            items[pocketIndex][j].AddQuantity(numberItems);
+                            io.SlowWrite("Has comprado " + numberItems + " unidades de " + items[pocketIndex][j].GetName());
+                            break;
+                        }
+                    }
+                }
             }
             else
             {
                 io.SlowWrite("No tienes dinero suficiente.");
             }
         }
+        public int GetPocketIndex(Item item)
+        {
+            if (item is Medicine)
+            {
+                return 0;
+            }
+            else if (item is PokeballItem)
+            {
+                return 1;
+            }
+            else if (item is BattleItem)
+            {
+                return 2;
+            }
+            else if (item is MT)
+            {
+                return 3;
+            }
+            else if (item is Treasures)
+            {
+                return 4;
+            }
+            else if (item is EvolutionStone)
+            {
+                return 5;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+        public int DeterminePocketIndex(string itemName)
+        {
+            if (itemName == "Poción" || itemName == "Elixir")
+            {
+                return 0;
+            }
+            else if (itemName == "Pokeball" || itemName == "Superball")
+            {
+                return 1;
+            }
+            else if (itemName == "Pokedoll")
+            {
+                return 2;
+            }
+            else if (itemName == "MT Mega Puño" || itemName == "MT Golpe Cuerpo")
+            {
+                return 3;
+            }
+            else if (itemName == "Seta Grande" || itemName == "Perla")
+            {
+                return 4;
+            }
+            else if (itemName == "Piedra Agua")
+            {
+                return 5;
+            }
+            else
+            {
+                return 6;
+            }
+        }
+
     }
 }
 
