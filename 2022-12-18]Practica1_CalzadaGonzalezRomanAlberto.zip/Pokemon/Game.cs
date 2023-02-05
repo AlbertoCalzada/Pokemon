@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web;
 
 namespace Pokemon
 {
@@ -390,25 +391,32 @@ namespace Pokemon
             switch (pocketOption)
             {
                 case 1:
-                    ShowPocketBagInfo(0);                  
+                    ShowPocketBagInfo(0);
+                    MenuBagUses(0);
                     break;
                 case 2:
                     ShowPocketBagInfo(1);
+                    MenuBagUses(1);
                     break;
                 case 3:
                     ShowPocketBagInfo(2);
+                    MenuBagUses(2);
                     break;
                 case 4:
                     ShowPocketBagInfo(3);
+                    MenuBagUses(3);
                     break;
                 case 5:
                     ShowPocketBagInfo(4);
+                    MenuBagUses(4);
                     break;
                 case 6:
                     ShowPocketBagInfo(5);
+                    MenuBagUses(5);
                     break;
                 case 7:
                     ShowPocketBagInfo(6);
+                    MenuBagUses(6);
                     break;
                 case 8:
                     io.SlowWrite("Has salido de la Mochila.");
@@ -422,7 +430,7 @@ namespace Pokemon
                 if (trainer.GetBag().GetItems()[numPocket][i] != null)
                 {
                     io.Space();
-                    io.ColorYellow(trainer.GetBag().GetItems()[numPocket][i].GetName() + " x " + trainer.GetBag().GetItems()[numPocket][i].GetQuantity());
+                    io.ColorYellow("\t"+(i+1)+". "+trainer.GetBag().GetItems()[numPocket][i].GetName() + " x " + trainer.GetBag().GetItems()[numPocket][i].GetQuantity());
                                       
                 }
                 else if(trainer.GetBag().GetItems()[numPocket][0] == null)
@@ -432,10 +440,10 @@ namespace Pokemon
                     break;
                 }              
             }
-            MenuBagUses(numPocket);
+            
             
         } 
-        public void MenuBagUses(int numPocket)
+        public void MenuBagUses(int numPocket) //Menu para usar los items fuera de combate.
         {
             for (int i = 0; i < trainer.GetBag().GetItems()[numPocket].Length; ++i)
             {
@@ -453,7 +461,33 @@ namespace Pokemon
                         pocketOption = io.OptionCorrect(1, 4, pocketOption);
                         switch (pocketOption)
                         {
-                            case 1:                               
+                            case 1:
+                                ShowPocketBagInfo(numPocket);
+                                io.SlowWrite("Elija el item que desea usar : ");
+                                int chosenItem = 0;
+                                int max = 0;
+                                for (int j = 0; j < trainer.GetBag().GetItems()[numPocket].Length; ++j) //Para que me de opción a elegir unicamente entre los Items que tengo
+                                {
+                                    if (trainer.GetBag().GetItems()[numPocket][j] != null)
+                                    {
+                                        max = j + 1;
+                                    }
+                                }
+                                chosenItem = io.OptionCorrect(1, max, chosenItem);
+                                ShowPokemonInfo();
+                                io.SlowWrite("Elija el Pokémon sobre el que desea usar el objeto: ");
+                                max = 0;
+                                for (int j = 0; j < packPokemon.Length; ++j) //Para que me de opción a elegir unicamente entre los Pokémon que tengo
+                                {
+                                    if (packPokemon[j] != null)
+                                    {
+                                        max = j + 1;
+                                    }
+                                }
+                                int chosenPokemon = 0;
+                                chosenPokemon = io.OptionCorrect(1, max, chosenPokemon);
+                                trainer.GetBag().GetItems()[numPocket][i].Utility(packPokemon[chosenPokemon - 1]);
+                                io.SlowWrite("Has usado " + trainer.GetBag().GetItems()[numPocket][i].GetName() + " en " + packPokemon[chosenPokemon - 1].GetNickName() + " con éxito. ");
                                 break;
                             case 2:
                                 break;
@@ -821,25 +855,25 @@ namespace Pokemon
             return movements;
         }
 
-        public Bag[] LoadItemList() //Cargar objetos por defectos en la mochila.
-        {
-            Elixirs elixir = new Elixirs(); //TODO ESTO ES DE PRUEBA
-            Bag[] bag2 = new Bag[999]; 
-            bag.AddItem(elixir.AssignEther(), 1);
-            bag.AddItem(elixir.AssignMaxEther(), 1);
-            bag.AddItem(elixir.AssignElixir(), 1);
-            bag.AddItem(elixir.AssignMaxElixir(), 1);
-            bag.Equals(bag2);
-            return bag2;
-        }
+        //public Bag[] LoadItemList() //Cargar objetos por defectos en la mochila.
+        //{
+        //    Elixirs elixir = new Elixirs(); //TODO ESTO ES DE PRUEBA
+        //    Bag[] bag2 = new Bag[999]; 
+        //    bag.AddItem(elixir.AssignEther(), 1);
+        //    bag.AddItem(elixir.AssignMaxEther(), 1);
+        //    bag.AddItem(elixir.AssignElixir(), 1);
+        //    bag.AddItem(elixir.AssignMaxElixir(), 1);
+        //    bag.Equals(bag2);
+        //    return bag2;
+        //}
 
-        public void UseItem(IndividualPokemon pokemon)
-        {
-            Potion pocion = new Potion("MaxPocion", 100, 100, 100, 100, 100, 100);
-            pocion.Utility(pokemon);
-            Elixirs Ether = new Elixirs("Ether", 100, 100, 100, 100, 100, 100);
-            Ether.Utility(pokemon);
-        }
+        //public void UseItem(IndividualPokemon pokemon)
+        //{
+        //    Potion pocion = new Potion("MaxPocion", 100, 100, 100, 100, 100, 100);
+        //    pocion.Utility(pokemon);
+        //    Elixirs Ether = new Elixirs("Ether", 100, 100, 100, 100, 100, 100);
+        //    Ether.Utility(pokemon);
+        //}
 
         public Item[] GiveItemShop() //Función para mostrar los items de la tienda.
         {
@@ -898,42 +932,29 @@ namespace Pokemon
                     }
                 }              
             }        
-        }
-        //public void BuyItem(int item, int numberItems) //Completar este codigo para meterlo en el bolsillo correspondiente segun el ITEM.
-        //{
-        //    if (trainer.GetPokeDollars() >= (listItem[item - 1].GetBuyPricePokedollars() * numberItems))
-        //    {
-        //        io.SlowWrite("Has comprado " + numberItems + " unidades de " + listItem[item - 1].GetName());
-        //        bag.AddItem(listItem[item - 1], numberItems);
-        //    }
-        //    else
-        //    {
-        //        io.SlowWrite("No tienes dinero suficiente.");
-        //    }
-        //}
-        public void BuyItem(int item, int numberItems)
+        }   
+        public void BuyItem(int item, int numberItems) //Comprar items y meterlo en el bolsillo correspondiente.
         {
             if (trainer.GetPokeDollars() >= (listItem[item - 1].GetBuyPricePokedollars() * numberItems))
             {
-                int itemIndex = item - 1;
-                Item currentItem = listItem[itemIndex];
-                int pocketIndex = GetPocketIndex(currentItem);
-                if (pocketIndex >= 0)
+                //Item currentItem = listItem[item - 1];
+                int pocket = GetPocket(listItem[item - 1]);
+                if (pocket >= 0)
                 {
                     Item[][] items = trainer.GetBag().GetItems();
-                    for (int j = 0; j < items[pocketIndex].Length; j++)
+                    for (int i = 0; i < items[pocket].Length; ++i)
                     {
-                        if (items[pocketIndex][j] != null && items[pocketIndex][j].GetName()==(currentItem.GetName()))
+                        if (items[pocket][i] != null && items[pocket][i].GetName()==(listItem[item - 1].GetName()))
                         {
-                            items[pocketIndex][j].AddQuantity(numberItems);
-                            io.SlowWrite("Has comprado " + numberItems + " unidades de " + items[pocketIndex][j].GetName());
+                            items[pocket][i].AddQuantity(numberItems);
+                            io.SlowWrite("Has comprado " + numberItems + " unidades de " + items[pocket][i].GetName());
                             break;
                         }
-                        else if (items[pocketIndex][j] == null)
+                        else if (items[pocket][i] == null)
                         {
-                            items[pocketIndex][j] = currentItem;
-                            items[pocketIndex][j].AddQuantity(numberItems);
-                            io.SlowWrite("Has comprado " + numberItems + " unidades de " + items[pocketIndex][j].GetName());
+                            items[pocket][i] = listItem[item - 1];
+                            items[pocket][i].AddQuantity(numberItems);
+                            io.SlowWrite("Has comprado " + numberItems + " unidades de " + items[pocket][i].GetName());
                             break;
                         }
                     }
@@ -944,7 +965,7 @@ namespace Pokemon
                 io.SlowWrite("No tienes dinero suficiente.");
             }
         }
-        public int GetPocketIndex(Item item)
+        public int GetPocket(Item item) //Comprobar a que bolsillo pertenece un item.
         {
             if (item is Medicine)
             {
@@ -972,10 +993,10 @@ namespace Pokemon
             }
             else
             {
-                return -1;
+                return 6;
             }
         }
-        public int DeterminePocketIndex(string itemName)
+        public int DeterminePocket(string itemName)
         {
             if (itemName == "Poción" || itemName == "Elixir")
             {
