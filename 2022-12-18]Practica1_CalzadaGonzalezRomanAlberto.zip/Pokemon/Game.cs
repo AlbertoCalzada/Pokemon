@@ -486,8 +486,8 @@ namespace Pokemon
                                 }
                                 int chosenPokemon = 0;
                                 chosenPokemon = io.OptionCorrect(1, max, chosenPokemon);
-                                trainer.GetBag().GetItems()[numPocket][i].Utility(packPokemon[chosenPokemon - 1]);
-                                io.SlowWrite("Has usado " + trainer.GetBag().GetItems()[numPocket][i].GetName() + " en " + packPokemon[chosenPokemon - 1].GetNickName() + " con éxito. ");
+                                trainer.GetBag().GetItems()[numPocket][chosenItem-1].Utility(packPokemon[chosenPokemon - 1]);
+                                io.SlowWrite("Has usado " + trainer.GetBag().GetItems()[numPocket][chosenItem-1].GetName() + " en " + packPokemon[chosenPokemon - 1].GetNickName() + " con éxito. ");
                                 break;
                             case 2:
                                 break;
