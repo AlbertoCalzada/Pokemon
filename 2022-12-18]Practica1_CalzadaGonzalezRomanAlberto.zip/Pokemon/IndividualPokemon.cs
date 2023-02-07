@@ -188,7 +188,5 @@ namespace Pokemon
             }
             return randomMovements;
         }
-
-
     }
 }

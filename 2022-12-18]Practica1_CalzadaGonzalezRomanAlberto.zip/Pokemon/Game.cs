@@ -182,16 +182,37 @@ namespace Pokemon
                         ShowBagInfo();
                         break;
                     case 7:
-                        io.SlowWrite("Estos son los objetos que puedes comprar: ");
-                        ShowShopItem();
-                        io.SlowWrite("¿Qué objeto quieres comprar?");
-                        int itemOption = 0;
-                        itemOption = io.OptionCorrect(1, 22, itemOption);
-                        io.SlowWrite("¿Cuantas unidades quieres comprar?");
-                        int numberOption = 0;
-                        numberOption = io.OptionCorrect(1, 10, numberOption);
-                        BuyItem(itemOption, numberOption);
-                        break;
+                        io.SlowWrite("¿Qué quieres hacer?");
+                        io.ColorGreen("\t 1. Comprar.");
+                        io.ColorRed("\t 2. Vender.");
+                        io.ColorBlue("\t 3. Salir.");
+                        int answerShop = 0;
+                        answerShop = io.OptionCorrect(1, 3, answerShop);
+                        if(answerShop == 1)
+                        {
+                            io.SlowWrite("Estos son los objetos que puedes comprar: ");
+                            ShowShopItem();
+                            io.SlowWrite("¿Qué objeto quieres comprar?");
+                            int itemOption = 0;
+                            itemOption = io.OptionCorrect(1, 22, itemOption);
+                            io.SlowWrite("¿Cuantas unidades quieres comprar?");
+                            int numberOption = 0;
+                            numberOption = io.OptionCorrect(1, 10, numberOption);
+                            BuyItem(itemOption, numberOption);
+                            break;
+                        }
+                        else if(answerShop==2)
+                        {
+                            io.SlowWrite("Estos son los objetos que puedes vender: ");
+                            SellItem();
+                            break;
+                        }
+                        else
+                        {
+                            io.SlowWrite("Has salido de la tienda");
+                            break;
+                        }
+                       
                     case 8:
                         io.SlowWrite("¿Estás seguro de que quieres salir del juego? Se perderán todos los datos hasta ahora. ");
                         io.ColorGreen(" 1. Si.");
@@ -439,10 +460,27 @@ namespace Pokemon
                     io.SlowWrite("No tienes ningún objeto en este bolsillo.");
                     break;
                 }              
+            }              
+        }
+        public void ShowPocketBagInfoWithPrice(int numPocket) //Función para mostrar los bolsillos en la mochila fuera del combate con el precio
+        {
+            for (int i = 0; i < trainer.GetBag().GetItems()[numPocket].Length; ++i)
+            {
+                if (trainer.GetBag().GetItems()[numPocket][i] != null)
+                {
+                    io.Space();
+                    io.ColorYellow("\t" + (i + 1) + ". " + trainer.GetBag().GetItems()[numPocket][i].GetName() + " x " + trainer.GetBag().GetItems()[numPocket][i].GetQuantity()
+                        +" - Coste de venta: "+ trainer.GetBag().GetItems()[numPocket][i].GetSellPricePokedollars()+" Pokedolláres.");
+
+                }
+                //else if (trainer.GetBag().GetItems()[numPocket][i] == null)
+                //{
+                //    io.Space();
+                //    io.SlowWrite("No tienes ningún objeto en este bolsillo.");
+                //    break;
+                //}
             }
-            
-            
-        } 
+        }
         public void MenuBagUses(int numPocket) //Menu para usar los items fuera de combate.
         {
             for (int i = 0; i < trainer.GetBag().GetItems()[numPocket].Length; ++i)
@@ -938,32 +976,133 @@ namespace Pokemon
             if (trainer.GetPokeDollars() >= (listItem[item - 1].GetBuyPricePokedollars() * numberItems))
             {
                 //Item currentItem = listItem[item - 1];
-                int pocket = GetPocket(listItem[item - 1]);
-                if (pocket >= 0)
+                io.SlowWrite("¿Estás seguro que quieres comprar " + numberItems + " unidades de " + listItem[item - 1].GetName());
+                io.ColorGreen("\t 1. Si.");
+                io.ColorRed("\t 2. No.");
+                int option = 0;
+                option = io.OptionCorrect(1, 2, option);
+                if (option == 1)
                 {
-                    Item[][] items = trainer.GetBag().GetItems();
-                    for (int i = 0; i < items[pocket].Length; ++i)
+                    int pocket = GetPocket(listItem[item - 1]);
+                    if (pocket >= 0)
                     {
-                        if (items[pocket][i] != null && items[pocket][i].GetName()==(listItem[item - 1].GetName()))
+                        Item[][] items = trainer.GetBag().GetItems();
+                        for (int i = 0; i < items[pocket].Length; ++i)
                         {
-                            items[pocket][i].AddQuantity(numberItems);
-                            io.SlowWrite("Has comprado " + numberItems + " unidades de " + items[pocket][i].GetName());
-                            break;
+                            if (items[pocket][i] != null && items[pocket][i].GetName() == (listItem[item - 1].GetName()))
+                            {
+                                items[pocket][i].AddQuantity(numberItems);
+                                io.SlowWrite("Has comprado " + numberItems + " unidades de " + items[pocket][i].GetName());
+                                break;
+                            }
+                            else if (items[pocket][i] == null)
+                            {
+                                items[pocket][i] = listItem[item - 1];
+                                items[pocket][i].AddQuantity(numberItems);
+                                io.SlowWrite("Has comprado " + numberItems + " unidades de " + items[pocket][i].GetName());
+                                break;
+                            }
                         }
-                        else if (items[pocket][i] == null)
-                        {
-                            items[pocket][i] = listItem[item - 1];
-                            items[pocket][i].AddQuantity(numberItems);
-                            io.SlowWrite("Has comprado " + numberItems + " unidades de " + items[pocket][i].GetName());
-                            break;
-                        }
+                        trainer.SetPokeDollars(trainer.GetPokeDollars() - listItem[item - 1].GetBuyPricePokedollars() * numberItems);
+                    }
+                    else
+                    {
+                        io.SlowWrite("Has salido del Menú de compra");
                     }
                 }
+                
             }
             else
             {
                 io.SlowWrite("No tienes dinero suficiente.");
             }
+            
+        }
+
+        public void SellItem() //Función para vender en la tienda
+        {
+            io.ColorYellow("\t 1. Botiquín.");
+            io.ColorRed("\t 2. Pokéballs.");
+            io.ColorGreen("\t 3. Objetos de Combate.");
+            io.ColorMagenta("\t 4. Tesoros.");
+            io.ColorYellow("\t 5. Objetos Clave.");
+            io.ColorBlue("\t 6. Otros.");
+            io.ColorBlue("\t 7. Salir.");
+            int pocketOption = 0;
+            pocketOption = io.OptionCorrect(1, 8, pocketOption);
+            switch (pocketOption)
+            {
+                case 1:
+                    ShowPocketBagInfoWithPrice(0);
+                    MenuSell(0);
+                    break;
+                case 2:
+                    ShowPocketBagInfoWithPrice(1);
+                    MenuSell(1);
+                    break;
+                case 3:
+                    ShowPocketBagInfoWithPrice(2);
+                    MenuSell(2);
+                    break;
+                case 4:
+                    ShowPocketBagInfoWithPrice(4);
+                    MenuSell(4);
+                    break;
+                case 5:
+                    ShowPocketBagInfoWithPrice(5);
+                    MenuSell(5);
+                    break;
+                case 6:
+                    ShowPocketBagInfoWithPrice(6);
+                    MenuSell(6);
+                    break;
+                case 7:
+                    io.SlowWrite("Has salido de la Mochila.");
+                    break;
+            }
+        }
+
+        public void MenuSell(int numPocket)
+        {
+            io.SlowWrite("¿Quieres vender algún objeto?");
+            io.ColorGreen("\t 1. Si.");
+            io.ColorRed("\t 2. No.");
+            int option = 0;
+            option = io.OptionCorrect(1, 2, option);
+            if (option == 1)
+            {
+                io.SlowWrite("Elija el item que desea vender: ");
+                int chosenItem = 0;
+                int max = 0;
+                for (int j = 0; j < trainer.GetBag().GetItems()[numPocket].Length; ++j) //Para que me de opción a elegir unicamente entre los Items que tengo
+                {
+                    if (trainer.GetBag().GetItems()[numPocket][j] != null)
+                    {
+                        max = j + 1;
+                    }
+                }
+                chosenItem = io.OptionCorrect(1, max, chosenItem);
+                io.SlowWrite("¿Cuantas unidades quieres vender?: ");
+                int numItems = 0;
+                numItems = io.OptionCorrect(1, trainer.GetBag().GetItems()[numPocket][chosenItem - 1].GetQuantity(), numItems);
+                if(numItems == 1)
+                {
+                    io.SlowWrite("Has vendido " + numItems + " unidad de " + trainer.GetBag().GetItems()[numPocket][chosenItem - 1].GetName()+".");
+                    io.SlowWrite("Has ganado " + trainer.GetBag().GetItems()[numPocket][chosenItem - 1].GetSellPricePokedollars() * numItems + " Pokedolláres.");
+                }
+                else
+                {
+                    io.SlowWrite("Has vendido " + numItems + " unidades de " + trainer.GetBag().GetItems()[numPocket][chosenItem - 1].GetName() + ".");
+                    io.SlowWrite("Has ganado " + trainer.GetBag().GetItems()[numPocket][chosenItem - 1].GetSellPricePokedollars() * numItems + " Pokedolláres.");
+                }
+                trainer.SetPokeDollars(trainer.GetPokeDollars() + trainer.GetBag().GetItems()[numPocket][chosenItem - 1].GetSellPricePokedollars() * numItems);
+                trainer.GetBag().GetItems()[numPocket][chosenItem - 1].RemoveQuantity(numItems);
+                if(trainer.GetBag().GetItems()[numPocket][chosenItem - 1].GetQuantity() == 0)
+                {
+                    trainer.GetBag().GetItems()[numPocket][chosenItem - 1] = null;  //Completar
+                }
+            }
+
         }
         public int GetPocket(Item item) //Comprobar a que bolsillo pertenece un item.
         {

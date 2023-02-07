@@ -20,6 +20,11 @@ namespace Pokemon
             if (name == "Ether")
             {
                 io.SlowWrite("¿De qué movimiento quieres recuperar sus PP?");
+                for (int i = 0; i < 4; ++i)
+                {
+                    io.SlowWrite("\t" + (i + 1) + ". " + (pokemon.GetMovements()[i]).GetName() + " " + (pokemon.GetMovements()[i]).GetPp() + "/" + (pokemon.GetMovements()[i]).GetPpMax()
+                        + " PS");
+                }
                 int ppMovement = io.AskNumber();
                 pokemon.GetMovements()[ppMovement-1].AddPp(10);
                 if (pokemon.GetMovements()[ppMovement - 1].GetPp()>=pokemon.GetMovements()[ppMovement - 1].GetPpMax())
