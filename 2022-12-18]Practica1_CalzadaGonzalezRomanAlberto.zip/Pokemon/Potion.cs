@@ -49,10 +49,7 @@ namespace Pokemon
                     pokemon.SetCurrentHP(pokemon.GetHpmax());
                 }
             }
-        }
-
-
-       
+        }  
         public Potion AssignPotion()
         {
             Potion Pocion = new Potion("Pocion", 100, 100, 100, 100, 100, 100);

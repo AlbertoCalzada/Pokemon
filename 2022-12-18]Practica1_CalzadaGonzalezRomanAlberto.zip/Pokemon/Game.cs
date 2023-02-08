@@ -276,29 +276,37 @@ namespace Pokemon
                         {
                             if (packPokemon[0].GetSpeed() > rivalPokemon[randomenemy].GetSpeed())
                             {
-                                if(CheckUseMovement(packPokemon[0].GetMovements()[movementOption - 1]))
+                                while(CheckUseMovement(packPokemon[0].GetMovements()[movementOption - 1]))
                                 {
-                                    Fight();
+                                    ShowMovements();
+                                    movementOption = 0;
+                                    movementOption = io.OptionCorrect(1, 4, movementOption);
                                 }
                                 DmgFight(packPokemon[0], rivalPokemon[randomenemy], packPokemon[0].GetMovements()[movementOption - 1]);
+                                CheckLife(rivalPokemon[randomenemy]);
                                 io.SlowWrite("Has atacado a " + rivalPokemon[randomenemy].GetName() +" usando "+ packPokemon[0].GetMovements()[movementOption-1].GetName() + ", y ahora tiene " + rivalPokemon[randomenemy].GetCurrentHP() + " puntos de vida.");
                                 if (rivalPokemon[randomenemy].GetCurrentHP() > 0)
                                 {
                                     DmgFight(rivalPokemon[randomenemy], packPokemon[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
+                                    CheckLife(packPokemon[0]);
                                     io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + packPokemon[0].GetName() + " usando " + rivalPokemon[enemymovementOption].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
                                 }
                             }
                             else
                             {
-                                if (CheckUseMovement(packPokemon[0].GetMovements()[movementOption - 1]))
+                                while (CheckUseMovement(packPokemon[0].GetMovements()[movementOption - 1]))
                                 {
-                                    Fight();
+                                    ShowMovements();
+                                    movementOption = 0;
+                                    movementOption = io.OptionCorrect(1, 4, movementOption);
                                 }
                                 DmgFight(rivalPokemon[randomenemy], packPokemon[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
+                                CheckLife(packPokemon[0]);
                                 io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + packPokemon[0].GetName() + " usando " + rivalPokemon[enemymovementOption].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
                                 if (packPokemon[0].GetCurrentHP() > 0)
                                 {
                                     DmgFight(packPokemon[0], rivalPokemon[randomenemy], packPokemon[0].GetMovements()[movementOption - 1]);
+                                    CheckLife(rivalPokemon[randomenemy]);
                                     io.SlowWrite("Has atacado a " + rivalPokemon[randomenemy].GetName() + " usando " + packPokemon[0].GetMovements()[movementOption-1].GetName() + ", y ahora tiene " + rivalPokemon[randomenemy].GetCurrentHP() + " puntos de vida.");
                                 }
                             }
@@ -307,29 +315,37 @@ namespace Pokemon
                         {
                             if (packPokemon[0].GetSpeed() > rivalPokemon[randomenemy].GetSpeed())
                             {
-                                if (CheckUseMovement(packPokemon[0].GetMovements()[movementOption - 1]))
+                                while (CheckUseMovement(packPokemon[0].GetMovements()[movementOption - 1]))
                                 {
-                                    Fight();
+                                    ShowMovements();
+                                    movementOption = 0;
+                                    movementOption = io.OptionCorrect(1, 4, movementOption);
                                 }
                                 DmgFight(packPokemon[0], rivalPokemon[randomenemy], packPokemon[0].GetMovements()[movementOption - 1]);
+                                CheckLife(rivalPokemon[randomenemy]);
                                 io.SlowWrite("Has atacado a " + rivalPokemon[randomenemy].GetName() + " usando " + packPokemon[0].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + rivalPokemon[randomenemy].GetCurrentHP() + " puntos de vida.");
                                 if (rivalPokemon[randomenemy].GetCurrentHP() > 0)
                                 {
                                     DmgFight(rivalPokemon[randomenemy], packPokemon[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
+                                    CheckLife(packPokemon[0]);
                                     io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + packPokemon[0].GetName() + " usando " + rivalPokemon[enemymovementOption].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
                                 }
                             }
                             else
                             {
-                                if (CheckUseMovement(packPokemon[0].GetMovements()[movementOption - 1]))
+                                while (CheckUseMovement(packPokemon[0].GetMovements()[movementOption - 1]))
                                 {
-                                    Fight();
+                                    ShowMovements();
+                                    movementOption = 0;
+                                    movementOption = io.OptionCorrect(1, 4, movementOption);
                                 }
                                 DmgFight(rivalPokemon[enemymovementOption], packPokemon[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
+                                CheckLife(packPokemon[0]);
                                 io.SlowWrite(rivalPokemon[enemymovementOption].GetName() + " ha atacado a " + packPokemon[0].GetName() + " usando " + rivalPokemon[enemymovementOption].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
                                 if (packPokemon[0].GetCurrentHP() > 0)
                                 {
                                     DmgFight(packPokemon[0], rivalPokemon[enemymovementOption], packPokemon[0].GetMovements()[movementOption - 1]);
+                                    CheckLife(rivalPokemon[enemymovementOption]);
                                     io.SlowWrite("Has atacado a " + rivalPokemon[enemymovementOption].GetName() + " usando " + packPokemon[0].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + rivalPokemon[enemymovementOption].GetCurrentHP() + " puntos de vida.");
                                 }
                             }
@@ -473,12 +489,20 @@ namespace Pokemon
                         +" - Coste de venta: "+ trainer.GetBag().GetItems()[numPocket][i].GetSellPricePokedollars()+" Pokedolláres.");
 
                 }
-                //else if (trainer.GetBag().GetItems()[numPocket][i] == null)
-                //{
-                //    io.Space();
-                //    io.SlowWrite("No tienes ningún objeto en este bolsillo.");
-                //    break;
-                //}
+                else if (trainer.GetBag().GetItems()[numPocket][i] == null)
+                {
+                    io.Space();
+                    io.SlowWrite("No tienes ningún objeto en este bolsillo.");
+                    break;
+                }
+            }
+        }
+
+        public void CheckLife(IndividualPokemon pokemon)
+        {
+            if (pokemon.GetCurrentHP() < 0)
+            {
+                pokemon.SetCurrentHP(0);
             }
         }
         public void MenuBagUses(int numPocket) //Menu para usar los items fuera de combate.
@@ -530,6 +554,18 @@ namespace Pokemon
                             case 2:
                                 break;
                             case 3:
+                                io.SlowWrite("Elija el item que desea tirar : ");
+                                chosenItem = 0;
+                                max = 0;
+                                for (int j = 0; j < trainer.GetBag().GetItems()[numPocket].Length; ++j) //Para que me de opción a elegir unicamente entre los Items que tengo
+                                {
+                                    if (trainer.GetBag().GetItems()[numPocket][j] != null)
+                                    {
+                                        max = j + 1;
+                                    }
+                                }
+                                chosenItem = io.OptionCorrect(1, max, chosenItem);
+                                trainer.GetBag().GetItems()[numPocket][chosenItem - 1].RemoveQuantity(1);
                                 break;
                             case 4:
                                 break;
@@ -889,7 +925,7 @@ namespace Pokemon
             movements[3] = new Movements("Special", "Hoja afilada", 4, 25, 45, 100, 0);
             movements[4] = new Movements("Physical", "Arañazo", 5, 35, 40, 100, 0);
             movements[5] = new Movements("Special", "Ascuas", 6, 25, 40, 100, 0);
-            movements[6] = new Movements("Special", "Lanzallamas", 7, 15, 90, 100, 0);
+            movements[6] = new Movements("Special", "Lanzallamas", 7, 4, 90, 100, 0);
             return movements;
         }
 
