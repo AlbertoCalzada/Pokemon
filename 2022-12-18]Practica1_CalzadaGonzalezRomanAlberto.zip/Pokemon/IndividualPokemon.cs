@@ -17,6 +17,7 @@ namespace Pokemon
         string eo;
         string name;
         bool hasEscaped;
+        bool isCaptured;
 
         public IndividualPokemon(SpeciesPokemon species, Movements[] movements) //Constructor que recibe los atributos y adquiere con los valores de la clase SpeciesPokemon.
         {
@@ -28,9 +29,19 @@ namespace Pokemon
             this.eo = " ";
             this.movements = Assign(movements);    
             this.hasEscaped = false;
+            this.isCaptured = false;
         }
         
         //Métodos Getters y Setters de cada atributo.
+        public bool GetIsCaptured()
+        {
+            return isCaptured;
+        }
+
+        public void SetIsCaptured(bool value)
+        {
+            this.isCaptured = value;
+        }
         public string GetNickName()
         {
             return nickName;

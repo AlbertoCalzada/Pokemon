@@ -35,7 +35,7 @@ namespace Pokemon
         }
 
         public override void Utility(IndividualPokemon pokemon)
-        {
+        {           
             double catchRateModified = ((3 * pokemon.GetHpmax() - 2 * pokemon.GetCurrentHP()) *4096* pokemon.GetCaptureRatio() * ratioCapture) / (3 * pokemon.GetHpmax());
             int randomNumber;
             Random rand= new Random();
@@ -44,11 +44,12 @@ namespace Pokemon
                 randomNumber = rand.Next(0, 65535);
                 if (randomNumber >= catchRateModified)
                 {
-                    io.SlowWrite("El Pokémon ha escapado.");
+                    io.SlowWrite("Lanzando " + name + " sobre " + pokemon.GetNickName() + " . . .");
+                    io.SlowWrite(pokemon.GetNickName()+" ha escapado.");
                     return;
                 }
             }
-            io.SlowWrite("Has capturado al Pokémon con éxito.");           
+            io.SlowWrite("Has capturado a " + pokemon.GetNickName() + " con éxito.");  
             //Mandar a la funcion de capturado del game.
         }
         public override bool Buy()
@@ -75,7 +76,7 @@ namespace Pokemon
         }
         public PokeballItem AssignUltraball()
         {
-            PokeballItem P1 = new PokeballItem("Ultraball", 100, 100, 100, 100, 100, 100,3);
+            PokeballItem P1 = new PokeballItem("Ultraball", 100, 100, 100, 100, 100, 100, 3);
             P1.AddQuantity(1);
             return P1;
         }

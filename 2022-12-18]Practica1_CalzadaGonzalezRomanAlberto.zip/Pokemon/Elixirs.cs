@@ -31,6 +31,7 @@ namespace Pokemon
                 {
                     pokemon.GetMovements()[ppMovement - 1].SetPp(pokemon.GetMovements()[ppMovement - 1].GetPpMax());
                 }
+                io.SlowWrite("Has recuperado 10PP en el movimiento: " + pokemon.GetMovements()[ppMovement - 1].GetName()+ " de tu Pokémon: "+pokemon.GetNickName());
             }
             if (name == "MaxEther")
             {
