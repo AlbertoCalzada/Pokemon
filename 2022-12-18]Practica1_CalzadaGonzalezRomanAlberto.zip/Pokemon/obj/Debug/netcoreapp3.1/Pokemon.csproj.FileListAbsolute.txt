@@ -26,3 +26,17 @@ C:\Users\alber\OneDrive\Escritorio\2022-12-18]Practica1_CalzadaGonzalezRomanAlbe
 C:\Users\alber\OneDrive\Escritorio\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\obj\Debug\netcoreapp3.1\Pokemon.dll
 C:\Users\alber\OneDrive\Escritorio\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\obj\Debug\netcoreapp3.1\Pokemon.pdb
 C:\Users\alber\OneDrive\Escritorio\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\obj\Debug\netcoreapp3.1\Pokemon.genruntimeconfig.cache
+C:\Users\Mañana\Desktop\Pokemon-main (3)\Pokemon-main\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\bin\Debug\netcoreapp3.1\Pokemon.exe
+C:\Users\Mañana\Desktop\Pokemon-main (3)\Pokemon-main\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\bin\Debug\netcoreapp3.1\Pokemon.deps.json
+C:\Users\Mañana\Desktop\Pokemon-main (3)\Pokemon-main\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\bin\Debug\netcoreapp3.1\Pokemon.runtimeconfig.json
+C:\Users\Mañana\Desktop\Pokemon-main (3)\Pokemon-main\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\bin\Debug\netcoreapp3.1\Pokemon.runtimeconfig.dev.json
+C:\Users\Mañana\Desktop\Pokemon-main (3)\Pokemon-main\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\bin\Debug\netcoreapp3.1\Pokemon.dll
+C:\Users\Mañana\Desktop\Pokemon-main (3)\Pokemon-main\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\bin\Debug\netcoreapp3.1\Pokemon.pdb
+C:\Users\Mañana\Desktop\Pokemon-main (3)\Pokemon-main\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\obj\Debug\netcoreapp3.1\Pokemon.csproj.AssemblyReference.cache
+C:\Users\Mañana\Desktop\Pokemon-main (3)\Pokemon-main\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\obj\Debug\netcoreapp3.1\Pokemon.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Mañana\Desktop\Pokemon-main (3)\Pokemon-main\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\obj\Debug\netcoreapp3.1\Pokemon.AssemblyInfoInputs.cache
+C:\Users\Mañana\Desktop\Pokemon-main (3)\Pokemon-main\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\obj\Debug\netcoreapp3.1\Pokemon.AssemblyInfo.cs
+C:\Users\Mañana\Desktop\Pokemon-main (3)\Pokemon-main\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\obj\Debug\netcoreapp3.1\Pokemon.csproj.CoreCompileInputs.cache
+C:\Users\Mañana\Desktop\Pokemon-main (3)\Pokemon-main\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\obj\Debug\netcoreapp3.1\Pokemon.dll
+C:\Users\Mañana\Desktop\Pokemon-main (3)\Pokemon-main\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\obj\Debug\netcoreapp3.1\Pokemon.pdb
+C:\Users\Mañana\Desktop\Pokemon-main (3)\Pokemon-main\2022-12-18]Practica1_CalzadaGonzalezRomanAlberto.zip\Pokemon\obj\Debug\netcoreapp3.1\Pokemon.genruntimeconfig.cache

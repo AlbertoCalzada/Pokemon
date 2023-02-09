@@ -271,7 +271,8 @@ namespace Pokemon
                             int change2 = io.AskNumber();
                             ChangePosition(change2, randomenemy);
                         }
-                        if (packPokemon[0].GetMovements()[movementOption-1].GetPriority()> rivalPokemon[randomenemy].GetMovements()[enemymovementOption].GetPriority())
+
+                        if (packPokemon[0].GetMovements()[movementOption-1].GetPriority() > rivalPokemon[randomenemy].GetMovements()[enemymovementOption].GetPriority())
                         {
                             if (packPokemon[0].GetSpeed() > rivalPokemon[randomenemy].GetSpeed())
                             {
@@ -310,6 +311,7 @@ namespace Pokemon
                                 }
                             }
                         }
+
                         if (packPokemon[0].GetMovements()[movementOption-1].GetPriority() == rivalPokemon[randomenemy].GetMovements()[enemymovementOption].GetPriority())
                         {
                             if (packPokemon[0].GetSpeed() > rivalPokemon[randomenemy].GetSpeed())
@@ -327,7 +329,7 @@ namespace Pokemon
                                 {
                                     DmgFight(rivalPokemon[randomenemy], packPokemon[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
                                     CheckLife(packPokemon[0]);
-                                    io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + packPokemon[0].GetName() + " usando " + rivalPokemon[enemymovementOption].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
+                                    io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + packPokemon[0].GetName() + " usando " + rivalPokemon[randomenemy ].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
                                 }
                             }
                             else
@@ -338,14 +340,14 @@ namespace Pokemon
                                     movementOption = 0;
                                     movementOption = io.OptionCorrect(1, 4, movementOption);
                                 }
-                                DmgFight(rivalPokemon[enemymovementOption], packPokemon[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
+                                DmgFight(rivalPokemon[randomenemy], packPokemon[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
                                 CheckLife(packPokemon[0]);
-                                io.SlowWrite(rivalPokemon[enemymovementOption].GetName() + " ha atacado a " + packPokemon[0].GetName() + " usando " + rivalPokemon[enemymovementOption].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
+                                io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + packPokemon[0].GetName() + " usando " + rivalPokemon[randomenemy].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
                                 if (packPokemon[0].GetCurrentHP() > 0)
                                 {
-                                    DmgFight(packPokemon[0], rivalPokemon[enemymovementOption], packPokemon[0].GetMovements()[movementOption - 1]);
-                                    CheckLife(rivalPokemon[enemymovementOption]);
-                                    io.SlowWrite("Has atacado a " + rivalPokemon[enemymovementOption].GetName() + " usando " + packPokemon[0].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + rivalPokemon[enemymovementOption].GetCurrentHP() + " puntos de vida.");
+                                    DmgFight(packPokemon[0], rivalPokemon[randomenemy], packPokemon[0].GetMovements()[movementOption - 1]);
+                                    CheckLife(rivalPokemon[randomenemy]);
+                                    io.SlowWrite("Has atacado a " + rivalPokemon[randomenemy].GetName() + " usando " + packPokemon[0].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + rivalPokemon[randomenemy].GetCurrentHP() + " puntos de vida.");
                                 }
                             }
                         }
@@ -563,19 +565,20 @@ namespace Pokemon
         {
             for (int i = 0; i < trainer.GetBag().GetItems()[numPocket].Length; ++i)
             {
-                if (trainer.GetBag().GetItems()[numPocket][i] != null)
+                if (trainer.GetBag().GetItems()[numPocket][i].UseItemOutCombat() == true)
                 {
-                    if (trainer.GetBag().GetItems()[numPocket][i].UseItemInCombat() == true)
+                    bool itemIsUsed = false;
+                    while (itemIsUsed == false)
                     {
-                        io.SlowWrite("¿Qué quieres hacer con los objetos?");
-                        io.ColorYellow("\t 1. Usar.");
-                        io.ColorBlue("\t 2. Salir.");
-                        int pocketOption = 0;
-                        pocketOption = io.OptionCorrect(1, 2, pocketOption);
-                        switch (pocketOption)
+                        io.SlowWrite("Quieres usar algún objeto");
+                        io.ColorGreen("Si.");
+                        io.ColorRed("No");
+                        int option = 0;
+                        option = io.OptionCorrect(1, 2, option);
+                        switch (option)
                         {
                             case 1:
-                                io.SlowWrite("Elija el item que desea USAR : ");
+                                io.SlowWrite("Elija el item que desea usar : ");
                                 int chosenItem = 0;
                                 int max = 0;
                                 for (int j = 0; j < trainer.GetBag().GetItems()[numPocket].Length; ++j) //Para que me de opción a elegir unicamente entre los Items que tengo
@@ -586,43 +589,15 @@ namespace Pokemon
                                     }
                                 }
                                 chosenItem = io.OptionCorrect(1, max, chosenItem);
-                                if (numPocket == 1) //Si es una pokeball se usará sobre el rival.
-                                {
-                                    trainer.GetBag().GetItems()[numPocket][chosenItem - 1].Utility(rivalPokemon);
-                                    AddPokemon(randomenemy);
-                                    break;
-                                }
-                                else
-                                {
-                                    ShowPokemonInfo();
-                                    io.SlowWrite("Elija el Pokémon sobre el que desea usar el objeto: ");
-                                    max = 0;
-                                    for (int j = 0; j < packPokemon.Length; ++j) //Para que me de opción a elegir unicamente entre los Pokémon que tengo
-                                    {
-                                        if (packPokemon[j] != null)
-                                        {
-                                            max = j + 1;
-                                        }
-                                    }
-                                    int chosenPokemon = 0;
-                                    chosenPokemon = io.OptionCorrect(1, max, chosenPokemon);
-                                    trainer.GetBag().GetItems()[numPocket][chosenItem - 1].Utility(packPokemon[chosenPokemon - 1]);
-                                    io.SlowWrite("Has usado " + trainer.GetBag().GetItems()[numPocket][chosenItem - 1].GetName() + " en " + packPokemon[chosenPokemon - 1].GetNickName() + " con éxito. ");
-                                    break;
-                                }
-                                
-                            case 2:
-                                io.SlowWrite("Has salido del Menu");
+                                itemIsUsed = true;
                                 break;
-                        }                    
+                            case 2:
+                                break;
+                        }
                     }
-                    else
-                    {
-                        io.SlowWrite("No puedes usar este tipo de objetos en combate.");
-                        break;
-                    }
+                    
                 }
-            }
+            }             
         }
         public void MenuBagUses(int numPocket) //Menu para usar los items fuera de combate.
         {
