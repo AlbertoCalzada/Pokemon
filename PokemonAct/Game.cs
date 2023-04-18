@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PokemonAct;
+using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Pokemon
     class Game
     {
         //Creación de instancias de la clase Io, Random  SpeciesPokemon  IndividialPokemon , Trainer, movimientos, mochila y item. para poder utilizar funciones de clases anteriores.
-        IO io = new IO();
+        IO io;
         Random r = new Random();
         SpeciesPokemon pokemon;
         Trainer trainer;
@@ -23,7 +24,8 @@ namespace Pokemon
         Bag bag; //dentro de entrenador
         Item[] listItem;
         public Game(IO io) //Constructor que inicia el juego de forma lenta.
-        {       
+        {
+            io = new CLI();
             pokemon = new SpeciesPokemon();
             movements = LoadMovementsList();
             myPokemon = new IndividualPokemon(pokemon, movements);
@@ -38,6 +40,7 @@ namespace Pokemon
         }
         public Game() //Constructor que inicia el juego de forma rápida.
         {
+            io = new CLI();
             pokemon = new SpeciesPokemon();
             movements = LoadMovementsList();
             myPokemon = new IndividualPokemon(pokemon, movements);
