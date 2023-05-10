@@ -1,0 +1,47 @@
+D:\ReposDVisualStudio\PokemonAct\obj\Debug\PokemonAct.csproj.AssemblyReference.cache
+D:\ReposDVisualStudio\PokemonAct\obj\Debug\PokemonAct.csproj.SuggestedBindingRedirects.cache
+D:\ReposDVisualStudio\PokemonAct\obj\Debug\PokemonAct.csproj.CoreCompileInputs.cache
+C:\Users\alber\Downloads\Pokemon-main\PokemonAct\obj\Debug\PokemonAct.csproj.AssemblyReference.cache
+C:\Users\alber\Downloads\Pokemon-main\PokemonAct\obj\Debug\PokemonAct.csproj.SuggestedBindingRedirects.cache
+C:\Users\alber\Downloads\Pokemon-main\PokemonAct\obj\Debug\PokemonAct.csproj.CoreCompileInputs.cache
+C:\Users\alber\Downloads\Pokemon-main\PokemonAct\bin\Debug\PokemonAct.exe.config
+C:\Users\alber\Downloads\Pokemon-main\PokemonAct\bin\Debug\PokemonAct.exe
+C:\Users\alber\Downloads\Pokemon-main\PokemonAct\bin\Debug\PokemonAct.pdb
+C:\Users\alber\Downloads\Pokemon-main\PokemonAct\obj\Debug\PokemonAct.exe
+C:\Users\alber\Downloads\Pokemon-main\PokemonAct\obj\Debug\PokemonAct.pdb
+C:\Users\alber\Downloads\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\bin\Debug\PokemonAct.exe.config
+C:\Users\alber\Downloads\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\bin\Debug\PokemonAct.exe
+C:\Users\alber\Downloads\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\bin\Debug\PokemonAct.pdb
+C:\Users\alber\Downloads\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\bin\Debug\WpfApp2.exe
+C:\Users\alber\Downloads\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\bin\Debug\WpfApp2.pdb
+C:\Users\alber\Downloads\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\bin\Debug\WpfApp2.exe.config
+C:\Users\alber\Downloads\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.AssemblyReference.cache
+C:\Users\alber\Downloads\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.SuggestedBindingRedirects.cache
+C:\Users\alber\Downloads\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.CoreCompileInputs.cache
+C:\Users\alber\Downloads\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.CopyComplete
+C:\Users\alber\Downloads\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\obj\Debug\PokemonAct.exe
+C:\Users\alber\Downloads\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\obj\Debug\PokemonAct.pdb
+D:\PokemonDefinitivo\Pokemon-main (5)\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\bin\Debug\PokemonAct.exe.config
+D:\PokemonDefinitivo\Pokemon-main (5)\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\bin\Debug\PokemonAct.exe
+D:\PokemonDefinitivo\Pokemon-main (5)\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\bin\Debug\PokemonAct.pdb
+D:\PokemonDefinitivo\Pokemon-main (5)\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\bin\Debug\WpfApp2.exe
+D:\PokemonDefinitivo\Pokemon-main (5)\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\bin\Debug\WpfApp2.pdb
+D:\PokemonDefinitivo\Pokemon-main (5)\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\bin\Debug\WpfApp2.exe.config
+D:\PokemonDefinitivo\Pokemon-main (5)\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.AssemblyReference.cache
+D:\PokemonDefinitivo\Pokemon-main (5)\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.SuggestedBindingRedirects.cache
+D:\PokemonDefinitivo\Pokemon-main (5)\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.CoreCompileInputs.cache
+D:\PokemonDefinitivo\Pokemon-main (5)\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.CopyComplete
+D:\PokemonDefinitivo\Pokemon-main (5)\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\obj\Debug\PokemonAct.exe
+D:\PokemonDefinitivo\Pokemon-main (5)\Pokemon-main\UltimoPokemon\PokemonActUltimaVersion\obj\Debug\PokemonAct.pdb
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\PokemonAct.exe.config
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\PokemonAct.exe
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\PokemonAct.pdb
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\WpfApp2.exe
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\WpfApp2.pdb
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\WpfApp2.exe.config
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.AssemblyReference.cache
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.SuggestedBindingRedirects.cache
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.CoreCompileInputs.cache
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.CopyComplete
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\obj\Debug\PokemonAct.exe
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\obj\Debug\PokemonAct.pdb
