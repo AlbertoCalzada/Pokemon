@@ -23,13 +23,30 @@ namespace WpfApp2
         
         public MainWindow()
         {
+            
             InitializeComponent();
         }
 
+        /*public void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+            
+            FastStart fastStartWindow = new FastStart();
+            fastStartWindow.Show();
+            Close();
+        }*/
+
         public void NextButton_Click(object sender, RoutedEventArgs e)
         {
+            // Crear una instancia de la ventana FastStart, pasando la instancia actual de MainWindow
+            FastStart fastStartWindow = new FastStart(this);
+            // Mostrar la ventana FastStart y cerrar la ventana actual (MainWindow)
+            fastStartWindow.Show();
             Close();
+
+            fastStartWindow.Activate();
         }
+
 
         public TextBlock TextBlock
         {
@@ -40,7 +57,6 @@ namespace WpfApp2
         {
             get { return textBox; }            
         }
-
        
     }
 }

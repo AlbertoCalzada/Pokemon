@@ -15,6 +15,7 @@ namespace Pokemon
 
         public abstract int AskNumber(); //Función para un int  como valor a introducir por el usuario.
 
+      
         public abstract void Space(); //Función para espacio en blanco entre frases o menús determinados del juego.
 
         public abstract void ColorBlue(string sentence);//Función para cambiar el texto a color azul.

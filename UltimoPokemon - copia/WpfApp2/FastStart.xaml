@@ -1,0 +1,13 @@
+﻿<Window x:Class="WpfApp2.FastStart"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="FastStart" Height="450" Width="800">
+    <Grid>
+        <Image HorizontalAlignment="Center" Height="195" VerticalAlignment="Center" Width="334" Source="Imagenes/pocoyo.jpg"/>
+        <Image Source="Imagenes/pokemon.png" Margin="457,6,45,244" />
+    </Grid>
+</Window>

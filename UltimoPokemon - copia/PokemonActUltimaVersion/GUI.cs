@@ -15,16 +15,20 @@ namespace PokemonAct
 {
     internal class GUI : IO
     {
-        private MainWindow window;
+        private MainWindow window;       
         private Brush actualcolor;
+        WpfApp2.App app;
 
         public GUI()
         {
             window = new MainWindow();
+            app=new App();
+            
             actualcolor = Brushes.Black;
             window.TextBlock.Foreground = actualcolor;
         }
 
+        
         public Brush Actualcolor { get => actualcolor; set => actualcolor = value; }
 
         public override int AskNumber()
@@ -34,12 +38,12 @@ namespace PokemonAct
 
         public override void ColorBlue(string sentence)
         {
-            Run run = new Run(sentence + "\n");
-            run.Foreground = Brushes.Blue;
+            //Run run = new Run(sentence + "\n");
+            //run.Foreground = Brushes.Blue;
 
-            window.TextBlock.Inlines.Add(run);
+            //window.TextBlock.Inlines.Add(run);
 
-            //window.TextBlock.Text += sentence + "\n";
+            window.TextBlock.Text += sentence + "\n";
         }
 
         public override void ColorGreen(string sentence)
@@ -133,6 +137,14 @@ namespace PokemonAct
         public override void Space()
         {
             window.TextBlock.Text += "\n";
+        }
+
+        
+
+        public void NewView() //aqui podria usar un faststart por ejemplo
+        {
+            MainWindow nuevaVentana = new MainWindow();
+            nuevaVentana.Show();
         }
     }
 }

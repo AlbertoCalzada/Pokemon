@@ -46,3 +46,5 @@ D:\ReposDVisualStudio\UltimoPokemon - copia\WpfApp2\obj\Debug\WpfApp2.csproj.Gen
 D:\ReposDVisualStudio\UltimoPokemon - copia\WpfApp2\obj\Debug\WpfApp2.csproj.CoreCompileInputs.cache
 D:\ReposDVisualStudio\UltimoPokemon - copia\WpfApp2\obj\Debug\WpfApp2.exe
 D:\ReposDVisualStudio\UltimoPokemon - copia\WpfApp2\obj\Debug\WpfApp2.pdb
+D:\ReposDVisualStudio\UltimoPokemon - copia\WpfApp2\obj\Debug\FastStart.g.cs
+D:\ReposDVisualStudio\UltimoPokemon - copia\WpfApp2\obj\Debug\FastStart.baml

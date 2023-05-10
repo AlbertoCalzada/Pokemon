@@ -53,6 +53,7 @@ namespace Pokemon
             listItem = GiveItemShop();
             FastStart();
         }
+        
         public void Run() //Función con el Menú principal del juego.
         {
             io.SlowWrite("¿Quieres usar la opción rápida o lenta?");
@@ -62,14 +63,18 @@ namespace Pokemon
             option = io.OptionCorrect(1, 2, option);
             if (option == 1)
             {
+              
                 FastStart();
             }
             else
             {
+            
                 SlowStart();
             }
             Menu();
-        }   
+        }
+
+       
         public void SlowStart() //Función para el inicio lento, para elegir el Pokémon inicial.
         {
             io.SlowWrite("Profesor OAK: Hola a todos! ¡Bienvenidos al mundo de POKÉMON! ¡Me llamo OAK! ¡Pero la gente me llama el PROFESOR POKÉMON! ¡Este mundo está habitado por unas criaturas llamadas POKÉMON! Para algunos, los POKÉMON son mascotas. " +

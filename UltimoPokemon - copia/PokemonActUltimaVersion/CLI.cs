@@ -10,6 +10,7 @@ namespace PokemonAct
 {
     internal class CLI : IO
     {
+        
         public override void SlowWrite(string sentence) //Función para escribir letra a letra en color blanco todo.
         {
             for (int i = 0; i < sentence.Length; ++i)
@@ -111,6 +112,8 @@ namespace PokemonAct
             }
             return option;
         }
+
+        
 
     }
 }
