@@ -45,3 +45,43 @@ D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\obj\Debug\Po
 D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.CopyComplete
 D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\obj\Debug\PokemonAct.exe
 D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\obj\Debug\PokemonAct.pdb
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\MySqlConnector.dll
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\System.Buffers.dll
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\System.Memory.dll
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\System.Numerics.Vectors.dll
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\System.Threading.Tasks.Extensions.dll
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\MySqlConnector.xml
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\System.Buffers.xml
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\System.Memory.xml
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\System.Numerics.Vectors.xml
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\ReposDVisualStudio\UltimoPokemon - copia\PokemonActUltimaVersion\bin\Debug\System.Threading.Tasks.Extensions.xml
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\PokemonAct.exe.config
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\PokemonAct.exe
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\PokemonAct.pdb
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\MySqlConnector.dll
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\System.Buffers.dll
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\System.Memory.dll
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\System.Numerics.Vectors.dll
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\System.Threading.Tasks.Extensions.dll
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\WpfApp2.exe
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\WpfApp2.pdb
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\WpfApp2.exe.config
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\MySqlConnector.xml
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\System.Buffers.xml
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\System.Memory.xml
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\System.Numerics.Vectors.xml
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\bin\Debug\System.Threading.Tasks.Extensions.xml
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.AssemblyReference.cache
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.SuggestedBindingRedirects.cache
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.CoreCompileInputs.cache
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\obj\Debug\PokemonAct.csproj.CopyComplete
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\obj\Debug\PokemonAct.exe
+D:\ReposDVisualStudio\UltimoPokemon - copia - copia\PokemonActUltimaVersion\obj\Debug\PokemonAct.pdb
