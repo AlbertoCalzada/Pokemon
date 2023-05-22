@@ -107,11 +107,5 @@
   <ItemGroup>
     <Resource Include="pokemon.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Imagenes\pocoyo.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pocoyo.jpg" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
