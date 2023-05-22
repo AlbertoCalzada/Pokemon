@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Pokemon
 {
+    [Serializable]
     abstract class BattleItem:Item
     {
         public BattleItem(string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints)
@@ -26,7 +27,7 @@ namespace Pokemon
             return true;
         }
 
-        public override void Utility(IndividualPokemon pokemon)
+        public override void Utility(IndividualPokemon pokemon, IO io)
         {
 
         }
@@ -40,6 +41,7 @@ namespace Pokemon
             return true;
         }
     }
+    [Serializable]
     class Pokedoll : BattleItem
     {
         public Pokedoll(string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints)
@@ -56,7 +58,7 @@ namespace Pokemon
             P1.AddQuantity(1);
             return P1;
         }
-        public override void Utility(IndividualPokemon pokemon)
+        public override void Utility(IndividualPokemon pokemon, IO io)
         {
             pokemon.SetHasEscaped(true);
             

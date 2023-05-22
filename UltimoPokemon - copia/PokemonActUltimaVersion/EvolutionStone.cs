@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Pokemon
 {
+    [Serializable]
     class EvolutionStone:Item
     {
         public EvolutionStone(string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints)
@@ -26,12 +27,12 @@ namespace Pokemon
             return false;
         }
 
-        public override void Utility(IndividualPokemon pokemon)
+        public override void Utility(IndividualPokemon pokemon, IO io)
         {
             switch (name)
             {
                 case "WaterStone":
-                    if(pokemon.GetName()== "Squirtle")
+                    if(pokemon.GetName()== "Squirtle") //levar a individuals(spcies)
                     {
                         pokemon.SetName("Wartortle");
                         pokemon.SetNickName(pokemon.GetName());

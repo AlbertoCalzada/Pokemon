@@ -2,6 +2,7 @@
 
 namespace Pokemon
 {
+    [Serializable]
     class SpeciesPokemon
     {
         /*atributos de la Especie Pokémon como número de especie, nombre, género, vida máxima, velocidad base, ataque, defensa, ratio de captura,  */
@@ -16,41 +17,44 @@ namespace Pokemon
         int captureRatio;
         int specialAttack;
         int specialDefense;
-        Random r = new Random();
+     
    
-        public SpeciesPokemon(string name) //Constructor el cual recibe el nombre del Pokémon.
+        public SpeciesPokemon(string name,Random r) //Constructor el cual recibe el nombre del Pokémon.
         {
-            Generatenumspecie();
+            
+            Generatenumspecie(r);
             this.name = name;
-            gender = Genderprobability();
+            gender = Genderprobability(r);
             hpMax = r.Next(40, 51);
             speedBase = r.Next(40, 90);
             attackBase = r.Next(26, 48);
             defenseBase = r.Next(26, 48);
-            captureRatio = Generatecaptureratio();
+            captureRatio = Generatecaptureratio(r);
             specialAttack = r.Next(26, 50);
             specialDefense=r.Next(26, 50);
         }
-        public SpeciesPokemon() //Constructor vacío con los valores aleatorios por defecto y/o nulos que más tarde se rellenaran.
+        public SpeciesPokemon(Random r) //Constructor vacío con los valores aleatorios por defecto y/o nulos que más tarde se rellenaran.
         {
-            Generatenumspecie();
+            
+            Generatenumspecie(r);
             name = " ";
-            gender = Genderprobability();
+            gender = Genderprobability(r);
             hpMax = r.Next(40, 51);
             speedBase = r.Next(40, 90);
             attackBase = r.Next(26, 48);
             defenseBase = r.Next(26, 48);
-            captureRatio = Generatecaptureratio();
+            captureRatio = Generatecaptureratio(r);
             specialAttack = r.Next(26, 50);
             specialDefense = r.Next(26, 50);
         }
 
-        public void Generatenumspecie() //Función para generar el número aleatorio de especie Pokémon.
+        public void Generatenumspecie(Random r) //Función para generar el número aleatorio de especie Pokémon.
         {
+            
             numSpecie = r.Next(0, 900);
         }
 
-        public char Genderprobability() //Función para generar el género aleatorio del Pokémon.
+        public char Genderprobability(Random r) //Función para generar el género aleatorio del Pokémon.
         {
             int genderprobability = r.Next(0, 2);
             if (genderprobability == 1)
@@ -88,9 +92,9 @@ namespace Pokemon
             this.name = name;
         }
 
-        public int Generatecaptureratio() //Función para generar el ratio aleatorio de captura de la especie Pokémon.
+        public int Generatecaptureratio(Random r) //Función para generar el ratio aleatorio de captura de la especie Pokémon.
         {
-            Random r = new Random();
+            
             captureRatio = r.Next(0, 256);
             return captureRatio;
         }

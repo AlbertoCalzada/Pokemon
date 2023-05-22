@@ -1,13 +1,14 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Pokemon
 {
+    [Serializable]
     class MT:Item
     {
         Movements mt;
-        IO io;
         public MT(string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints, Movements mt)
         : base(name, buyPricePokedollars, buyPricePokemillas, buyPriceBattlePoints, sellPricePokedollars, sellPricePokemillas, sellPriceBattlePoints)
         {
@@ -28,7 +29,7 @@ namespace Pokemon
             return false;
         }
 
-        public override void Utility(IndividualPokemon pokemon)
+        public override void Utility(IndividualPokemon pokemon , IO io)
         {
             io.SlowWrite("¿Qué movimiento quieres olvidar?");
             for(int i = 0; i < pokemon.GetMovements().Length; ++i)

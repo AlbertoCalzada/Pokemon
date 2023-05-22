@@ -1,9 +1,14 @@
-﻿using PokemonAct;
+﻿using MySqlConnector;
+using PokemonAct;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using System.Xml.Linq;
 using WpfApp2;
 
 namespace Pokemon
@@ -12,33 +17,31 @@ namespace Pokemon
     {
         //Creación de instancias de la clase Io, Random  SpeciesPokemon  IndividialPokemon , Trainer, movimientos, mochila y item. para poder utilizar funciones de clases anteriores.
         IO io;
-        Random r = new Random();
+        Random r;
         SpeciesPokemon pokemon;
         Trainer trainer;
-        IndividualPokemon myPokemon;
-        IndividualPokemon[] startPokemon;
-        IndividualPokemon[] packPokemon; //dentro de entrenador
+        IndividualPokemon[] startPokemon; 
         IndividualPokemon[] rivalPokemon;
         IndividualPokemon[] boxPokemon;
         Movements[] movements;
-        Bag bag; //dentro de entrenador
+        Bag bag; 
         Item[] listItem;
+
         public Game(IO io) //Constructor que inicia el juego de forma lenta.
         {
+            r = new Random();
             this.io = io;
-            pokemon = new SpeciesPokemon();
-            movements = LoadMovementsList();
-            myPokemon = new IndividualPokemon(pokemon, movements);
             bag = new Bag();
-            trainer = new Trainer(bag,io);   
+            trainer = new Trainer(bag, io, r);
+            pokemon = new SpeciesPokemon(r);
+            movements = LoadMovementsList();
             startPokemon = StartPokemon(movements);
-            packPokemon = trainer.PackPokemon();
             rivalPokemon = RivalPokemon(movements);
             boxPokemon = trainer.BoxPokemon();
             listItem= GiveItemShop();
             /*SlowStart();*/
         }
-        public Game() //Constructor que inicia el juego de forma rápida.
+        /*public Game() //Constructor que inicia el juego de forma rápida.
         {
             io = new CLI();
             pokemon = new SpeciesPokemon();
@@ -52,18 +55,17 @@ namespace Pokemon
             boxPokemon = trainer.BoxPokemon();
             listItem = GiveItemShop();
             FastStart();
-        }
+        }*/
         
         public void Run() //Función con el Menú principal del juego.
         {
-            io.SlowWrite("¿Quieres usar la opción rápida o lenta?");
-            io.SlowWrite("\t 1. Rápida.");
-            io.SlowWrite("\t 2. Lenta.");
+            io.SlowWrite("Elige la opción correspondiente:");
+            io.SlowWrite("\t 1. Cargar partida.");
+            io.SlowWrite("\t 2. Empezar una nueva.");
             int option = 0;
             option = io.OptionCorrect(1, 2, option);
             if (option == 1)
             {
-              
                 FastStart();
             }
             else
@@ -74,6 +76,7 @@ namespace Pokemon
             Menu();
         }
 
+       
        
         public void SlowStart() //Función para el inicio lento, para elegir el Pokémon inicial.
         {
@@ -96,7 +99,7 @@ namespace Pokemon
             io.ColorRed("\t 2. Charmander.");
             io.ColorBlue("\t 3. Squirtle.");
             int chosenPokemon = 0;
-            chosenPokemon = io.OptionCorrect(1, 3, chosenPokemon);
+            chosenPokemon = io.OptionCorrect(1, 3, chosenPokemon); //modificar
             bool exit = false;
             while (exit == false)
             {
@@ -104,34 +107,32 @@ namespace Pokemon
                 {
                     case 1:
                         io.SlowWrite("Así que Bulbasaur! Resulta muy fácil criarlo.");
-                        packPokemon[0] = startPokemon[0];
-                        PutNickName(0);//sacar estas lineas 
-                        packPokemon[0].SetEo(trainer.GetName() + trainer.GetGender() + trainer.GetID() + trainer.GetSecretNumber());
+                        trainer.GetMyTeam()[0] = startPokemon[0];            //revisar      
+                        trainer.GetMyTeam()[0].SetEo(trainer.GetName() + trainer.GetGender() + trainer.GetID() + trainer.GetSecretNumber()); //llevar a trainer para usarlo, no en game.
                         exit = true;
                         break;
                     case 2:
                         io.SlowWrite("Así que Charmander! Pues ten paciencia con él.");
-                        packPokemon[0] = startPokemon[1];
-                        PutNickName(0);
-                        packPokemon[0].SetEo(trainer.GetName() + trainer.GetGender() + trainer.GetID() + trainer.GetSecretNumber());
+                        trainer.GetMyTeam()[0] = startPokemon[1];                   
+                        trainer.GetMyTeam()[0].SetEo(trainer.GetName() + trainer.GetGender() + trainer.GetID() + trainer.GetSecretNumber());
                         exit = true;
                         break;
                     case 3:
                         io.SlowWrite("¡Así que Squirtle! Merece la pena, sí, sí. ");
-                        packPokemon[0] = startPokemon[2];
-                        PutNickName(0);
-                        packPokemon[0].SetEo(trainer.GetName() + trainer.GetGender() + trainer.GetID() + trainer.GetSecretNumber());
+                        trainer.GetMyTeam()[0] = startPokemon[2];
+                        trainer.GetMyTeam()[0].SetEo(trainer.GetName() + trainer.GetGender() + trainer.GetID() + trainer.GetSecretNumber());
                         exit = true;
                         break;
                 }
             }
+            PutNickName(0); 
             io.SlowWrite("Enhorabuena, este será el Pokémon que te acompañe a partir de ahora, no dudes en cuidarlo y visitarme de vez en cuando.");
             io.Space();
         }
 
         public void FastStart() //Función para el inicio rápido, nos da un Pokémon sin elegirlo nosotros.
         {
-            packPokemon[0] = startPokemon[1]; //Damos por defecto a Charmander como Pokémon inicial.
+            LoadGame(); 
         }
        
         public void Menu() //Función para el menú principal del juego con sus opciones.
@@ -149,7 +150,8 @@ namespace Pokemon
                 io.ColorYellow("\t 6. Mochila.");
                 io.ColorRed("\t 7. Tienda.");
                 io.ColorBlue("\t 8. Salir.");
-                menuoption = io.OptionCorrect(1, 8, menuoption);
+                io.ColorCyan("\t 9. Guardar partida.");
+                menuoption = io.OptionCorrect(1, 9, menuoption);
                 switch (menuoption)
                 {
                     case 1:
@@ -184,7 +186,7 @@ namespace Pokemon
                         answer = io.OptionCorrect(1, 2, answer);
                         if (answer == 1)
                         {
-                             Healpokemon(packPokemon);
+                             Healpokemon(trainer.GetMyTeam());
                             io.SlowWrite("Esta bien, espera un momento..");
                             io.SlowWrite("...... .... .... ..... ........ ...");
                             io.SlowWrite("Tus Pokémon han sido curados, esperamos volver a verte pronto.");
@@ -216,7 +218,7 @@ namespace Pokemon
                             ShowShopItem();
                             io.SlowWrite("¿Qué objeto quieres comprar?");
                             int itemOption = 0;
-                            itemOption = io.OptionCorrect(1, 22, itemOption); //cambiar esto
+                            itemOption = io.OptionCorrect(1, listItem.Length, itemOption); //cambiar esto
                             io.SlowWrite("¿Cuantas unidades quieres comprar?");
                             int numberOption = 0;
                             numberOption = io.OptionCorrect(1, 10, numberOption);
@@ -250,12 +252,125 @@ namespace Pokemon
                             io.SlowWrite("Perfecto, ya decía yo...");
                         }
                         break;
+                       case 9:
+                        io.SlowWrite("¿Deseas guardar la partida?");
+                        io.ColorGreen(" 1. Si.");
+                        io.ColorRed(" 2. No.");
+                        int optionCorrectt = 0;
+                        optionCorrectt = io.OptionCorrect(1, 2, optionCorrectt);
+                        if (optionCorrectt == 1)
+                        {
+                            SaveGame();
+                            exit = true;
+                        }
+                        else
+                        {
+                            io.SlowWrite("Has vuelto al menu principal.");
+                        }
+                        break;
                     default:
                         io.SlowWrite("Elige una opción correcta.");
                         break;
                 }
             }
         }
+      
+
+        public void LoadGame()
+        {
+            string rutaPartidas = Path.Combine("PartidasGuardadas");
+            string[] archivos = Directory.GetFiles(rutaPartidas, "*.bin");
+
+            if (archivos.Length == 0)
+            {
+                io.SlowWrite("No hay partidas guardadas disponibles.");
+                return;
+            }
+
+            io.SlowWrite("Partidas guardadas disponibles:");
+            for (int i = 0; i < archivos.Length; i++)
+            {
+                string nombrePartida = Path.GetFileNameWithoutExtension(archivos[i]);
+                io.SlowWrite((i + 1) + ". " + nombrePartida + "\n");
+            }
+
+            io.SlowWrite("Ingresa el número de la partida que quieres cargar:");
+            int opcion = 0;
+            bool opcionValida = false;
+
+            while (!opcionValida)
+            {
+                if (!int.TryParse(io.ReadLine(), out opcion) || opcion < 1 || opcion > archivos.Length)
+                {
+                    io.SlowWrite("Opción inválida. Por favor, introduce un número válido: ");
+                }
+                else
+                {
+                    io.SlowWrite("Has iniciado la partida guardada.\n");
+                    opcionValida = true;
+                }
+            }
+
+            string rutaPartidaSeleccionada = archivos[opcion - 1];
+            FileStream file = File.OpenRead(rutaPartidaSeleccionada);
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            object tr = binaryFormatter.Deserialize(file);
+            trainer = (Trainer)tr;
+            file.Close();
+        }
+
+        public void SaveGame()
+        {
+            io.SlowWrite("¿Cómo quieres llamar a tu partida?");
+            string nombrePartida = io.ReadLine();
+            string rutaPartidaBinaria = Path.Combine("PartidasGuardadas", nombrePartida + ".bin");
+            string rutaPartidaTexto = Path.Combine("PartidasGuardadas", nombrePartida + ".txt");
+
+            string directorioActual = Directory.GetCurrentDirectory();
+            string rutaCompletaBinaria = Path.Combine(directorioActual, rutaPartidaBinaria);
+            string rutaCompletaTexto = Path.Combine(directorioActual, rutaPartidaTexto);
+
+            
+            FileStream fileBinario = File.OpenWrite(rutaCompletaBinaria);
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            binaryFormatter.Serialize(fileBinario, trainer);
+            fileBinario.Close();
+
+            
+            StreamWriter writer = new StreamWriter(rutaCompletaTexto);
+            writer.WriteLine("Información de la partida:");
+            writer.WriteLine("Nombre:" + nombrePartida);
+            writer.WriteLine("Entrenador: " + trainer.GetName());
+            writer.WriteLine("Género: " + trainer.GetGender());
+            writer.WriteLine("ID: " + trainer.GetID());
+            writer.WriteLine("Número secreto: " + trainer.GetSecretNumber());
+            writer.WriteLine("PokeDólares: " + trainer.GetPokeDollars());
+            writer.WriteLine("Puntos de batalla: " + trainer.GetBattlePoints());
+            writer.WriteLine("PokeMillas: " + trainer.GetPokeMiles());
+            writer.WriteLine("Fecha de inicio: " + trainer.GetStartDate());
+            writer.WriteLine("Equipo Pokémon:");
+
+
+            writer.Close();
+
+            io.SlowWrite("Partida guardada correctamente.\n");
+        }
+
+
+        /*public void SaveGame()
+        {
+            io.SlowWrite("¿Cómo quieres llamar a tu partida?");
+            string nombrePartida = io.ReadLine();
+            string rutaPartida = Path.Combine("PartidasGuardadas", nombrePartida + ".bin");
+
+            string directorioActual = Directory.GetCurrentDirectory();
+            string rutaCompleta = Path.Combine(directorioActual, rutaPartida);
+
+            FileStream file = File.OpenWrite(rutaCompleta);
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            binaryFormatter.Serialize(file, trainer);
+            file.Close();
+        }*/
         public void Fight() //Función para el combate Pokémon.
         {
             
@@ -265,9 +380,9 @@ namespace Pokemon
             {
                 io.SlowWrite("¿Qué deseas hacer?");
                 io.Space();
-                if (packPokemon[0].GetCurrentHP()>0 && rivalPokemon[randomenemy].GetCurrentHP() > 0)
+                if (trainer.GetMyTeam()[0].GetCurrentHP()>0 && rivalPokemon[randomenemy].GetCurrentHP() > 0)
                 {
-                    io.SlowWrite("Datos: " + packPokemon[0].GetCurrentHP() + " puntos de vida de mi Pokémon " + packPokemon[0].GetName() + ",  " + rivalPokemon[randomenemy].GetCurrentHP() +
+                    io.SlowWrite("Datos: " + trainer.GetMyTeam()[0].GetCurrentHP() + " puntos de vida de mi Pokémon " + trainer.GetMyTeam()[0].GetName() + ",  " + rivalPokemon[randomenemy].GetCurrentHP() +
                     " puntos de vida de mi adversario " + rivalPokemon[randomenemy].GetName() + ". ");
                 }              
                 io.Space();
@@ -281,100 +396,100 @@ namespace Pokemon
                 switch (combatOption)
                 {
                     case 1:
-                        io.SlowWrite("¿Qué ataque deseas realizar?");
+                        /*io.SlowWrite("¿Qué ataque deseas realizar?");
                         ShowMovements();
                         int movementOption = 0;
                         movementOption = io.OptionCorrect(1, 4, movementOption);
                         int enemymovementOption = RandomEnemy(0, 3);
                         io.Space();
-                        if (packPokemon[0].GetCurrentHP() <= 0)
+                        if (trainer.GetMyTeam()[0].GetCurrentHP() <= 0)
                         {
                             io.SlowWrite("Tu Pokémon no puede luchar porque esta debilitado. ");
                             int change2 = io.AskNumber();
                             ChangePosition(change2, randomenemy);
                         }
 
-                        if (packPokemon[0].GetMovements()[movementOption-1].GetPriority() > rivalPokemon[randomenemy].GetMovements()[enemymovementOption].GetPriority())
+                        if (trainer.GetMyTeam()[0].GetMovements()[movementOption-1].GetPriority() > rivalPokemon[randomenemy].GetMovements()[enemymovementOption].GetPriority())
                         {
-                            if (packPokemon[0].GetSpeed() > rivalPokemon[randomenemy].GetSpeed())
+                            if (trainer.GetMyTeam()[0].GetSpeed() > rivalPokemon[randomenemy].GetSpeed())
                             {
-                                while(CheckUseMovement(packPokemon[0].GetMovements()[movementOption - 1]))
+                                while(CheckUseMovement(trainer.GetMyTeam()[0].GetMovements()[movementOption - 1]))
                                 {
                                     ShowMovements();
                                     movementOption = 0;
                                     movementOption = io.OptionCorrect(1, 4, movementOption);
                                 }
-                                DmgFight(packPokemon[0], rivalPokemon[randomenemy], packPokemon[0].GetMovements()[movementOption - 1]);
+                                DmgFight(trainer.GetMyTeam()[0], rivalPokemon[randomenemy], trainer.GetMyTeam()[0].GetMovements()[movementOption - 1]);
                                 CheckLife(rivalPokemon[randomenemy]);
-                                io.SlowWrite("Has atacado a " + rivalPokemon[randomenemy].GetName() +" usando "+ packPokemon[0].GetMovements()[movementOption-1].GetName() + ", y ahora tiene " + rivalPokemon[randomenemy].GetCurrentHP() + " puntos de vida.");
+                                io.SlowWrite("Has atacado a " + rivalPokemon[randomenemy].GetName() +" usando "+ trainer.GetMyTeam()[0].GetMovements()[movementOption-1].GetName() + ", y ahora tiene " + rivalPokemon[randomenemy].GetCurrentHP() + " puntos de vida.");
                                 if (rivalPokemon[randomenemy].GetCurrentHP() > 0)
                                 {
-                                    DmgFight(rivalPokemon[randomenemy], packPokemon[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
-                                    CheckLife(packPokemon[0]);
-                                    io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + packPokemon[0].GetName() + " usando " + rivalPokemon[enemymovementOption].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
+                                    DmgFight(rivalPokemon[randomenemy], trainer.GetMyTeam()[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
+                                    CheckLife(trainer.GetMyTeam()[0]);
+                                    io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + trainer.GetMyTeam()[0].GetName() + " usando " + rivalPokemon[enemymovementOption].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + trainer.GetMyTeam()[0].GetCurrentHP() + " puntos de vida.");
                                 }
                             }
                             else
                             {
-                                while (CheckUseMovement(packPokemon[0].GetMovements()[movementOption - 1]))
+                                while (CheckUseMovement(trainer.GetMyTeam()[0].GetMovements()[movementOption - 1]))
                                 {
                                     ShowMovements();
                                     movementOption = 0;
                                     movementOption = io.OptionCorrect(1, 4, movementOption);
                                 }
-                                DmgFight(rivalPokemon[randomenemy], packPokemon[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
-                                CheckLife(packPokemon[0]);
-                                io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + packPokemon[0].GetName() + " usando " + rivalPokemon[enemymovementOption].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
-                                if (packPokemon[0].GetCurrentHP() > 0)
+                                DmgFight(rivalPokemon[randomenemy], trainer.GetMyTeam()[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
+                                CheckLife(trainer.GetMyTeam()[0]);
+                                io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + trainer.GetMyTeam()[0].GetName() + " usando " + rivalPokemon[enemymovementOption].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + trainer.GetMyTeam()[0].GetCurrentHP() + " puntos de vida.");
+                                if (trainer.GetMyTeam()[0].GetCurrentHP() > 0)
                                 {
-                                    DmgFight(packPokemon[0], rivalPokemon[randomenemy], packPokemon[0].GetMovements()[movementOption - 1]);
+                                    DmgFight(trainer.GetMyTeam()[0], rivalPokemon[randomenemy], trainer.GetMyTeam()[0].GetMovements()[movementOption - 1]);
                                     CheckLife(rivalPokemon[randomenemy]);
-                                    io.SlowWrite("Has atacado a " + rivalPokemon[randomenemy].GetName() + " usando " + packPokemon[0].GetMovements()[movementOption-1].GetName() + ", y ahora tiene " + rivalPokemon[randomenemy].GetCurrentHP() + " puntos de vida.");
+                                    io.SlowWrite("Has atacado a " + rivalPokemon[randomenemy].GetName() + " usando " + trainer.GetMyTeam()[0].GetMovements()[movementOption-1].GetName() + ", y ahora tiene " + rivalPokemon[randomenemy].GetCurrentHP() + " puntos de vida.");
                                 }
                             }
                         }
 
-                        if (packPokemon[0].GetMovements()[movementOption-1].GetPriority() == rivalPokemon[randomenemy].GetMovements()[enemymovementOption].GetPriority())
+                        if (trainer.GetMyTeam()[0].GetMovements()[movementOption-1].GetPriority() == rivalPokemon[randomenemy].GetMovements()[enemymovementOption].GetPriority())
                         {
-                            if (packPokemon[0].GetSpeed() > rivalPokemon[randomenemy].GetSpeed())
+                            if (trainer.GetMyTeam()[0].GetSpeed() > rivalPokemon[randomenemy].GetSpeed())
                             {
-                                while (CheckUseMovement(packPokemon[0].GetMovements()[movementOption - 1]))
+                                while (CheckUseMovement(trainer.GetMyTeam()[0].GetMovements()[movementOption - 1]))
                                 {
                                     ShowMovements();
                                     movementOption = 0;
                                     movementOption = io.OptionCorrect(1, 4, movementOption);
                                 }
-                                DmgFight(packPokemon[0], rivalPokemon[randomenemy], packPokemon[0].GetMovements()[movementOption - 1]);
+                                DmgFight(trainer.GetMyTeam()[0], rivalPokemon[randomenemy], trainer.GetMyTeam()[0].GetMovements()[movementOption - 1]);
                                 CheckLife(rivalPokemon[randomenemy]);
-                                io.SlowWrite("Has atacado a " + rivalPokemon[randomenemy].GetName() + " usando " + packPokemon[0].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + rivalPokemon[randomenemy].GetCurrentHP() + " puntos de vida.");
+                                io.SlowWrite("Has atacado a " + rivalPokemon[randomenemy].GetName() + " usando " + trainer.GetMyTeam()[0].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + rivalPokemon[randomenemy].GetCurrentHP() + " puntos de vida.");
                                 if (rivalPokemon[randomenemy].GetCurrentHP() > 0)
                                 {
-                                    DmgFight(rivalPokemon[randomenemy], packPokemon[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
-                                    CheckLife(packPokemon[0]);
-                                    io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + packPokemon[0].GetName() + " usando " + rivalPokemon[randomenemy ].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
+                                    DmgFight(rivalPokemon[randomenemy], trainer.GetMyTeam()[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
+                                    CheckLife(trainer.GetMyTeam()[0]);
+                                    io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + trainer.GetMyTeam()[0].GetName() + " usando " + rivalPokemon[randomenemy ].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + trainer.GetMyTeam()[0].GetCurrentHP() + " puntos de vida.");
                                 }
                             }
                             else
                             {
-                                while (CheckUseMovement(packPokemon[0].GetMovements()[movementOption - 1]))
+                                while (CheckUseMovement(trainer.GetMyTeam()[0].GetMovements()[movementOption - 1]))
                                 {
                                     ShowMovements();
                                     movementOption = 0;
                                     movementOption = io.OptionCorrect(1, 4, movementOption);
                                 }
-                                DmgFight(rivalPokemon[randomenemy], packPokemon[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
-                                CheckLife(packPokemon[0]);
-                                io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + packPokemon[0].GetName() + " usando " + rivalPokemon[randomenemy].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
-                                if (packPokemon[0].GetCurrentHP() > 0)
+                                DmgFight(rivalPokemon[randomenemy], trainer.GetMyTeam()[0], rivalPokemon[randomenemy].GetMovements()[enemymovementOption]);
+                                CheckLife(trainer.GetMyTeam()[0]);
+                                io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + trainer.GetMyTeam()[0].GetName() + " usando " + rivalPokemon[randomenemy].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + trainer.GetMyTeam()[0].GetCurrentHP() + " puntos de vida.");
+                                if (trainer.GetMyTeam()[0].GetCurrentHP() > 0)
                                 {
-                                    DmgFight(packPokemon[0], rivalPokemon[randomenemy], packPokemon[0].GetMovements()[movementOption - 1]);
+                                    DmgFight(trainer.GetMyTeam()[0], rivalPokemon[randomenemy], trainer.GetMyTeam()[0].GetMovements()[movementOption - 1]);
                                     CheckLife(rivalPokemon[randomenemy]);
-                                    io.SlowWrite("Has atacado a " + rivalPokemon[randomenemy].GetName() + " usando " + packPokemon[0].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + rivalPokemon[randomenemy].GetCurrentHP() + " puntos de vida.");
+                                    io.SlowWrite("Has atacado a " + rivalPokemon[randomenemy].GetName() + " usando " + trainer.GetMyTeam()[0].GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + rivalPokemon[randomenemy].GetCurrentHP() + " puntos de vida.");
                                 }
                             }
                         }
-                        packPokemon[0].GetMovements()[movementOption - 1].PpRemoveAttack(1); //Le quitamos un pp al ataque usado.
-                        if (packPokemon[0].GetCurrentHP() <= 0)
+                        trainer.GetMyTeam()[0].GetMovements()[movementOption - 1].PpRemoveAttack(1); //Le quitamos un pp al ataque usado.
+                        if (trainer.GetMyTeam()[0].GetCurrentHP() <= 0)
                         {
                             io.SlowWrite("Oh.... Tu Pokémon ha sido debilitado... Has perdido el combate.");
                             exit = true;
@@ -383,10 +498,56 @@ namespace Pokemon
                         {
                             io.SlowWrite("Enhorabuena, ¡has ganado el combate!");
                             exit = true;
+                        }*/
+                        io.SlowWrite("¿Qué ataque deseas realizar?");
+                        ShowMovements();
+                        int movementOption = io.OptionCorrect(1, 4, 0);
+                        int enemymovementOption = RandomEnemy(0, 3);
+                        io.Space();
+
+                        IndividualPokemon myPokemon = trainer.GetMyTeam()[0];
+                        IndividualPokemon enemyPokemon = rivalPokemon[randomenemy];
+
+                        bool myPokemonFirst = myPokemon.GetMovements()[movementOption - 1].GetPriority() > enemyPokemon.GetMovements()[enemymovementOption].GetPriority();
+                        bool samePriority = myPokemon.GetMovements()[movementOption - 1].GetPriority() == enemyPokemon.GetMovements()[enemymovementOption].GetPriority();
+                        bool myPokemonFaster = myPokemon.GetSpeed() > enemyPokemon.GetSpeed();
+
+                        while (CheckUseMovement(myPokemon.GetMovements()[movementOption - 1]))
+                        {
+                            ShowMovements();
+                            movementOption = io.OptionCorrect(1, 4, 0);
                         }
+
+                        if (myPokemonFirst || (samePriority && myPokemonFaster))
+                        {
+                            DmgFight(myPokemon, enemyPokemon, myPokemon.GetMovements()[movementOption - 1]);
+                            CheckLife(enemyPokemon);
+                            io.SlowWrite("Has atacado a " + enemyPokemon.GetName() + " usando " + myPokemon.GetMovements()[movementOption - 1].GetName() + ", y ahora tiene " + enemyPokemon.GetCurrentHP() + " puntos de vida.");
+                        }
+
+                        if (!myPokemonFirst || (samePriority && !myPokemonFaster))
+                        {
+                            DmgFight(enemyPokemon, myPokemon, enemyPokemon.GetMovements()[enemymovementOption]);
+                            CheckLife(myPokemon);
+                            io.SlowWrite(enemyPokemon.GetName() + " ha atacado a " + myPokemon.GetName() + " usando " + enemyPokemon.GetMovements()[enemymovementOption].GetName() + ", y ahora tiene " + myPokemon.GetCurrentHP() + " puntos de vida.");
+                        }
+
+                        myPokemon.GetMovements()[movementOption - 1].PpRemoveAttack(1); //Le quitamos un pp al ataque usado.
+
+                        if (myPokemon.GetCurrentHP() <= 0)
+                        {
+                            io.SlowWrite("Oh.... Tu Pokémon ha sido debilitado... Has perdido el combate.");
+                            exit = true;
+                        }
+                        else if (enemyPokemon.GetCurrentHP() <= 0)
+                        {
+                            io.SlowWrite("Enhorabuena, ¡has ganado el combate!");
+                            exit = true;
+                        }
+
                         break;
                     case 2:
-                        io.SlowWrite("¿Qué Pokémon deseas cambiar por " + packPokemon[0].GetName() + "? ");
+                        io.SlowWrite("¿Qué Pokémon deseas cambiar por " + trainer.GetMyTeam()[0].GetName() + "? ");
                         ShowPokemonInfo();
                         int change = 0;
                         change = io.OptionCorrect(1, 6, change);
@@ -401,14 +562,14 @@ namespace Pokemon
                             AddPokemon(randomenemy);
                             exit = true;
                         }
-                        if (packPokemon[0].GetHasEscaped() == true)
+                        if (trainer.GetMyTeam()[0].GetHasEscaped() == true)
                         {
                             exit = true;
-                            packPokemon[0].SetHasEscaped(false);
+                            trainer.GetMyTeam()[0].SetHasEscaped(false);
                         }
                         break;
                     case 4:
-                        int numberescape = Escape(packPokemon[0], rivalPokemon[randomenemy]);
+                        int numberescape = Escape(trainer.GetMyTeam()[0], rivalPokemon[randomenemy]);
                         if (numberescape == 1)
                         {
                             io.SlowWrite("Has huido del combate con éxito.");
@@ -417,8 +578,8 @@ namespace Pokemon
                         else
                         {
                             io.SlowWrite("No has podido huir del combate.");
-                            DmgFight(rivalPokemon[randomenemy], packPokemon[0], rivalPokemon[randomenemy].GetMovements()[0]);
-                            io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + packPokemon[0].GetName() + " y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
+                            DmgFight(rivalPokemon[randomenemy], trainer.GetMyTeam()[0], rivalPokemon[randomenemy].GetMovements()[0]);
+                            io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + trainer.GetMyTeam()[0].GetName() + " y ahora tiene " + trainer.GetMyTeam()[0].GetCurrentHP() + " puntos de vida.");
                             exit = false;
                         }
                         break;
@@ -443,104 +604,53 @@ namespace Pokemon
             io.Space();
 
         }
-        public void ShowBagInfoInCombat(IndividualPokemon rivalPokemon, int randomenemy) //Mostrar la mochila del jugador.
+        public void ShowBagInfoInCombat(IndividualPokemon Pokemon, int randomenemy)
         {
-
             io.SlowWrite("¿Qué tipo de objeto quieres ver?");
-            io.ColorYellow("\t 1. Botiquín.");
-            io.ColorRed("\t 2. Pokéballs.");
-            io.ColorGreen("\t 3. Objetos de Combate.");
-            io.ColorCyan("\t 4. Movimientos.");
-            io.ColorMagenta("\t 5. Tesoros.");
-            io.ColorYellow("\t 6. Objetos Clave.");
-            io.ColorBlue("\t 7. Otros.");
-            io.ColorBlue("\t 8. Salir.");
-            int pocketOption = 0;
-            pocketOption = io.OptionCorrect(1, 8, pocketOption);
-            switch (pocketOption)
+            string[] options = { "Botiquín", "Pokéballs", "Objetos de Combate", "Movimientos", "Tesoros", "Objetos Clave", "Otros", "Salir" };
+
+            for (int i = 0; i < options.Length; i++)
             {
-                case 1:
-                    ShowPocketBagInfo(0);
-                    MenuBagUsesInCombat(0, rivalPokemon, randomenemy);
-                    break;
-                case 2:
-                    ShowPocketBagInfo(1);
-                    MenuBagUsesInCombat(1, rivalPokemon, randomenemy);
-                    break;
-                case 3:
-                    ShowPocketBagInfo(2);
-                    MenuBagUsesInCombat(2, rivalPokemon, randomenemy);
-                    break;
-                case 4:
-                    ShowPocketBagInfo(3);
-                    MenuBagUsesInCombat(3, rivalPokemon, randomenemy);
-                    break;
-                case 5:
-                    ShowPocketBagInfo(4);
-                    MenuBagUsesInCombat(4, rivalPokemon, randomenemy);
-                    break;
-                case 6:
-                    ShowPocketBagInfo(5);
-                    MenuBagUsesInCombat(5, rivalPokemon, randomenemy);
-                    break;
-                case 7:
-                    ShowPocketBagInfo(6);
-                    MenuBagUsesInCombat(6, rivalPokemon, randomenemy);
-                    break;
-                case 8:
-                    io.SlowWrite("Has salido de la Mochila.");
-                    break;
+                io.SlowWrite(i + 1 + ". " + options[i]);
+            }
+
+            int pocketOption = io.OptionCorrect(1, options.Length, 0);
+
+            if (pocketOption != options.Length)
+            {
+                ShowPocketBagInfo(pocketOption - 1);
+                MenuBagUsesInCombat(pocketOption - 1, Pokemon, randomenemy);
+            }
+            else
+            {
+                io.SlowWrite("Has salido de la Mochila.");
             }
         }
-        public void ShowBagInfo() //Mostrar la mochila del jugador.
-        {
 
+
+        public void ShowBagInfo()
+        {
             io.SlowWrite("¿Qué tipo de objeto quieres ver?");
-            io.ColorYellow("\t 1. Botiquín.");
-            io.ColorRed("\t 2. Pokéballs.");
-            io.ColorGreen("\t 3. Objetos de Combate.");
-            io.ColorCyan("\t 4. Movimientos.");
-            io.ColorMagenta("\t 5. Tesoros.");
-            io.ColorYellow("\t 6. Objetos Clave.");
-            io.ColorBlue("\t 7. Otros.");
-            io.ColorBlue("\t 8. Salir.");
-            int pocketOption = 0;
-            pocketOption = io.OptionCorrect(1, 8, pocketOption);
-            switch (pocketOption)
+            string[] options = { "Botiquín", "Pokéballs", "Objetos de Combate", "Movimientos", "Tesoros", "Objetos Clave", "Otros", "Salir" };
+
+            for (int i = 0; i < options.Length; i++)
             {
-                case 1:
-                    ShowPocketBagInfo(0);
-                    MenuBagUses(0); //mirar delegados 
-                    break;
-                case 2:
-                    ShowPocketBagInfo(1);
-                    MenuBagUses(1);
-                    break;
-                case 3:
-                    ShowPocketBagInfo(2);
-                    MenuBagUses(2);
-                    break;
-                case 4:
-                    ShowPocketBagInfo(3);
-                    MenuBagUses(3);
-                    break;
-                case 5:
-                    ShowPocketBagInfo(4);
-                    MenuBagUses(4);
-                    break;
-                case 6:
-                    ShowPocketBagInfo(5);
-                    MenuBagUses(5);
-                    break;
-                case 7:
-                    ShowPocketBagInfo(6);
-                    MenuBagUses(6);
-                    break;
-                case 8:
-                    io.SlowWrite("Has salido de la Mochila.");
-                    break;
+                io.SlowWrite(i + 1+". "+ options[i]);
+            }
+
+            int pocketOption = io.OptionCorrect(1, options.Length, 0);
+
+            if (pocketOption != options.Length)
+            {
+                ShowPocketBagInfo(pocketOption - 1);
+                MenuBagUses(pocketOption - 1);
+            }
+            else
+            {
+                io.SlowWrite("Has salido de la Mochila.");
             }
         }
+
         public void ShowPocketBagInfo(int numPocket) //Función para mostrar los bolsillos en la mochila fuera del combate.
         {
             bool isEmpty = true;
@@ -627,10 +737,10 @@ namespace Pokemon
                                     areUSure = io.OptionCorrect(1, 2, areUSure);
                                     if (areUSure == 1)
                                     {
-                                        trainer.GetBag().GetItems()[numPocket][chosenItem - 1].Utility(rivalPokemon);
+                                        trainer.GetBag().GetItems()[numPocket][chosenItem - 1].Utility(rivalPokemon,io);
                                         if (rivalPokemon.GetIsCaptured() == false)
                                         {
-                                            DmgFight(rivalPokemon, packPokemon[0], rivalPokemon.GetMovements()[0]);
+                                            DmgFight(rivalPokemon, trainer.GetMyTeam()[0], rivalPokemon.GetMovements()[0]);
                                         }
                                     }
                                     else
@@ -638,34 +748,34 @@ namespace Pokemon
                                         io.SlowWrite("Has salido del menu.");
                                         break;
                                     }
-                                }else if (numPocket == 2) //revisar
+                                }else if (numPocket == 2) 
                                 {
                                     io.SlowWrite("Has escapado del combate.");
-                                    trainer.GetBag().GetItems()[numPocket][chosenItem - 1].Utility(packPokemon[0]);
+                                    trainer.GetBag().GetItems()[numPocket][chosenItem - 1].Utility(trainer.GetMyTeam()[0],io);
                                 }
                                 else
                                 {
                                     ShowPokemonInfo();
                                     io.SlowWrite("Elija el Pokémon sobre el que desea usar el objeto: ");
                                     max = 0;
-                                    for (int j = 0; j < packPokemon.Length; ++j) //Para que me de opción a elegir unicamente entre los Pokémon que tengo
+                                    for (int j = 0; j < trainer.GetMyTeam().Length; ++j) //Para que me de opción a elegir unicamente entre los Pokémon que tengo
                                     {
-                                        if (packPokemon[j] != null) //levar a trainer 
+                                        if (trainer.GetMyTeam()[j] != null) 
                                         {
                                             max = j + 1;
                                         }
                                     }
                                     int chosenPokemon = 0;
                                     chosenPokemon = io.OptionCorrect(1, max, chosenPokemon);
-                                    io.SlowWrite("¿Estás seguro de utilizar " + trainer.GetBag().GetItems()[numPocket][chosenItem - 1].GetName() + " en " + packPokemon[chosenPokemon - 1].GetNickName() + " ?");
-                                    int areUSure = 0; //llevar a io
+                                    io.SlowWrite("¿Estás seguro de utilizar " + trainer.GetBag().GetItems()[numPocket][chosenItem - 1].GetName() + " en " + trainer.GetMyTeam()[chosenPokemon - 1].GetNickName() + " ?");
+                                    int areUSure = 0; 
                                     io.ColorGreen(" 1. Si.");
                                     io.ColorRed(" 2. No.");
                                     areUSure = io.OptionCorrect(1, 2, areUSure);
                                     if(areUSure== 1)
                                     {
-                                        trainer.GetBag().GetItems()[numPocket][chosenItem - 1].Utility(packPokemon[chosenPokemon - 1]);
-                                        io.SlowWrite("Has usado " + trainer.GetBag().GetItems()[numPocket][chosenItem - 1].GetName() + " en " + packPokemon[chosenPokemon - 1].GetNickName() + " con éxito. ");
+                                        trainer.GetBag().GetItems()[numPocket][chosenItem - 1].Utility(trainer.GetMyTeam()[chosenPokemon - 1],io);
+                                        io.SlowWrite("Has usado " + trainer.GetBag().GetItems()[numPocket][chosenItem - 1].GetName() + " en " + trainer.GetMyTeam()[chosenPokemon - 1].GetNickName() + " con éxito. ");
                                     }
                                     else
                                     {
@@ -679,7 +789,7 @@ namespace Pokemon
                                 }
                                 else
                                 {
-                                    for (int j = chosenItem - 1; j < trainer.GetBag().GetItems()[numPocket].Length - 1; ++j) //Mover los null a la derecha dejando los items a la izquierda del array.
+                                    for (int j = chosenItem - 1; j < trainer.GetBag().GetItems()[numPocket].Length - 1; ++j) //Esto es para mover los null a la derecha dejando los items a la izquierda del array.
                                     {
                                         trainer.GetBag().GetItems()[numPocket][j] = trainer.GetBag().GetItems()[numPocket][j + 1];
                                     }
@@ -737,17 +847,17 @@ namespace Pokemon
                                 ShowPokemonInfo();
                                 io.SlowWrite("Elija el Pokémon sobre el que desea usar el objeto: ");
                                 max = 0;
-                                for (int j = 0; j < packPokemon.Length; ++j) //Para que me de opción a elegir unicamente entre los Pokémon que tengo
+                                for (int j = 0; j < trainer.GetMyTeam().Length; ++j) //Para que me de opción a elegir unicamente entre los Pokémon que tengo
                                 {
-                                    if (packPokemon[j] != null)
+                                    if (trainer.GetMyTeam()[j] != null)
                                     {
                                         max = j + 1;
                                     }
                                 }
                                 int chosenPokemon = 0;
                                 chosenPokemon = io.OptionCorrect(1, max, chosenPokemon);
-                                trainer.GetBag().GetItems()[numPocket][chosenItem - 1].Utility(packPokemon[chosenPokemon - 1]);
-                                io.SlowWrite("Has usado " + trainer.GetBag().GetItems()[numPocket][chosenItem - 1].GetName() + " en " + packPokemon[chosenPokemon - 1].GetNickName() + " con éxito. ");
+                                trainer.GetBag().GetItems()[numPocket][chosenItem - 1].Utility(trainer.GetMyTeam()[chosenPokemon - 1],io);
+                                io.SlowWrite("Has usado " + trainer.GetBag().GetItems()[numPocket][chosenItem - 1].GetName() + " en " + trainer.GetMyTeam()[chosenPokemon - 1].GetNickName() + " con éxito. ");
                                 if (trainer.GetBag().GetItems()[numPocket][chosenItem - 1].GetQuantity() > 1)
                                 {
                                     trainer.GetBag().GetItems()[numPocket][chosenItem - 1].RemoveQuantity(1);
@@ -859,16 +969,16 @@ namespace Pokemon
         public void ShowPokemonInfo() //Mostrar la información básica de mis Pokémon.
         {
 
-            for (int i = 0; i < packPokemon.Length; ++i)
+            for (int i = 0; i < trainer.GetMyTeam().Length; ++i)
             {
-                if (packPokemon[i] != null)
+                if (trainer.GetMyTeam()[i] != null)
                 {
                     io.Space();
                     io.ColorYellow("\t Pokémon " + (i + 1));
-                    io.ColorBlue("\t Especie: " + packPokemon[i].GetName() + ". ");
-                    io.ColorGreen("\t Vida: " + packPokemon[i].GetCurrentHP() + ". ");
-                    io.ColorRed("\t Vida máxima: " + packPokemon[i].GetHpmax() + ". ");
-                    io.ColorCyan("\t Mote: " + packPokemon[i].GetNickName() + ". ");
+                    io.ColorBlue("\t Especie: " + trainer.GetMyTeam()[i].GetName() + ". ");
+                    io.ColorGreen("\t Vida: " + trainer.GetMyTeam()[i].GetCurrentHP() + ". ");
+                    io.ColorRed("\t Vida máxima: " + trainer.GetMyTeam()[i].GetHpmax() + ". ");
+                    io.ColorCyan("\t Mote: " + trainer.GetMyTeam()[i].GetNickName() + ". ");
                     io.Space();
                 }    
             }
@@ -876,9 +986,10 @@ namespace Pokemon
         public void ShowMovements() //Mostrar información sobre los movimientos.
         {
             io.Space();
-            for (int i = 0; i < 4; ++i) //usar constantes
+            const int maxmoves = 4;
+            for (int i = 0; i < maxmoves; ++i) //usar constantes
             {
-                io.SlowWrite("\t"+(i+1)+". "+(packPokemon[0].GetMovements()[i]).GetName()+" " +(packPokemon[0].GetMovements()[i]).GetPp() + "/" +(packPokemon[0].GetMovements()[i]).GetPpMax() 
+                io.SlowWrite("\t"+(i+1)+". "+(trainer.GetMyTeam()[0].GetMovements()[i]).GetName()+" " +(trainer.GetMyTeam()[0].GetMovements()[i]).GetPp() + "/" +(trainer.GetMyTeam()[0].GetMovements()[i]).GetPpMax() 
                     + " PS");
             }
         }
@@ -895,55 +1006,29 @@ namespace Pokemon
                 return false;
             }
         }
-        public void ShowMorePokemonInfo() // Mostrar información más detallada de los Pokémon.
+        public void ShowMorePokemonInfo()
         {
             io.SlowWrite("Elige un Pokémon para saber más:");
-            int option = 0;
-            option = io.OptionCorrect(1, 6, option);
-            switch (option)
-            {
-                case 1:
-                    ShowCaptureTime(0);
-                    break;
-
-                case 2:
-                    ShowCaptureTime(1);
-                    break;
-
-                case 3:
-                    ShowCaptureTime(2);
-                    break;
-
-                case 4:
-                    ShowCaptureTime(3);
-                    break;
-
-                case 5:
-                    ShowCaptureTime(4);
-                    break;
-
-                case 6:
-                    ShowCaptureTime(5);
-                    break;
-            }
-
+            int option = io.OptionCorrect(1, 6, 0);
+            ShowCaptureTime(option - 1);
         }
+
         public void ChangePositionMenu() //Función para cambiar de Pokémon en el menú.
         {          
             io.SlowWrite("Elige un Pokémon que quieras cambiar de posición: ");
             int option = 0;
             option = io.OptionCorrect(1, 6, option);
             io.Space();
-            io.SlowWrite("Perfecto, vas a cambiar de posición a " + packPokemon[option - 1].GetNickName() + ". Ahora elige que Pokémon ocupara su lugar:");
+            io.SlowWrite("Perfecto, vas a cambiar de posición a " + trainer.GetMyTeam()[option - 1].GetNickName() + ". Ahora elige que Pokémon ocupara su lugar:");
             int option2 = 0;
             option2 = io.OptionCorrect(1, 6, option2);
             io.Space();
-            if (packPokemon[option2-1] != null)
+            if (trainer.GetMyTeam()[option2-1] != null)
             {
-                io.SlowWrite(packPokemon[option-1].GetNickName() + " y " + packPokemon[option2-1].GetNickName() + " han cambiado sus posiciones.");
-                IndividualPokemon aux = packPokemon[option - 1];
-                packPokemon[option - 1] = packPokemon[option2 - 1];
-                packPokemon[option2 - 1] = aux;
+                io.SlowWrite(trainer.GetMyTeam()[option-1].GetNickName() + " y " + trainer.GetMyTeam()[option2-1].GetNickName() + " han cambiado sus posiciones.");
+                IndividualPokemon aux = trainer.GetMyTeam()[option - 1];
+                trainer.GetMyTeam()[option - 1] = trainer.GetMyTeam()[option2 - 1];
+                trainer.GetMyTeam()[option2 - 1] = aux;
             }
             else
             {
@@ -953,37 +1038,37 @@ namespace Pokemon
         }
         public void ShowCaptureTime(int i) //Función que nos mostrara la información de los Pokémon y si tiene fecha de captura.
         {
-            if (packPokemon[i] != null)
+            if (trainer.GetMyTeam()[i] != null)
             {
                 io.Space();
-                io.ColorBlue("\t " + packPokemon[i].GetNickName());
-                io.ColorRed("\t Ataque: " + packPokemon[i].GetAttack());
-                io.ColorGreen("\t Defensa: " + packPokemon[i].GetDefense());
-                if (packPokemon[i].GetCaptureDateTime() != null) //Si la fecha de captura esta vacia no se mostrará.
+                io.ColorBlue("\t " + trainer.GetMyTeam()[i].GetNickName());
+                io.ColorRed("\t Ataque: " + trainer.GetMyTeam()[i].GetAttack());
+                io.ColorGreen("\t Defensa: " + trainer.GetMyTeam()[i].GetDefense());
+                if (trainer.GetMyTeam()[i].GetCaptureDateTime() != null) //Si la fecha de captura esta vacia no se mostrará.
                 {
-                    io.ColorMagenta("\t Fecha de Captura: " + packPokemon[i].GetCaptureDateTime());
+                    io.ColorMagenta("\t Fecha de Captura: " + trainer.GetMyTeam()[i].GetCaptureDateTime());
                 }
-                io.ColorYellow("\t Velocidad: " + packPokemon[i].GetSpeed());
-                io.ColorCyan("\t Género: " + packPokemon[i].GetGender());
+                io.ColorYellow("\t Velocidad: " + trainer.GetMyTeam()[i].GetSpeed());
+                io.ColorCyan("\t Género: " + trainer.GetMyTeam()[i].GetGender());
                 io.Space();
             }          
         }
         public void AddPokemon(int randomenemy) //Función para añadir los Pokémon capturados a mi equipo
         {
-            for (int i = 0; i < packPokemon.Length; ++i)
+            for (int i = 0; i < trainer.GetMyTeam().Length; ++i)
             {
-                if (packPokemon[i] == null)
+                if (trainer.GetMyTeam()[i] == null)
                 {
                     rivalPokemon[randomenemy].SetIsCaptured(true);
-                    packPokemon[i] = rivalPokemon[randomenemy];
-                    packPokemon[i] = new IndividualPokemon(new SpeciesPokemon(rivalPokemon[randomenemy].GetName()), movements);
+                    trainer.GetMyTeam()[i] = rivalPokemon[randomenemy];
+                    trainer.GetMyTeam()[i] = new IndividualPokemon(new SpeciesPokemon(rivalPokemon[randomenemy].GetName(),r), movements,r);
                     DateTime? currentDate = DateTime.Now;
-                    packPokemon[i].SetCaptureDateTime(currentDate);
+                    trainer.GetMyTeam()[i].SetCaptureDateTime(currentDate);
                     PutNickName(i);
-                    packPokemon[i].SetEo(trainer.GetName()+trainer.GetGender()+trainer.GetID()+trainer.GetSecretNumber());
+                    trainer.GetMyTeam()[i].SetEo(trainer.GetName()+trainer.GetGender()+trainer.GetID()+trainer.GetSecretNumber());
                     break;
                 }
-                if (packPokemon[packPokemon.Length - 1] != null) //Si la bolsa esta llena se guardarán los Pokémon en la caja correspondiente.
+                if (trainer.GetMyTeam()[trainer.GetMyTeam().Length - 1] != null) //Si la bolsa esta llena se guardarán los Pokémon en la caja correspondiente.
                 {
                     io.SlowWrite("Parece que tu equipo esta lleno. Pero no te preocupes, hemos mandando a " + rivalPokemon[randomenemy].GetName() + " a las Cajas Pokémon para que se mantenga a salvo. ");
 
@@ -993,9 +1078,9 @@ namespace Pokemon
                         {
                             rivalPokemon[randomenemy].SetIsCaptured(true);
                             boxPokemon[j] = rivalPokemon[randomenemy];
-                            boxPokemon[j] = new IndividualPokemon(new SpeciesPokemon(rivalPokemon[randomenemy].GetName()), movements);
+                            boxPokemon[j] = new IndividualPokemon(new SpeciesPokemon(rivalPokemon[randomenemy].GetName(),r), movements,r);
                             DateTime? currentDate = DateTime.Now;
-                            packPokemon[i].SetCaptureDateTime(currentDate);
+                            trainer.GetMyTeam()[i].SetCaptureDateTime(currentDate);
                             boxPokemon[j].SetEo(trainer.GetName() + trainer.GetGender() + trainer.GetID() + trainer.GetSecretNumber());
                             break;
                         }
@@ -1008,10 +1093,10 @@ namespace Pokemon
         public bool Capture(IndividualPokemon rivalpokemon, int randomenemy) //Función para poder capturar al Pokémon.
         {
             
-            double ratiocapture = (3 * rivalpokemon.GetHpmax() - 2 * rivalpokemon.GetCurrentHP()) * 4096 * rivalpokemon.GetCaptureRatio();
+            double ratiocapture = (3 * rivalpokemon.GetHpmax() - 2 * rivalpokemon.GetCurrentHP())  * rivalpokemon.GetCaptureRatio();
             ratiocapture = ratiocapture / 3 * rivalpokemon.GetHpmax();
             double agitated = 65536 / Math.Pow((255 / ratiocapture), 0.1875);
-            Random r = new Random();
+            
             int randomnumber = r.Next(0, 65536); //tenemos ya el random arrriba
 
             for (int i = 0; i < 4; ++i)
@@ -1019,8 +1104,8 @@ namespace Pokemon
                 if (randomnumber >= agitated)
                 {
                     io.SlowWrite("No se ha podido capturar al Pokémon.");
-                    DmgFight(rivalPokemon[randomenemy], packPokemon[0], rivalPokemon[randomenemy].GetMovements()[0]);
-                    io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + packPokemon[0].GetName() + " y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
+                    DmgFight(rivalPokemon[randomenemy], trainer.GetMyTeam()[0], rivalPokemon[randomenemy].GetMovements()[0]);
+                    io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + trainer.GetMyTeam()[0].GetName() + " y ahora tiene " + trainer.GetMyTeam()[0].GetCurrentHP() + " puntos de vida.");
                     return false;
                 }
             }
@@ -1048,13 +1133,13 @@ namespace Pokemon
         }
         public void ChangePosition(int change, int randomenemy) //Función para cambiar de Pokémon en el combate.
         {
-            if (packPokemon[1] != null)
+            if (trainer.GetMyTeam()[1] != null)
             {
-                IndividualPokemon aux = packPokemon[0];
-                packPokemon[0] = packPokemon[change - 1];
-                packPokemon[change - 1] = aux;
-                DmgFight(rivalPokemon[randomenemy], packPokemon[0], rivalPokemon[randomenemy].GetMovements()[0]);
-                io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + packPokemon[0].GetName() + " y ahora tiene " + packPokemon[0].GetCurrentHP() + " puntos de vida.");
+                IndividualPokemon aux = trainer.GetMyTeam()[0];
+                trainer.GetMyTeam()[0] = trainer.GetMyTeam()[change - 1];
+                trainer.GetMyTeam()[change - 1] = aux;
+                DmgFight(rivalPokemon[randomenemy], trainer.GetMyTeam()[0], rivalPokemon[randomenemy].GetMovements()[0]);
+                io.SlowWrite(rivalPokemon[randomenemy].GetName() + " ha atacado a " + trainer.GetMyTeam()[0].GetName() + " y ahora tiene " + trainer.GetMyTeam()[0].GetCurrentHP() + " puntos de vida.");
             }
             else
             {
@@ -1073,7 +1158,7 @@ namespace Pokemon
             {
                 io.SlowWrite("Escribe como quieres llamar a tu Pokémon: ");
                 string nickName = io.ReadLine();
-                packPokemon[number].SetNickName(nickName);
+                trainer.GetMyTeam()[number].SetNickName(nickName);
                 io.SlowWrite("Perfecto, ahora tu Pokémon tiene el mote : "+ nickName+ ". ");
             }
             else
@@ -1084,7 +1169,7 @@ namespace Pokemon
 
         public double DmgFight(IndividualPokemon mypokemon, IndividualPokemon rivalpokemon, Movements movement) //Función que devuelve el cálculo del daño del combate.
         {
-            Random r = new Random();
+            
             double random = r.Next(85, 101);
             double rand = random / 100;
             int valueAttack;
@@ -1106,7 +1191,7 @@ namespace Pokemon
         }
         public double CriticDmg() //Función que nos devuelve si el ataque ha sido crítico o no.
         {
-            Random r = new Random();
+            
             double crit = r.Next(1, 25);
             if (crit == 1)
             {
@@ -1127,7 +1212,7 @@ namespace Pokemon
             {
                 bool exit = false;
                 int attempts = 1;
-                Random r = new Random();
+                
                 int probabilityescape = r.Next(0, 256);
                 while (exit == false)
                 {
@@ -1149,24 +1234,59 @@ namespace Pokemon
         }
         public IndividualPokemon[] StartPokemon(Movements[] allMoves)   // Función que contiene un array de los 3 Pokémon iniciales
         {
+            IndividualPokemon[] speciesPokemons= AllPokemon(allMoves);
             IndividualPokemon[] startpokemon = new IndividualPokemon[3];
-            startpokemon[0] = new IndividualPokemon(new SpeciesPokemon("Bulbasaur"), allMoves);
-            startpokemon[1] = new IndividualPokemon(new SpeciesPokemon("Charmander"), allMoves);
-            startpokemon[2] = new IndividualPokemon(new SpeciesPokemon("Squirtle"), allMoves);
+            startpokemon[0] = speciesPokemons[0];
+            startpokemon[1] = speciesPokemons[1];
+            startpokemon[2] = speciesPokemons[2];
             return startpokemon;
         }
         public IndividualPokemon[] RivalPokemon(Movements[] allMoves) // Función que contiene un array de los posibles rivales del jugador
         {
+            IndividualPokemon[] speciesPokemons = AllPokemon(allMoves);
             IndividualPokemon[] rivalpokemon = new IndividualPokemon[6];
-            rivalpokemon[0] = new IndividualPokemon(new SpeciesPokemon("Rattata"), allMoves);
-            rivalpokemon[1] = new IndividualPokemon(new SpeciesPokemon("Spearow"), allMoves);
-            rivalpokemon[2] = new IndividualPokemon(new SpeciesPokemon("Ekans"), allMoves);
-            rivalpokemon[3] = new IndividualPokemon(new SpeciesPokemon("Vulpix"), allMoves);
-            rivalpokemon[4] = new IndividualPokemon(new SpeciesPokemon("Paras"), allMoves);
-            rivalpokemon[5] = new IndividualPokemon(new SpeciesPokemon("Diglett"), allMoves);
+            rivalpokemon[0] = speciesPokemons[3];
+            rivalpokemon[1] = speciesPokemons[4];
+            rivalpokemon[2] = speciesPokemons[5];
+            rivalpokemon[3] = speciesPokemons[6];
+            rivalpokemon[4] = speciesPokemons[7];
+            rivalpokemon[5] = speciesPokemons[8];
             return rivalpokemon;
         }
-        public Movements[] LoadMovementsList() //Función para crear los movimientos.
+
+        public IndividualPokemon[] AllPokemon(Movements[] allMoves)
+        {
+            List<IndividualPokemon> list = new List<IndividualPokemon>();
+            IndividualPokemon[] speciesPokemons = list.ToArray();
+            MySqlConnection con;
+
+            con = new MySqlConnection("server=127.0.0.1; database=Pokemon; Uid=root; pwd=root;");
+            con.Open();
+            MySqlCommand query = new MySqlCommand("select * from speciespokemon", con);
+
+            MySqlDataReader ra = query.ExecuteReader();
+
+            while (ra.Read())
+            {
+                
+                string name;
+                           
+                name = ra.GetString(0);
+                
+
+                /*SpeciesPokemon newPokemon = new SpeciesPokemon(name);*/
+
+                list.Add(new IndividualPokemon(new SpeciesPokemon(name,r),allMoves,r));
+                
+
+            }
+            speciesPokemons = list.ToArray();
+            con.Close();
+
+            
+            return speciesPokemons;
+        }
+        /*public Movements[] LoadMovementsList() //Función para crear los movimientos.
         {
             Movements[] movements = new Movements[7];
             movements[0] = new Movements("Physical", "Placaje", 1, 35, 40, 100, 0);
@@ -1177,8 +1297,55 @@ namespace Pokemon
             movements[5] = new Movements("Special", "Ascuas", 6, 25, 40, 100, 0);
             movements[6] = new Movements("Special", "Lanzallamas", 7, 15, 90, 100, 0);
             return movements;
+        }*/
+        public Movements[] LoadMovementsList() //Función para crear los movimientos.
+        {
+            List<Movements> list = new List<Movements>();
+            Movements[] movements = list.ToArray();
+            MySqlConnection con;
+
+            con = new MySqlConnection("server=127.0.0.1; database=Pokemon; Uid=root; pwd=root;");
+            con.Open();
+            MySqlCommand query = new MySqlCommand("SELECT * FROM Movement", con);
+
+            MySqlDataReader r = query.ExecuteReader();
+
+            while (r.Read())
+            {
+                string category;
+                string name;
+                int ID;
+                int pp;
+                int power;
+                int accuracy;
+                int priority;
+                int ppmax;
+
+                category = r.GetString(0);
+                name = r.GetString(1);
+                ID = r.GetInt32(2);
+                ppmax = r.GetInt32(3);
+                power = r.GetInt32(4);
+                accuracy = r.GetInt32(5);
+                priority = r.GetInt32(6);
+                pp = ppmax;
+
+                Movements newlumno = new Movements( category,  name,  ID,  ppmax,  power,  accuracy,  priority);
+
+                list.Add(newlumno);
+               
+                //Console.WriteLine("Nombre: "+ name + ". Score: " + score);
+            }
+            movements = list.ToArray();
+            con.Close();
+
+           /* for (int i = 0; i < list.Count; i++)
+            {
+                Console.WriteLine(list[i].ToString());
+            }*/
+            return movements;
         }
-     
+
         public Item[] GiveItemShop() //Función para mostrar los items de la tienda.
         {
             Item[] listItem = new Item[500];          
@@ -1262,7 +1429,7 @@ namespace Pokemon
                                 if (items[pocket][i] != null && items[pocket][i].GetName() == (listItem[item - 1].GetName()))
                                 {
                                     items[pocket][i].AddQuantity(numberItems);
-                                    io.SlowWrite("Has comprado " + numberItems + " unidades de " + items[pocket][i].GetName());
+                                    io.SlowWrite("Has comprado " + numberItems + " unidades de " + items[pocket][i].GetName()); //moverlo
                                     break;
                                 }
                                 else if (items[pocket][i] == null)
@@ -1424,7 +1591,7 @@ namespace Pokemon
         }
         public  int RandomEnemy(int min, int max) //Generar un Pokémon random aleatorio. 
         {
-            Random r = new Random();
+            
             int randomnum = r.Next(min, max);
             return randomnum;
         }

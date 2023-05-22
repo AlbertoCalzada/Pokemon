@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Pokemon
 {
+    [Serializable]
     class Potion : Medicine
     {     
         public Potion() : base() { }
@@ -13,7 +14,7 @@ namespace Pokemon
             
         }
 
-        public override void Utility(IndividualPokemon pokemon)
+        public override void Utility(IndividualPokemon pokemon, IO io) //si la vida es menos a 1 no se podra usar
         {
             if (name == "Pocion")
             {

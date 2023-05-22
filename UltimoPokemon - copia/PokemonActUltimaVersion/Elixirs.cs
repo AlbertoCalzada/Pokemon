@@ -4,17 +4,18 @@ using System.Text;
 
 namespace Pokemon
 {
+    [Serializable]
     class Elixirs : Medicine
     {
+        int healammount;
 
-        IO io;
         public Elixirs() : base() { }
-        public Elixirs(string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints)
+        public Elixirs(/*int healammount, */string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints)
         : base(name, buyPricePokedollars, buyPricePokemillas, buyPriceBattlePoints, sellPricePokedollars, sellPricePokemillas, sellPriceBattlePoints)
         {
-            
+            this.healammount = healammount;
         }
-        public override void Utility(IndividualPokemon pokemon)
+        public override void Utility(IndividualPokemon pokemon, IO io)
         {
             
             if (name == "Ether")

@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Pokemon
 {
-     abstract class Medicine : Item
+    [Serializable]
+    abstract class Medicine : Item
     {
         
         public Medicine() : base() { }
@@ -28,7 +29,7 @@ namespace Pokemon
             return true;
         }
 
-        public override void Utility(IndividualPokemon pokemon)
+        public override void Utility(IndividualPokemon pokemon,IO io)
         {
 
         }

@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Pokemon
 {
+    [Serializable]
     class Treasures : Item
     {
         public Treasures(string name, int buyPricePokedollars, int buyPricePokemillas, int buyPriceBattlePoints, int sellPricePokedollars, int sellPricePokemillas, int sellPriceBattlePoints)
@@ -26,7 +27,7 @@ namespace Pokemon
             return false;
         }
 
-        public override void Utility(IndividualPokemon pokemon)
+        public override void Utility(IndividualPokemon pokemon, IO io)
         {
 
         }

@@ -4,11 +4,12 @@ using System.Security.Cryptography;
 
 namespace Pokemon
 {
+    [Serializable]
     class IndividualPokemon
     {
         //Creación de la instancia SpeciesPokemon para poder utilizarla en esta clase y atributos como
         //velocidad actual, ataque, defensa, vida maxima, vida actual, genero, ratio de captura, vida actual, fecha de captura  nombre, mote , movimientos y eo(Entrenador Original).
-        SpeciesPokemon species = new SpeciesPokemon();
+        SpeciesPokemon species;
         char gender;
         int hp;
         DateTime? captureDateTime;
@@ -18,16 +19,18 @@ namespace Pokemon
         string name;
         bool hasEscaped;
         bool isCaptured;
+        Random r;
 
-        public IndividualPokemon(SpeciesPokemon species, Movements[] movements) //Constructor que recibe los atributos y adquiere con los valores de la clase SpeciesPokemon.
+        public IndividualPokemon(SpeciesPokemon species, Movements[] movements, Random r) //Constructor que recibe los atributos y adquiere con los valores de la clase SpeciesPokemon.
         {
             this.name = species.GetName();
+            this.species = species;
             this.hp = GetHpmax();
             this.captureDateTime = GetCaptureDateTime();
-            this.gender = species.Genderprobability();
+            this.gender = species.Genderprobability(r);
             this.nickName=species.GetName();
             this.eo = " ";
-            this.movements = Assign(movements);    
+            this.movements = Assign(movements,r);    
             this.hasEscaped = false;
             this.isCaptured = false;
         }
@@ -55,7 +58,7 @@ namespace Pokemon
             return hasEscaped;
         }
 
-        public void SetHasEscaped(bool value)
+        public void SetHasEscaped(bool value) //deberia ir a game
         {
             this.hasEscaped = value;
         }
@@ -183,10 +186,9 @@ namespace Pokemon
             movements = value;
         }
                               
-        public Movements[] Assign(Movements[] allMoves) //Función para asignar ataques.
+        public Movements[] Assign(Movements[] allMoves, Random rnd) //Función para asignar ataques.
         {
             Movements[] randomMovements = new Movements[4];
-            Random rnd = new Random();
             for (int i = 0; i < randomMovements.Length; ++i)
             {
                 int randIndex = rnd.Next(0, allMoves.Length);    //Si el ataque es el mismo le asignamos otro para no tener dos ataques iguales.

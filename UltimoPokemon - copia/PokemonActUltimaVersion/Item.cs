@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Pokemon
 {
+    [Serializable]
     abstract class Item //Nombre y precios en la diferentes divisas del juego, por último un atributo cantidad para reflejar las unidades de dicho item.
     {
         protected string name;
@@ -84,6 +85,6 @@ namespace Pokemon
                        
         public abstract bool Sell(); //Verificar si se puede vender
 
-        public abstract void Utility(IndividualPokemon pokemon);
+        public abstract void Utility(IndividualPokemon pokemon, IO io);
     }
 }

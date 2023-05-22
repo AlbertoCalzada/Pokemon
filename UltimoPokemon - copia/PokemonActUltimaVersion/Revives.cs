@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Pokemon
 {
+    [Serializable]
     class Revives:Medicine
     {
         IndividualPokemon pokemon;
@@ -14,7 +15,7 @@ namespace Pokemon
         }
         public Revives() : base() { }
 
-        public override void Utility(IndividualPokemon pokemon)
+        public override void Utility(IndividualPokemon pokemon, IO io)
         {
             if (name == "Revivir")
             {

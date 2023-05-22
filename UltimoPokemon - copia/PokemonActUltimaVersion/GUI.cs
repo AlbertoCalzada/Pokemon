@@ -13,6 +13,7 @@ using System.Windows.Media;
 
 namespace PokemonAct
 {
+    [Serializable]
     internal class GUI : IO
     {
         private MainWindow window;       
@@ -141,10 +142,10 @@ namespace PokemonAct
 
         
 
-        public void NewView() //aqui podria usar un faststart por ejemplo
+        /*public void NewView() //aqui podria usar un faststart por ejemplo
         {
-            MainWindow nuevaVentana = new MainWindow();
+            FastStart nuevaVentana = new MainWindow();
             nuevaVentana.Show();
-        }
+        }*/
     }
 }

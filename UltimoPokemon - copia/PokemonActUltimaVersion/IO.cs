@@ -5,6 +5,7 @@ using System.Threading;
 
 namespace Pokemon
 {
+    [Serializable]
     abstract class  IO
     {
         public abstract void SlowWrite(string sentence); //Función para escribir letra a letra en color blanco todo.

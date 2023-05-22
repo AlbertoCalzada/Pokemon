@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Pokemon
 {
-    class Movements
+    [Serializable]
+    class Movements //precision mirar
     {
         string category;
         string name;
@@ -73,7 +74,7 @@ namespace Pokemon
         {
             this.pp = this.pp - value;
         }
-        public void AddPp(int value)
+        public void AddPp(int value) //asegurar que no pase del max
         {
             this.pp = this.pp + value;
         }
@@ -102,9 +103,8 @@ namespace Pokemon
         {
             accuracy = value;
         }
-        public int CalculateAccuracy() //Calcular precisión de un movimiento.
+        public int CalculateAccuracy(Random random) //Calcular precisión de un movimiento.
         {
-            Random random = new Random();
             int randomAccuracy= random.Next(0,101);
             return randomAccuracy;
         }

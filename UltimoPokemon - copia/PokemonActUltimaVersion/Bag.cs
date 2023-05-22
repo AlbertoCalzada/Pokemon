@@ -4,19 +4,17 @@ using System.Text;
 
 namespace Pokemon
 {
+    [Serializable]
     class Bag  //Creamos un conjunto de bolsillos donde cada uno almacenará un tipo de item diferente
     {
         Item[][] item;
-        IO io;
+        
         public Bag()
         {
             item = GiveDefaultItems();
         }
-        public Bag(Item items)
-        {
-            item = GiveDefaultItems();
-        }
-        public Item[][] GiveDefaultItems() //Método para asignar por defecto algunos items a la mochila del entrenador.
+        
+        public Item[][] GiveDefaultItems() //Método para asignar por defecto algunos items a la mochila del entrenador. Mover a ficheros
         {
             item = new Item[20][];
             item[0] = new Medicine[999];
@@ -53,7 +51,7 @@ namespace Pokemon
         {
             item.AddQuantity(add);
         }
-        public void RemoveItem(Item item, int add) //Función para eliminar una cantidad determinada de un objeto.
+        public void RemoveItem(Item item, int add, IO io) //Función para eliminar una cantidad determinada de un objeto.
         {
             add = io.AskNumber();
             item.RemoveQuantity(add);

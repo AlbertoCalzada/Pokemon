@@ -10,7 +10,7 @@ namespace Pokemon
         static void Main(string[] args) //Método main con su sintaxis e instancias a la clase Io y Game para poder ejecutar el juego.
         {
 
-            IO io = new GUI();
+            IO io = new CLI();
             Game g = new Game(io);
             g.Run();
         }

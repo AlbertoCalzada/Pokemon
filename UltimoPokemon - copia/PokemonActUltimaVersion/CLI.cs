@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace PokemonAct
 {
+    [Serializable]
     internal class CLI : IO
     {
         
@@ -17,7 +18,7 @@ namespace PokemonAct
             {
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.Write(sentence[i]);
-                Thread.Sleep(20);
+                Thread.Sleep(0);
             }
             Console.WriteLine();
         }
@@ -26,7 +27,7 @@ namespace PokemonAct
             for (int i = 0; i < sentence.Length; ++i)
             {
                 Console.Write(sentence[i]);
-                Thread.Sleep(20);
+                Thread.Sleep(0);
             }
             Console.WriteLine();
         }
