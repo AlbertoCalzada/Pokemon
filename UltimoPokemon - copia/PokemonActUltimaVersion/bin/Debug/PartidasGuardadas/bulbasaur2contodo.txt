@@ -1,0 +1,11 @@
+Información de la partida:
+Nombre:bulbasaur2contodo
+Entrenador: alberto
+Género: Chique
+ID: 3470515100
+Número secreto: 747051510
+PokeDólares: 4000
+Puntos de batalla: 0
+PokeMillas: 0
+Fecha de inicio: 15/05/2023 12:46:56
+Equipo Pokémon:
