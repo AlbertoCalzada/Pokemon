@@ -1,3 +1,0 @@
-D:\ReposDVisualStudio\PokemonAct\obj\Debug\PokemonAct.csproj.AssemblyReference.cache
-D:\ReposDVisualStudio\PokemonAct\obj\Debug\PokemonAct.csproj.SuggestedBindingRedirects.cache
-D:\ReposDVisualStudio\PokemonAct\obj\Debug\PokemonAct.csproj.CoreCompileInputs.cache
