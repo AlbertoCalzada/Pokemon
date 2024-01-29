@@ -1,4 +1,0 @@
-Información de la partida:
-Nombre: bulbasaurinicio
-Entrenador: albert
-Pokémon: Bulbasaur
